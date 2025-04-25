@@ -117,5 +117,6 @@ create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL){
                     counts=counts$counts)
   pac <- make_PAC(counts, pheno)
   
+  closeAllConnections()
   return(pac)
 }

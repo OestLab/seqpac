@@ -282,7 +282,7 @@ from temporary stored trimmed fastq files.
 # For illumina type adapters, 'parse="default_illumina"' may be used
 # To speed things up we use 4 threads.
 
-count_list <- make_counts(input=fastq, trimming="seqpac", threads=4,
+count_list <- make_counts(input=fastq, trimming="seqpac", threads=1,
                           parse="default_neb")
 
 ```
@@ -360,7 +360,7 @@ Here is an example on how to use the 'sample' argument:
 ## Evidence over two independent samples, saving single sample sequences 
 ## reaching 3 counts
 test <- make_counts(input=fastq, trimming="seqpac", 
-                    parse="default_neb", threads=3,   
+                    parse="default_neb", threads=1,   
                     evidence=c(experiment=2, sample=3))
 extras <- apply(test$counts, 1, function(x){sum(!x==0)})
 test$counts[extras==1,] # A few still have 3 alone
@@ -976,10 +976,10 @@ myco_path <- system.file("extdata/mycoplasma_genome", "mycoplasma.fa",
                          package = "seqpac", mustWork = TRUE)
 ref_paths <- list(myco=myco_path)
 
-# Run map_reanno
-map_reanno(PAC=pac, ref_paths=ref_paths, output_path=outpath_genome, 
-           type="internal", mismatches=1, import="genome", 
-           threads=8, keep_temp=TRUE)
+#Run map_reanno
+map_reanno(PAC=pac, ref_paths=ref_paths, output_path=outpath_genome,
+           type="internal", mismatches=1, import="genome",
+           threads=1, keep_temp=TRUE)
 
 ```
 
@@ -1009,9 +1009,9 @@ rrna_path <- system.file("extdata/rrna", "rRNA.fa",
 ref_paths <- list(tRNA=trna_path,
                   rRNA=rrna_path)
 
-map_reanno(pac, ref_paths=ref_paths, output_path=outpath_biotype, 
-           type="internal", mismatches=1,  import="biotype", 
-           threads=6, keep_temp=TRUE)
+map_reanno(pac, ref_paths=ref_paths, output_path=outpath_biotype,
+           type="internal", mismatches=1,  import="biotype",
+           threads=1, keep_temp=TRUE)
 
 ```
 
@@ -1329,13 +1329,13 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
 
 # Simple model testing stages against using Wald test with local fit (default)
 table(pheno(pac)$stage)
-output_deseq <- PAC_deseq(pac, model= ~stage, threads=6)
+output_deseq <- PAC_deseq(pac, model= ~stage, threads=1)
 ```
 ```{r, eval=TRUE,fig.show=FALSE,results="hide",message=FALSE,fig.keep='none'} 
 
 # More complicated, but still graphs will be generated from 'stage' since it is
 # first in model
-output_deseq <- PAC_deseq(pac, model= ~stage + batch, threads=6)
+output_deseq <- PAC_deseq(pac, model= ~stage + batch, threads=1)
 
 # Using pheno_target we can change the focus to batch
 # (no batch effect) 
@@ -1618,7 +1618,7 @@ ref <- system.file("extdata/trna2", "tRNA2.fa",
                           package = "seqpac", mustWork = TRUE)          
 
 map_object <- PAC_mapper(pac_trna, ref=ref, N_up = "NNN", N_down = "NNN", 
-                         mismatches=0, threads=6, report_string=TRUE,
+                         mismatches=0, threads=1, report_string=TRUE,
                          override=TRUE)
 
 # Hint: By adding N_up ad N_down you can make sure that modified fragments (like
