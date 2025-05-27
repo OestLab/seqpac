@@ -33,6 +33,12 @@
 #'   anno_target should be done. If subset=FALSE (default) both subsetting and
 #'   other filtering will be done.
 #'   
+#' @param output Character specifying what type of output is desired, where
+#'   options are "PAC" for a PAC object, "binary" returns a data.frame where
+#'   each sequence is presented as a binary (hit=1, no hit=0) data.frame or
+#'   "sequence" to retrieve a data.frame with all unique sequences fulfilling
+#'   the filtering criteria per pheno_target.
+#'   
 #' @param pheno_target (optional) List with: 
 #'          1st object being a character vector of target column in Pheno, 
 #'          2nd object being a character vector of the target group(s) in 
@@ -44,6 +50,11 @@
 #'          object being a character vector of the target type/biotypes(s) in
 #'          the target Anno column (1st object).
 #'          (default=NULL) 
+#'          
+#' @param allbut (optional) TRUE or FALSE to give option to include
+#'          all possible variables but the ones defined in pheno_target
+#'          and anno_target. Useful when you wish to for example filter out
+#'          one particular variable.
 #'
 #' @return A list of objects: 
 #'               PAC object with filtered data.   
@@ -72,6 +83,12 @@
 #'
 #'pac_filt <- PAC_filter(pac, subset_only = TRUE,
 #'                      anno_target= unique(do.call("c", as.list(filtsep))))
+#'                      
+#'###--------------------------------------------------------------------- 
+#'## Extract all biotypes but tRNA in all samples but in sample fastq_1
+#'
+#'pac_filt <- PAC_filter(pac, anno_target=list("Biotypes_mis0,"tRNA"),
+#'                      pheno_target=list("sample","fastq1"), allbut=TRUE)
 #' 
 #' 
 #' 
@@ -79,7 +96,7 @@
 
 PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0, 
                        norm="counts", subset_only=FALSE, stat=FALSE, 
-                       pheno_target=NULL, anno_target=NULL){
+                       pheno_target=NULL, anno_target=NULL, allbut=FALSE){
   
 
   ## Check S4
@@ -90,13 +107,19 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
     tp <- "S3"
   }
   
-  opt_sci <- options()
   options(scipen=999)
   
   
   strt <- nrow(PAC$Counts)
   nsamp <- ncol(PAC$Counts)
   x_graph <- n_features <- NULL
+  
+  if(allbut==TRUE){
+    pheno_t<-(unique(PAC$Pheno[,pheno_target[[1]]]))
+    pheno_target[[2]] <- pheno_t[pheno_t != pheno_target[[2]]]
+    anno_t <-(unique(PAC$Anno[,anno_target[[1]]]))
+    anno_target[[2]]<-anno_t[anno_t != anno_target[[2]]]
+  }
   
   ### Subset samples by Pheno 
   if(!is.null(pheno_target)){
@@ -322,7 +345,7 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
     }
   }
   ## Double check and return
-  options(opt_sci)
+  
   if(PAC_check(PAC)==TRUE){
     if(tp=="S4"){
        return(as.PAC(PAC))
