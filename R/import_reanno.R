@@ -102,7 +102,7 @@ import_reanno <- function(bowtie_path, threads=1, coord=FALSE,
   base <- ".out$"
   files <- list.files(bowtie_path, pattern = base, full.names=TRUE)
 
-  opt_sci <- options(scipen = 999)
+  options(scipen = 999)
   
   ## Check bowtie format (8 columns; "IIIIIII" present in column 6; 
   ## column 4 is an integer)
@@ -246,7 +246,7 @@ import_reanno <- function(bowtie_path, threads=1, coord=FALSE,
     cat(paste0("\n    |---> ", nam, " done"))
   }
   
-  on.exit(options(opt_sci)) 
+
   return(bowtie_out_lst)
 }
 
