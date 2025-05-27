@@ -25,7 +25,7 @@
 #' @seealso  \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
 #'   about Bowtie and for Rbowtie:
 #'   \url{https://www.bioconductor.org/packages/release/bioc/html/Rbowtie.html}.
-#'   \url{https://github.com/Danis102} for updates on the current package.
+#'   \url{https://github.com/OestLab/seqpac} for updates on the current package.
 #'
 #' @param bowtie_path Path to a directory where bowtie output files can be
 #'   found.

@@ -11,7 +11,7 @@
 #'
 #' @family PAC generation
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param lanes allows to define whether lanes should be merged with \code{\link{merge_lanes}}
