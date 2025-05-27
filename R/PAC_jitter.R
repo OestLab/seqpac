@@ -180,7 +180,7 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
         ggplot2::geom_hline(yintercept=0, col="#707177", cex=0.6) +
-        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), cex=1.5)+
+        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), size=1)+
         ggplot2::stat_summary(geom = "crossbar", fun="median", 
                               fun.max = "median", fun.min = "median",
                               width=0.7, cex=0.4, position = "identity", 
