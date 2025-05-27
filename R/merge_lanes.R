@@ -7,9 +7,9 @@
 #' identify unique samples among the lane files and merge all lane files for
 #' each sample. The function uses md5 checks to control that each lane file is
 #' unique (no accidental copies) and will compare expected outcomes given that
-#' all samples should have the same number of lanes (comming from the same
-#' experiment). If this function does not work, try defining number of lanes
-#' to be merged by nlanes. 
+#' all samples should have the same number of lanes (coming from the same
+#' experiment). If the automatic regex for commonly used lane naming does not 
+#' work, try defining number of lanes to be merged by @param nlanes. 
 #' 
 #' @family PAC generation
 #'
@@ -55,7 +55,6 @@
 #' output <- paste0(tempdir(), "/merged/")
 #' dir.create(input, showWarnings=FALSE)
 #' dir.create(output, showWarnings=FALSE)
-
 #' # Fix compatible file names
 #' file.copy(from = fq, to = input)
 #' old_fls <- list.files(input, full.names=TRUE)
