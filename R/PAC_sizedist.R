@@ -9,7 +9,7 @@
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
@@ -199,7 +199,7 @@ PAC_sizedist <- function(PAC, norm="counts", range=NULL, anno_target,
                                       ggplot2::aes(x=size, 
                                                    y=data, 
                                                    fill=biotype))+
-      ggplot2::geom_bar(width = 0.9, cex=0.2, colour="black", stat="identity")+
+      ggplot2::geom_bar(width = 0.9, size =0.2, colour="black", stat="identity")+
       ggplot2::geom_hline(yintercept=0, col="azure4")+
       
       ggplot2::xlab("Size (nt)")+

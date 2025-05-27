@@ -21,7 +21,7 @@
 #' reference A sequences will be reported in the output, having the same order
 #' as in reference A.
 #' 
-#' @seealso \url{https://github.com/Danis102} for updates.
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates.
 #'
 #' @family PAC reannotation
 #'
