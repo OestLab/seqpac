@@ -179,11 +179,11 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     if(type=="jitter"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
-        ggplot2::geom_hline(yintercept=0, col="#707177", cex=0.6) +
+        ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
         ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), size=1)+
         ggplot2::stat_summary(geom = "crossbar", fun="median", 
                               fun.max = "median", fun.min = "median",
-                              width=0.7, cex=0.4, position = "identity", 
+                              width=0.7, linewidth=0.4, position = "identity", 
                               col="Black") +
         ggplot2::geom_text(stat="count", ggplot2::aes(
             label=paste0("n=", ggplot2::after_stat(count) , "\nup:", perc_up[,num+1], "%")), 
@@ -210,7 +210,7 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     if(type=="violin"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
-        ggplot2::geom_hline(yintercept=0, col="#707177", cex=0.6) +
+        ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
         ggplot2::geom_violin(width=0.9, trim=TRUE, scale="width", 
                              color="black")+
         ggplot2::geom_text(stat="count", ggplot2::aes(
