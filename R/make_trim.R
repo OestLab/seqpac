@@ -10,7 +10,7 @@
 #'
 #'@family PAC generation
 #'
-#'@seealso \url{https://github.com/Danis102} for updates on the current package.
+#'@seealso \url{https://github.com/OestLab/seqpac} for updates on the current package.
 #'
 #'@param input Character indicating the path to a directory containing fastq
 #'  formatted sequence files either compressed (.fastq.gz) or text (.fastq).

@@ -115,9 +115,10 @@ conv_table
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates.
+\url{https://github.com/OestLab/seqpac} for updates.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{import_reanno}()},

@@ -126,7 +126,7 @@ cowplot::plot_grid(plotlist= cov_tRNA_sub)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

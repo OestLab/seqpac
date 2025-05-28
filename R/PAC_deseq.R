@@ -8,7 +8,7 @@
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC object containing a Pheno data.frame with samples as row
@@ -73,22 +73,22 @@
 #'
 #'## Simple model with embryonic stages using Wald test with local fit (default)
 #'table(pheno(pac)$stage)
-#'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=2))
+#'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=1))
 #'
 #'## Batch corrected, graphs are generated for 'stage' (=first in the model)
 #'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch,
-#'                                           threads=2))
+#'                                           threads=1))
 #'
 #'## Using pheno_target 
 #'output_deseq <- suppressWarnings(PAC_deseq(pac,model= ~stage + batch, 
 #'                                           pheno_target=list("batch"),
-#'                                           threads=2))
+#'                                           threads=1))
 #'
 #'## With pheno_target we can change the direction for the comparison
 #'# Stage5 vs Stage3 (reverse order):
 #'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch, 
 #'                          pheno_target = list("stage", c("Stage5", "Stage3")),
-#'                          threads=2))  
+#'                          threads=1))  
 #'
 #'## In the output you find PAC merged results, target plots and output_deseq   
 #'names(output_deseq)
@@ -151,10 +151,13 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   if(length(pheno_target)==1){
       pheno_target[[2]] <- as.character(unique(PAC$Pheno[,pheno_target[[1]]]))
     }
-    
+  
+  #Check whether the pheno_target picks up one or many columns (will trg be
+  #a factor or a data.frame)  
   trg <- pheno[,colnames(pheno) == pheno_target[[1]]]
-   if(any(duplicated(trg) | duplicated(trg, fromLast = TRUE))==TRUE){
-    warning(cat="The values in designated pheno_target are not unique. \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the values in Pheno!")
+  if(class(trg)=="data.frame"){
+    warning(cat="The values in designated pheno_target may not unique column names. \nThis may cause unwanted comparisons. 
+            To ensure a correct comparison, please check the values in Pheno!")
   }
   
   mis <- !levels(trg) %in% pheno_target[[2]] 

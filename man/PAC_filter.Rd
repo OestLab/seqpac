@@ -13,7 +13,8 @@ PAC_filter(
   subset_only = FALSE,
   stat = FALSE,
   pheno_target = NULL,
-  anno_target = NULL
+  anno_target = NULL,
+  allbut = FALSE
 )
 }
 \arguments{
@@ -51,6 +52,11 @@ the target Pheno column (1st object).
 object being a character vector of the target type/biotypes(s) in
 the target Anno column (1st object).
 (default=NULL)}
+
+\item{allbut}{(optional) TRUE or FALSE to give option to include
+all possible variables but the ones defined in pheno_target
+and anno_target. Useful when you wish to for example filter out
+one particular variable.}
 }
 \value{
 A list of objects: 
@@ -88,12 +94,18 @@ filtsep <- PAC_filtsep(pac, norm="counts", threshold=5,
 
 pac_filt <- PAC_filter(pac, subset_only = TRUE,
                      anno_target= unique(do.call("c", as.list(filtsep))))
+                     
+###--------------------------------------------------------------------- 
+## Extract all biotypes but tRNA in all samples but in sample fastq_1
+
+pac_filt <- PAC_filter(pac, anno_target=list("Biotypes_mis0","tRNA"),
+                     pheno_target=list("sample","fastq1"), allbut=TRUE)
 
 
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

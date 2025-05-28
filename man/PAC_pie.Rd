@@ -65,11 +65,11 @@ the pie.}
 A pie plot
 }
 \description{
-\code{PAC_pie} analyses nucleotide bias.
+\code{PAC_pie} Pie chart of annotation features (anno_target).
 }
 \details{
 Given a PAC object the function will summarize the counts into percent
-biotype and plot a pie chart.
+of a specified anno_target and plot a pie chart.
 }
 \examples{
 
@@ -108,7 +108,7 @@ PAC_pie(pac, anno_target=list("Biotypes_mis3"), summary="all", no_anno=FALSE)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

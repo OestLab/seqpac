@@ -26,7 +26,7 @@ column(s) in Anno, 2nd object being a character
 vector of the target biotype(s) in the target column
 (1st object). Important, the 2nd object is order
 sensitive, meaning that categories will appear in
-the same order in the stacked bargraph.
+the same order in the stacked bar graph.
 (default=NULL)}
 
 \item{pheno_target}{List with: 
@@ -35,10 +35,10 @@ column(s) in Pheno, 2nd object being a character
 vector of the target group(s) in the target column
 (1st object). Important, the 2nd object is order
 sensitive, meaning that categories will appear in
-the same order in the stacked bargraph.
+the same order in the stacked bar graph.
 (default=NULL)}
 
-\item{color}{Character vector with rgb colour hex codes in the same length
+\item{color}{Character vector with rgb color hex codes in the same length
 as the number of biotypes. For example see:
 https://www.coolgenerator.com/rgb-color-generator. color=NULL will
 generate the default color scheme.}
@@ -58,7 +58,7 @@ of each graph (default=TRUE).}
 in each stack, or using a group mean of samples sharing the same names in
 the specified pheno_target. If summary="samples" individual samples will be
 plotted, if summary="pheno" means of pheno_target will be plotted, while if
-summary= all" a mean of all samples will be plotted. (Default="samples").}
+summary= "all" a mean of all samples will be plotted. (Default="samples").}
 
 \item{norm}{Character vector defining what data to base analysis on, e.g 
 "counts" for raw counts (default), "cpm" for normalized data or any other
@@ -114,7 +114,7 @@ PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), summary="all")
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

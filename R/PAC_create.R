@@ -1,9 +1,9 @@
 #' Wrapper for creation of PAC object
 #'
-#' \code{create_PAC} Merges lanes, performs adaptor trimming and makes a first PAC object
+#' \code{PAC_create} Merges lanes, performs adaptor trimming and makes a first PAC object
 #' with count and basic phenotypic information
 #'
-#' Given (at minimum) an path to input files to be analyzed, create_PAC will wrap around
+#' Given (at minimum) an path to input files to be analyzed, PAC_create will wrap around
 #' all necessary preparatory steps (\code{\link{merge_lanes}}, \code{\link{make_counts}}, and
 #' \code{\link{make_PAC}}) to produce a PAC object. This wrapper comes with the caveat that
 #' it uses default values in most functions. If that does not suit your analysis, we recommend
@@ -11,7 +11,7 @@
 #'
 #' @family PAC generation
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param lanes allows to define whether lanes should be merged with \code{\link{merge_lanes}}
@@ -60,14 +60,14 @@
 #' file.rename(from = old_fls, to = new_fls)
 #' 
 #' # Then merge the fastq files
-#' pac <- create_PAC(lanes=TRUE, trim="default_neb", input, output)
+#' pac <- PAC_create(lanes=TRUE, trim="default_neb", input, output)
 #'
 #'
 #' @export
 
 
 
-create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL){
+PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
   
   inpath=input
   outpath=output
@@ -117,5 +117,6 @@ create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL){
                     counts=counts$counts)
   pac <- make_PAC(counts, pheno)
   
+  closeAllConnections()
   return(pac)
 }

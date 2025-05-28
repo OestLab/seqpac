@@ -95,12 +95,12 @@ file.remove(fls_temp, showWarnings=FALSE)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC generation: 
 \code{\link{PAC_check}()},
-\code{\link{create_PAC}()},
+\code{\link{PAC_create}()},
 \code{\link{make_counts}()},
 \code{\link{make_cutadapt}()},
 \code{\link{make_pheno}()},

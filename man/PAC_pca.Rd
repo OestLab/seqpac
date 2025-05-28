@@ -105,7 +105,7 @@ pca_cpm_anno$pca
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current package.
+\url{https://github.com/OestLab/seqpac} for updates on the current package.
 
 Other PAC analysis: 
 \code{\link{PAC_covplot}()},

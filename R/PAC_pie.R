@@ -1,13 +1,13 @@
 #' Pie plot from PAC
 #'
-#' \code{PAC_pie} analyses nucleotide bias.
+#' \code{PAC_pie} Pie chart of annotation features (anno_target).
 #'
 #' Given a PAC object the function will summarize the counts into percent
-#' biotype and plot a pie chart.
+#' of a specified anno_target and plot a pie chart.
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object.

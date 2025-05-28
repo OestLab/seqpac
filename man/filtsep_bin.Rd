@@ -64,7 +64,7 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
              
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

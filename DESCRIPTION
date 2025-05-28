@@ -1,11 +1,13 @@
 Package: seqpac
 Type: Package
 Title: Seqpac: A Framework for smallRNA analysis in R using Sequence-Based Counts
-Version: 0.99.18
+Version: 1.00.00
 Authors@R: c(
+    person("Signe", "Isacson", email="signe.skog@liu.se", role= c("aut", "cre", "ctb")),
     person("Daniel", "Natt", email="daniel.natt@liu.se", role= c("aut", "fnd")),
     person("Lovisa", "Örkenby", email="lovisa.orkenby@liu.se", role= "ctb"),
-    person("Signe", "Skog", email="signe.skog@liu.se", role= c("cre", "ctb")),
+    person("Alessandro", "Gozzo", email="alessandro.gozzo@liu.se", role= c("aut","ctb")),
+    person("Anna", "Asratian", email="anna.asratian@liu.se", role= c("aut", "ctb")),
     person("Anita", "Öst", email="anita.ost@liu.se", role= c("aut", "fnd"))
     )
 Description: Seqpac provides functions and workflows for analysis of short 
@@ -33,9 +35,9 @@ Description: Seqpac provides functions and workflows for analysis of short
 License: GPL-3
 Encoding: UTF-8
 LazyData: false
-RoxygenNote: 7.2.3
-URL: https://github.com/Danis102/seqpac
-BugReports: https://github.com/Danis102/seqpac/issues
+RoxygenNote: 7.3.2
+URL: https://github.com/Oestlab/seqpac
+BugReports: https://github.com/OestLab/seqpac/issues
 biocViews:
   Workflow, BasicWorkflow, GeneExpressionWorkflow, EpigeneticsWorkflow, 
   AnnotationWorkflow

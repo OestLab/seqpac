@@ -7,7 +7,7 @@
 #' 
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
@@ -44,10 +44,16 @@
 #'          object being a character vector of the target type/biotypes(s) in
 #'          the target Anno column (1st object).
 #'          (default=NULL) 
+#'          
+#' @param allbut (optional) TRUE or FALSE to give option to include
+#'          all possible variables but the ones defined in pheno_target
+#'          and anno_target. Useful when you wish to for example filter out
+#'          one particular variable.
 #'
 #' @return A list of objects: 
 #'               PAC object with filtered data.   
 #'               (optional) A coverage plot 
+#'               
 #' @examples
 #' load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
 #'                  package = "seqpac", mustWork = TRUE))
@@ -72,6 +78,12 @@
 #'
 #'pac_filt <- PAC_filter(pac, subset_only = TRUE,
 #'                      anno_target= unique(do.call("c", as.list(filtsep))))
+#'                      
+#'###--------------------------------------------------------------------- 
+#'## Extract all biotypes but tRNA in all samples but in sample fastq_1
+#'
+#'pac_filt <- PAC_filter(pac, anno_target=list("Biotypes_mis0","tRNA"),
+#'                      pheno_target=list("sample","fastq1"), allbut=TRUE)
 #' 
 #' 
 #' 
@@ -79,7 +91,7 @@
 
 PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0, 
                        norm="counts", subset_only=FALSE, stat=FALSE, 
-                       pheno_target=NULL, anno_target=NULL){
+                       pheno_target=NULL, anno_target=NULL, allbut=FALSE){
   
 
   ## Check S4
@@ -90,13 +102,19 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
     tp <- "S3"
   }
   
-  opt_sci <- options()
   options(scipen=999)
   
   
   strt <- nrow(PAC$Counts)
   nsamp <- ncol(PAC$Counts)
   x_graph <- n_features <- NULL
+  
+  if(allbut==TRUE){
+    pheno_t<-(unique(PAC$Pheno[,pheno_target[[1]]]))
+    pheno_target[[2]] <- pheno_t[pheno_t != pheno_target[[2]]]
+    anno_t <-(unique(PAC$Anno[,anno_target[[1]]]))
+    anno_target[[2]]<-anno_t[anno_t != anno_target[[2]]]
+  }
   
   ### Subset samples by Pheno 
   if(!is.null(pheno_target)){
@@ -322,7 +340,7 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
     }
   }
   ## Double check and return
-  options(opt_sci)
+  
   if(PAC_check(PAC)==TRUE){
     if(tp=="S4"){
        return(as.PAC(PAC))

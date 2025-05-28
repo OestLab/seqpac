@@ -110,9 +110,10 @@ reanno1 <- import_reanno(output, report="Biotype",  threads=1)
 \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
   about Bowtie and for Rbowtie:
   \url{https://www.bioconductor.org/packages/release/bioc/html/Rbowtie.html}.
-  \url{https://github.com/Danis102} for updates on the current package.
+  \url{https://github.com/OestLab/seqpac} for updates on the current package.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{make_conv}()},
