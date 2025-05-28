@@ -26,6 +26,9 @@
 #'   dataframe.
 #' 
 #' @param model Character of model used to run \code{PAC_deseq}.
+#' 
+#' @param output Character of path to where pdf will be printed. Default=NULL, 
+#' leading to it being printed into the working directory.
 #'
 #' @return a list of plots in R, and a pdf file in home directory called
 #' "Results_seqpac.pdf".
@@ -34,17 +37,20 @@
 #' 
 #' load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
 #'                  package = "seqpac", mustWork = TRUE))
+#'
+#' output <- paste0(tempdir(), "/results/")
 #'                  
 #' result_list <- PAC_analyze(pac, 
 #'   pheno_target=list("stage"),
-#'   norm="cpm",
+#'   norm="cpm", output=output,
 #'   anno_target=list("Biotypes_mis0"),
 #'   model=~stage+batch)
 #' 
 #' @export
 
 PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
-                        anno_target=NULL, model=NULL){
+                        anno_target=NULL, model=NULL, 
+                        output=NULL){
   
   res_list <- list(NA)
   
@@ -89,9 +95,17 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
                 list(pie),
                  pca$graphs, list(dsq$plots$volcano))
   
-  pdf("Results_Seqpac.pdf", width = 7, height = 5)
+  if(!is.null(output)){
+  pdf(paste0(output,"/Results_Seqpac.pdf"), width = 7, height = 5)
   for (p in res_list) {
     print(p)
+  }
+  }
+  else{
+    pdf("Results_Seqpac.pdf", width = 7, height = 5)
+    for (p in res_list) {
+      print(p)
+    }
   }
   dev.off()
   
