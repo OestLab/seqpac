@@ -82,7 +82,7 @@
 #'###--------------------------------------------------------------------- 
 #'## Extract all biotypes but tRNA in all samples but in sample fastq_1
 #'
-#'pac_filt <- PAC_filter(pac, anno_target=list("Biotypes_mis0,"tRNA"),
+#'pac_filt <- PAC_filter(pac, anno_target=list("Biotypes_mis0","tRNA"),
 #'                      pheno_target=list("sample","fastq1"), allbut=TRUE)
 #' 
 #' 

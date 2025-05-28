@@ -77,7 +77,7 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
     pca <- PAC_pca(PAC, pheno_target = pheno_target)
   }
   
-  if(is.null(model)){
+  if(!is.null(model)){
   dsq <- PAC_deseq(PAC, model=model)
   }
   else{
