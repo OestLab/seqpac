@@ -10,7 +10,7 @@
 #'@seealso \url{https://cutadapt.readthedocs.io/en/stable/} for download and
 #'documentation on cutadapt.
 #'\url{http://hannonlab.cshl.edu/fastx_toolkit/commandline.html} for download
-#'and documentation on fastq_quality_filter. \url{https://github.com/Danis102}
+#'and documentation on fastq_quality_filter. \url{https://github.com/OestLab/seqpac}
 #'for updates on seqpac.
 #'
 #'@param input Character path to a directory containing input fastq-files. The

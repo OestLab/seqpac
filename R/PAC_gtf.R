@@ -11,7 +11,7 @@
 #' 
 #' @family PAC analysis
 #'   
-#' @seealso \url{https://github.com/Danis102} for updates.
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates.
 #'
 #' @param PAC PAC-list object. The Anno object needs to contain genome
 #'   coordinates in the following columns: "chr","start","end", and "strand".

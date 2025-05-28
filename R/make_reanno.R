@@ -11,7 +11,7 @@
 #'
 #' @seealso 
 #'   \url{http://bowtie-bio.sourceforge.net/index.shtml} for information about
-#'   Bowtie \url{https://github.com/Danis102} for updates on the current
+#'   Bowtie \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param reanno_path Path to a directory where reannotation .Rdata files can be
