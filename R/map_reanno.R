@@ -21,7 +21,7 @@
 #' @seealso  \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
 #'   about Bowtie and for Rbowtie:
 #'   \url{https://www.bioconductor.org/packages/release/bioc/html/Rbowtie.html}.
-#'   \url{https://github.com/Danis102} for updates on the current package.
+#'   \url{https://github.com/OestLab/seqpac} for updates on the current package.
 #'
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
 #'   row names.
