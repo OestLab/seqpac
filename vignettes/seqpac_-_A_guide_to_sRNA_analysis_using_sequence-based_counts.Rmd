@@ -1,7 +1,7 @@
 ---
 title: "A guide to small RNA analysis using Seqpac"
 shorttitle: "sRNA analysis using Seqpac"
-author: "Daniel Nätt, Signe Skog, Lovisa Örkenby"
+author: "Daniel Nätt, Signe Skog, Lovisa Örkenby, Alessandro Gozzo, Anna Asratian"
 date: "`r format(Sys.Date(), '%m/%d/%Y')`"
 abstract: >
     Seqpac provides functions and workflows for analysis of short sequenced 
@@ -64,6 +64,27 @@ devtools::install_github("Danis102/seqpac",
 
 
 # Introduction 
+
+<br>
+
+## Quick guide
+
+There is a quick wrapper of some of the Seqpac functions that as of now is dependent on Ensembl references for ncRNA. 
+It starts with .fastq files straight from the sequencing machine, and ends with a PDF file with plots from analyses
+performed. This workflow may be performed by three functions as follows: 
+
+```{r, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, results = "hide"}
+
+#pac <- PAC_create()
+#pac <- PAC_annotate()
+#results <- PAC_analyze()
+
+```
+
+There are much more to Seqpac than that (such as dedicated tRNA fragment analysis, GTF annotation, 
+sequence coverage graphs of regions of interest etc.) so we encourage you to also explore the options 
+outside of this quick wrapper!
+                                         
 
 <br>
 

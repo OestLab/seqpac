@@ -33,12 +33,6 @@
 #'   anno_target should be done. If subset=FALSE (default) both subsetting and
 #'   other filtering will be done.
 #'   
-#' @param output Character specifying what type of output is desired, where
-#'   options are "PAC" for a PAC object, "binary" returns a data.frame where
-#'   each sequence is presented as a binary (hit=1, no hit=0) data.frame or
-#'   "sequence" to retrieve a data.frame with all unique sequences fulfilling
-#'   the filtering criteria per pheno_target.
-#'   
 #' @param pheno_target (optional) List with: 
 #'          1st object being a character vector of target column in Pheno, 
 #'          2nd object being a character vector of the target group(s) in 
@@ -59,6 +53,7 @@
 #' @return A list of objects: 
 #'               PAC object with filtered data.   
 #'               (optional) A coverage plot 
+#'               
 #' @examples
 #' load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
 #'                  package = "seqpac", mustWork = TRUE))
