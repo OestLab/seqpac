@@ -30,7 +30,7 @@
 #'@param threads Integer stating the number of parallel jobs. Note, that
 #'  reading multiple fastq files drains memory fast, using up to 10Gb per fastq
 #'  file. To avoid crashing the system due to memory shortage, make sure that
-#'  each thread on the machine have at least 10 Gb of memory availabe, unless
+#'  each thread on the machine have at least 10 Gb of memory available, unless
 #'  your fastq files are very small. Use \code{parallel::detectcores()} to see
 #'  available threads on the machine.
 #'
