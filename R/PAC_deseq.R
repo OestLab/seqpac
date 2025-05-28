@@ -153,10 +153,9 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
     }
     
   trg <- pheno[,colnames(pheno) == pheno_target[[1]]]
-if (sum(colnames(PAC$Pheno) %in% pheno_target[[1]])>1 ) == TRUE) {
-  warning(cat = "The values in designated pheno_target are not unique for one column in Pheno-object.
-          \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the values in Pheno!")
-}
+if(any(duplicated(trg) | duplicated(trg, fromLast = TRUE))==TRUE){
+    warning(cat="The values in designated pheno_target are not unique. \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the values in Pheno!")
+  }
   
   mis <- !levels(trg) %in% pheno_target[[2]] 
   pheno[,colnames(pheno) == pheno_target[[1]]] <- factor(
