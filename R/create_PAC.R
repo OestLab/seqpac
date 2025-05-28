@@ -30,10 +30,7 @@
 #'   
 #' @param output Character indicating path to where output files will be stored, 
 #'   if applicable (such as in merge_lanes). Default=NULL. 
-#'   
-#' @param pheno Option to add directory to a .csv file containing pheno information. Here, the file
-#'    has to have the same rownames as the name of the fasta files, or the function will 
-#'    throw an error!
+#' 
 #'   
 #' @return PAC object with values in pheno and count
 #'   
@@ -68,7 +65,7 @@
 
 
 
-create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
+create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL){
   
   inpath=input
   outpath=output
@@ -116,16 +113,10 @@ create_PAC <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
     
   }
   
-  if(!is.null(pheno)){
-    pheno<-make_pheno(pheno=read.table(file=pheno, header=TRUE), progress_report=counts$progress_report,
-                      counts=counts$counts)
-  }
-  else{ 
-    pheno <- data.frame(row.names = colnames(counts$counts),
-                        Sample_ID= colnames(counts$counts))
-    pheno<-make_pheno(pheno=pheno, progress_report=counts$progress_report,
-                          counts=counts$counts)
-    }
+ pheno <- data.frame(row.names = colnames(counts$counts),
+                      Sample_ID= colnames(counts$counts))
+  pheno<-make_pheno(pheno=pheno, progress_report=counts$progress_report,
+                    counts=counts$counts)
  
   pac <- make_PAC(counts, pheno)
   
