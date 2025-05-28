@@ -7,7 +7,7 @@
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object.
