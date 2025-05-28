@@ -169,9 +169,10 @@ table(anno(pac)$rRNA_biotypes_mis1)
 }
 \seealso{
 \url{http://bowtie-bio.sourceforge.net/index.shtml} for information about
- Bowtie \url{https://github.com/Danis102} for updates on the current package.
+ Bowtie \url{https://github.com/OestLab/seqpac} for updates on the current package.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{import_reanno}()},

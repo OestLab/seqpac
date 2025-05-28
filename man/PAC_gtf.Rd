@@ -136,7 +136,7 @@ pac_merge <- PAC_gtf(pac_small, mismatches=0, return="merge",
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates.
+\url{https://github.com/OestLab/seqpac} for updates.
 
 Other PAC analysis: 
 \code{\link{PAC_covplot}()},

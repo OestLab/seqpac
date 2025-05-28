@@ -24,7 +24,7 @@ applied.}
 \item{threads}{Integer stating the number of parallel jobs. Note, that
 reading multiple fastq files drains memory fast, using up to 10Gb per fastq
 file. To avoid crashing the system due to memory shortage, make sure that
-each thread on the machine have at least 10 Gb of memory availabe, unless
+each thread on the machine have at least 10 Gb of memory available, unless
 your fastq files are very small. Use \code{parallel::detectcores()} to see
 available threads on the machine.}
 }
@@ -80,12 +80,12 @@ file.remove(fls_temp, showWarnings=FALSE)
 \url{https://cutadapt.readthedocs.io/en/stable/} for download and
 documentation on cutadapt.
 \url{http://hannonlab.cshl.edu/fastx_toolkit/commandline.html} for download
-and documentation on fastq_quality_filter. \url{https://github.com/Danis102}
+and documentation on fastq_quality_filter. \url{https://github.com/OestLab/seqpac}
 for updates on seqpac.
 
 Other PAC generation: 
 \code{\link{PAC_check}()},
-\code{\link{create_PAC}()},
+\code{\link{PAC_create}()},
 \code{\link{make_PAC}()},
 \code{\link{make_counts}()},
 \code{\link{make_pheno}()},
