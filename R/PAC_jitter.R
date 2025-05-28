@@ -3,9 +3,9 @@
 #' \code{PAC_jitter} Plots a jitter plot using the information in the Anno and
 #' Counts tables in a PAC object.
 #'
-#' Given a PAC object with grouped summaries the function will use column(s) in
-#' the Anno object to group the Counts table by row and then plot a jitter plot
-#' based on that
+#' Given a PAC object with grouped summaries, the function will use column(s) in
+#' the Anno object to group assigned summary columns (summary_target) and plot a 
+#' jitter plot.
 #'
 #' @family PAC analysis
 #'
@@ -20,7 +20,7 @@
 #'   object.
 #'
 #' @param type Character. If type="jitter" (default) the jitter-plots will be
-#'   returned. If type="violine", a violin-plot will instead the returned.
+#'   returned. If type="violin", a violin-plot will instead the returned.
 #'
 #' @param box Logical whether a boxplot should be plotted or not (default=TRUE)
 #'   
