@@ -7,6 +7,10 @@
 #'search terms (see details). Information will be compiled into a data frame with
 #'the same order of sequences as in the original PAC master file.
 #'
+#'Please rename the column names of your previously added columns if running 
+#'\code{\link{map_reanno}} more than two times using the same \code{type} input 
+#'("genome" or "biotype").
+#'
 #'@family PAC reannotation
 #'
 #'@seealso \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
