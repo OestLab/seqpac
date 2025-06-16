@@ -13,7 +13,7 @@
 #' 
 #' @family PAC generation
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param in_path Character string with the path to lane files that should be
