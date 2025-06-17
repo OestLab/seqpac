@@ -83,9 +83,9 @@
 #' ord_bio <- as.character(sort(unique(anno(pac)$Biotypes_mis3)), 
 #'                                     unique(anno(pac)$Biotypes_mis0))
 #' output_pie_1 <- PAC_pie(pac, anno_target=list("Biotypes_mis0", ord_bio), 
-#'                         summary="all")
+#'                         labels = "percent", summary="all")
 #' output_pie_2 <- PAC_pie(pac, anno_target=list("Biotypes_mis3", ord_bio), 
-#'                         summary="all")
+#'                         labels = "percent", summary="all")
 #' cowplot::plot_grid(plotlist=c(output_pie_1, output_pie_2), nrow=2, 
 #'                    scale = 1.0)
 #' 
