@@ -240,21 +240,33 @@ PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL,
     if(labels=="none"){ 
       labs <- NA 
     }
-    # plot and record
-    p1  <- graphics::pie(x$Percent, 
-               labels=labs, 
-               col=rev(colors), init.angle = angle)
+    # Position of labels and plot
+    `%>%` <- magrittr::`%>%`
+    x <- x %>% 
+      dplyr::arrange(desc(x$Category)) %>%
+      dplyr::mutate(prop = Percent / sum(x$Percent) *100) %>%
+      dplyr::mutate(ypos = cumsum(prop)- 0.5*prop )
+    
+    p1  <-ggplot2::ggplot(x, ggplot2::aes(x="", y=prop, fill=Category)) +
+      ggplot2::geom_bar(stat="identity", width=1, color="white") +
+      ggplot2::coord_polar("y", start=angle) +
+      ggplot2::theme_void() + 
+      ggplot2::theme(legend.position="none") +
+      ggplot2::geom_segment(ggplot2::aes(x = 1.5, xend = 1.56,
+                                         y = ypos, yend = ypos),
+                            color = "black", size = 0.5) +
+      
+      ggplot2::geom_text(ggplot2::aes(x= 1.7,y = ypos, label = rev(labs)), color = "black", size=4) +
+      ggplot2::scale_fill_manual(values=rev(colors))
     print(p1)
-    rp <- grDevices::recordPlot()
-    return(rp)
     }))
   graphics::plot.new()
   df <- data.frame(types=prec_lst[[1]]$Category, 
                    variables=prec_lst[[1]]$Category, 
                    levels=levels(prec_lst[[1]]$Category)) 
-  leg <- cowplot::get_legend(ggplot2::ggplot(
+  suppressWarnings(leg <- cowplot::get_legend(ggplot2::ggplot(
     df, ggplot2::aes(x=types, fill=variables)) + 
                                ggplot2::geom_bar(color="black") + 
-                               ggplot2::scale_fill_manual(values=rev(colors)))
+                               ggplot2::scale_fill_manual(values=rev(colors))))
   return(c(plt_lst, list(legend=leg)))
 }
