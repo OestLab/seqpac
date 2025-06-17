@@ -241,11 +241,9 @@ PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL,
       labs <- NA 
     }
     # Position of labels and plot
-    `%>%` <- magrittr::`%>%`
-    x <- x %>% 
-      dplyr::arrange(desc(x$Category)) %>%
-      dplyr::mutate(prop = Percent / sum(x$Percent) *100) %>%
-      dplyr::mutate(ypos = cumsum(prop)- 0.5*prop )
+    x <- dplyr::arrange(x, dplyr::desc(Category))
+    x$prop <- x$Percent / sum(x$Percent) * 100
+    x$ypos <- cumsum(x$prop) - 0.5 * x$prop
     
     p1  <-ggplot2::ggplot(x, ggplot2::aes(x="", y=prop, fill=Category)) +
       ggplot2::geom_bar(stat="identity", width=1, color="white") +
