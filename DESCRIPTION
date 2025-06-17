@@ -1,12 +1,12 @@
 Package: seqpac
 Type: Package
 Title: Seqpac: A Framework for smallRNA analysis in R using Sequence-Based Counts
-Version: 1.00.00
+Version: 1.8.1
 Authors@R: c(
     person("Signe", "Isacson", email="signe.skog@liu.se", role= c("aut", "ctb")),
     person("Daniel", "Natt", email="daniel.natt@liu.se", role= c("aut", "fnd")),
     person("Lovisa", "Örkenby", email="lovisa.orkenby@liu.se", role= c("aut", "ctb")),
-    person("Alessandro", "Gozzo", email="alessandro.gozzo@liu.se", role= c("aut","ctb", "cre")),
+    person("Alessandro", "Gozzo", email="alessandro.gozzo@liu.se", role= c("aut", "ctb", "cre")),
     person("Anna", "Asratian", email="anna.asratian@liu.se", role= c("aut", "ctb")),
     person("Anita", "Öst", email="anita.ost@liu.se", role= c("aut", "fnd"))
     )
