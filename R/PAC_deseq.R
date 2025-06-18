@@ -123,7 +123,7 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   cols <- attr(terms.formula(model), "term.labels")
   cols <- unique(unlist(strsplit(cols, ":")))
   compr<-pheno[,colnames(pheno) %in% cols]
-  if(class(compr)=="data.frame"){
+  if(is(compr, "data.frame")){
   if((any(apply(combn(ncol(compr), 2), 2, function(x) identical(compr[, x[1]], compr[, x[2]]))))==TRUE) {
     stop(cat="The column names in model appears to be repeated. \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the colnames in Pheno!")
   }}
@@ -155,7 +155,7 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   #Check whether the pheno_target picks up one or many columns (will trg be
   #a factor or a data.frame)  
   trg <- pheno[,colnames(pheno) == pheno_target[[1]]]
-  if(class(trg)=="data.frame"){
+  if(is(trg, "data.frame")){
     warning(cat="The values in designated pheno_target may not unique column names. \nThis may cause unwanted comparisons. 
             To ensure a correct comparison, please check the values in Pheno!")
   }
