@@ -16,7 +16,7 @@ import_reanno(
 \item{bowtie_path}{Path to a directory where bowtie output files can be
 found.}
 
-\item{threads}{Integer stating the number of parallell jobs.}
+\item{threads}{Integer stating the number of parallel jobs.}
 
 \item{coord}{Logical whether or not mapping coordinates should be reported
 when report="full".}
@@ -34,12 +34,12 @@ List of data frames with additional information from reannotation
   report each hit only as the number of mismatches for a given reference
   file. If \emph{report="full"} the full name reported in the fasta file used
   as reference in the bowtie reannotation will be reported. If a reference
-  name is specified in \emph{reduce}, this reference is excempted from
+  name is specified in \emph{reduce}, this reference is excerpted from
   \emph{report="full"} and is instead reported as \emph{report="minimum"}.
 
-  Caution: Large references with lots of redudancy (such as pirBase in some
+  Caution: Large references with lots of redundancy (such as pirBase in some
   species) will cause massive character strings if \emph{report="full"} with
-  no restrictions. Specifing such references in
+  no restrictions. Specifying such references in
   \emph{reduce=<reference_names>} will circumvent this problem.
 }
 \description{
@@ -61,7 +61,7 @@ using \code{\link{add_reanno}}.
   The function will not work with other formats such as SAM/BAM formats.
 
  The basenames of the bowtie output will also be used to
-  annotated what type of annotation. Example: bowtie -v 3 -a -f
+  annotate. Example: bowtie -v 3 -a -f
   '<piRBase.fasta>' '<master_anno.fasta>' piRNA.txt Will annotate sequences
   as piRNA since the txt-file output was named 'piRNA'
 }
@@ -95,7 +95,7 @@ ref_paths <- list(trna= trna_file)
 output <- paste0(tempdir(),"/seqpac/test")
 
 ##  Then map the PAC-object against the fasta references. Warning: if you use
-# your own data, you may want override=FALSE, to avoid deleting previous
+# your own data, you may want to use override=FALSE, to avoid deleting previous
 # mapping by mistake. keep_temp=TRUE can be used to run import_reanno
 # independently.
 
@@ -110,9 +110,10 @@ reanno1 <- import_reanno(output, report="Biotype",  threads=1)
 \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
   about Bowtie and for Rbowtie:
   \url{https://www.bioconductor.org/packages/release/bioc/html/Rbowtie.html}.
-  \url{https://github.com/Danis102} for updates on the current package.
+  \url{https://github.com/OestLab/seqpac} for updates on the current package.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{make_conv}()},

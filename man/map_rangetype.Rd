@@ -35,11 +35,11 @@ against a reference fasta file.}
   "type_mid_start_per" and sequences ending within 45-50% of the references
   as 'type_mid_end_per'.
 
-  If type="ss", then intervals is obtain from an ss file, obtained for
+  If type="ss", then intervals is obtained from an ss file, obtained for
   example from tRNAscan-SE (\url{http://lowelab.ucsc.edu/tRNAscan-SE/}) or at
   GtRNAdb \url{http://gtrnadb.ucsc.edu/}.
 
-  Important, the intervals list is name sensitive. If type="nuclotides"
+  Importantly - the intervals list is name sensitive. If type="nuclotides",
   intervals can only contain two intervals named 'start' and 'end', while if
   type="percent" then intervals needs to contain three intervals named
   'start', 'mid' and 'end'.
@@ -55,7 +55,7 @@ file from the path given in the character string. If this fails, the
 function assumes that the ss file has already been read using
 \code{readLines}, and will attempt to split that character vector into a
 list of unique sequences by splitting at the empty lines. Empty line
-normally delimits each sequence entery in the ss file. Such a list can also
+normally delimits each sequence entry in the ss file. Such a list can also
 be parsed directly to the function, making it easy to change for example
 sequence names using \code{\link{lapply}} prior to running the function.}
 
@@ -134,7 +134,7 @@ map_object[[1]]
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

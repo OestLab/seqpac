@@ -20,7 +20,7 @@ contain normalized counts tables, saved in the norm list ('folder'). Such
 normalized table can be generated using the \code{\link{PAC_norm}}
 function.}
 
-\item{norm}{Character indicating what type of data to be used. If 'counts'
+\item{norm}{Character indicating what type of data to be used. If 'counts',
 the raw counts in Counts will be used (default). Given any other value, the
 function will search for the value as a name on a data.frame stored in the
 normalized list-folder.}
@@ -38,16 +38,16 @@ type="percentgrand"  # Group log2 fold changes against a grand mean}
 of target column in Pheno 2nd object being a character vector of the target
 group(s) in the target Pheno column (1st object).}
 
-\item{rev}{Logical whether pairwise comparisions (e.g. log2FC) should be
+\item{rev}{Logical whether pairwise comparisons (e.g. log2FC) should be
 reversed (default=FALSE).}
 
 \item{merge_pac}{Logical whether simplified annotation vector should
 automatically be added to the Anno object of the input PAC list object
-(default=TRUE). If \code{merge_pac=FALSE} a dataframe is returned.}
+(default=TRUE). If \code{merge_pac=FALSE} a data.frame is returned.}
 }
 \value{
 A PAC object with a pheno_summary folder containing the summarized
-  data in a dataframe. The dataframe will be named according to the
+  data in a data.frame. The data.frame will be named according to the
   pheno_target, type and norm input.
 }
 \description{
@@ -55,7 +55,7 @@ A PAC object with a pheno_summary folder containing the summarized
 }
 \details{
 Given a PAC object this function summarize data in counts(PAC) or in the norm
-'folder' according to a grouping columns in pheno(PAC).
+'folder' according to a grouping column in pheno(PAC).
 }
 \examples{
 
@@ -73,9 +73,9 @@ pac <- PAC_summary(pac, norm = "cpm",
                    type = "log2FC", pheno_target=list("stage"))
 
 names(summary(pac))               # Names of individual summaries
-head(summary(pac)$cpmMeans_stage) # View individual individual summaries
+head(summary(pac)$cpmMeans_stage) # View individual summaries
 summary(pac)  # View merge summaries
-df <- as.data.frame(tibble::as_tibble(summary(pac))) # Merge multi summaries
+df <- as.data.frame(tibble::as_tibble(summary(pac))) # Merge multiple summaries
 head(df)
 
 
@@ -89,7 +89,7 @@ summary(pac)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
 package.
 
 Other PAC analysis: 

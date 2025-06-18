@@ -7,11 +7,11 @@
 #' \code{\link[seqpac]{PAC_mapper}} followed by
 #' \code{\link[seqpac]{map_rangetype}} functions, sequences in a PAC object are
 #' classified according the terminals (5'/3'/i'), anticodon loop (half/tRF), and
-#' isotype (decoder/accepter) of the full length tRNA.
+#' isotype (decoder/acceptor) of the full length tRNA.
 #' 
 #' @family PAC analysis
 #'   
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object.
@@ -54,7 +54,7 @@
 #'##-------------------------------##
 #'## Setup environment for testing ##
 #'
-#'# First create an annotation blanc PAC with group means
+#'# First create an annotation blank PAC with group means
 #'load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
 #'                 package = "seqpac", mustWork = TRUE))
 #'anno(pac) <- anno(pac)[,1, drop=FALSE]
@@ -77,7 +77,7 @@
 #'                         mismatches=0, threads=2, 
 #'                         report_string=TRUE, override = TRUE)
 #'# Warning: override = TRUE, will remove everything in temporary output path.
-#'# Note: bowtie indexes are not nedded for PAC_mapper.
+#'# Note: bowtie indexes are not needed for PAC_mapper.
 #'
 #'
 #'##-------------------------------------------##
@@ -129,11 +129,19 @@ tRNA_class <- function(PAC, map, terminal = 5){
     half_type <- ifelse(
       align$type_start_loop2 == TRUE | align$type_end_loop2 == TRUE, 
       "half", "tRF")
-    return(data.frame(tRNA_ref=ref_name, 
-                      seq=rownames(align), 
-                      class=paste(terminal_type, half_type, sep="-"),
-                      decoder=align$decoder,
-                      acceptor=align$acceptor))
+    if(any(colnames(align) %in% "decoder")){
+      return(data.frame(tRNA_ref = ref_name, 
+                        seq = rownames(align), 
+                        class = paste(terminal_type, half_type, sep = "-"), 
+                        decoder = align$decoder, 
+                        acceptor = align$acceptor))}
+    else{
+      return(data.frame(tRNA_ref = ref_name, 
+                        seq = rownames(align), 
+                        class = paste(terminal_type, half_type, sep = "-"), 
+                        decoder = sub(".*?-(.*?)-.*", "\\1", ref_name), 
+                        acceptor = sub(".*?-.*?-(.*?)-.*", "\\1", ref_name)))
+    }
   })
   # Merge all references
   type_vector <- do.call("rbind", type_vector)

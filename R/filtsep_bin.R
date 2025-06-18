@@ -6,13 +6,13 @@
 #' Given a PAC_filtsep output data.frame, where each column contains the
 #' sequences that passed the filter for a specific group specified in
 #' pheno_target, filtsep_bin converts this into a data.frame where sequences are
-#' reported as hit (=1) or no hit (=0). Such binary coded group occurance can
+#' reported as hit (=1) or no hit (=0). Such binary coded group occurrence can
 #' for example be used by UpSetR::upset to generate visualization of overlaps
 #' using UpSet plots.
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param filtsep_out PAC_filtsep output data.frame, where each column contains
@@ -50,7 +50,7 @@
 #'                             coverage=100, pheno_target= list("stage"), 
 #'                             output="binary")
 #'  
-#' # Plot Wenn diagram or UpSetR
+#' # Plot Venn diagram or UpSetR
 #' #
 #' # plot(venneuler::venneuler(data.frame(olap[,2], olap[,1]))) 
 #' #

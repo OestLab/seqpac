@@ -50,7 +50,7 @@ A data.frame (see output for details).
 \code{PAC_filtsep} Group seperated filtered name list
 }
 \details{
-Given a PAC object the function will extract sequences within the reach a
+Given a PAC object the function will extract sequences within the
 given filter within a given group.
 }
 \examples{
@@ -91,7 +91,7 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
  
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

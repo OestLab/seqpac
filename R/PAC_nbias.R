@@ -8,12 +8,12 @@
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
 #'   row names and a count table with raw counts.
-#' @param position Integer indicating the nucleotide postion from 3' to 5'
+#' @param position Integer indicating the nucleotide position from 3' to 5'
 #'   position (default=1).
 #' @param range Integer vector indicating the sequence size range
 #'   (default=c(min, max)).
@@ -38,7 +38,7 @@
 #' 
 #' @param summary_target List with: 
 #'                          1st object being character vector of target object
-#'                          in sumary(PAC), 2nd object being a character vector
+#'                          in summary(PAC), 2nd object being a character vector
 #'                          of the target column(s) in the target summary object
 #'                          (1st object). (default=NULL)
 #'
@@ -49,7 +49,7 @@
 #'   each plot individually (different y-axes).
 #'   
 #' @param data_only logical. If data_only=TRUE a data.frame a simple Anno object
-#'   is returned with a Size and a Nuclotide bias column. As default,
+#'   is returned with a Size and a Nucleotide bias column. As default,
 #'   data_only=FALSE then graphs are returned in addition to data.
 #'   
 #' @return A list of objects: 

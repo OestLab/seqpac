@@ -6,12 +6,12 @@
 #' Given the path to a directory with a single csv file, the function will read
 #' the file. Alternatively, a data.frame with sample information can be
 #' provided. If provided with a count table, (see \code{\link{make_counts}}), it
-#' will attempt to organize the the row names according to the column names in
+#' will attempt to organize the row names according to the column names in
 #' the counts table.
 #'
 #' @family PAC generation
 #'
-#' @seealso  \url{https://github.com/Danis102} for updates on the current
+#' @seealso  \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'   
 #' @param pheno Character vector with the path to a .csv file or a
@@ -99,7 +99,7 @@ make_pheno<- function(pheno, counts=NULL, progress_report=NULL){
     header <- which(grepl("Sample_ID|sample_ID|Sample_id|sample_id", lines))
     if(!length(header) == 1){
       stop("\nCannot find comma seperated header with first column", 
-           "\nnamed 'Sample_ID' or you have >1 columns named 'Sample_ID'")
+           "\nnamed 'Sample_ID', or you have >1 columns named 'Sample_ID'")
     }
     # Check separation by comparing1st and 2nd row (should have the same)
     head_1 <- stringr::str_count (lines[header], ",")
@@ -234,7 +234,7 @@ make_pheno<- function(pheno, counts=NULL, progress_report=NULL){
     cat("\n")
   }else{
     warning("\nNo progress report was specified.",
-            "\nWill be missing in the final Pheno.\n")
+            "\nThis will not be present in final Pheno.\n")
   }
   cat("Done!\n")
   return(pheno)

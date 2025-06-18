@@ -7,16 +7,17 @@
 #' 
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object.
 #'
 #' @param ref Character indicating the path to the fasta (.fa) reference file or
 #'   a DNAStringSet with already loaded reference sequences. If a Bowtie index
-#'   is missing for the reference, PAC_mapper will attempt to temporally
-#'   generate such index automatically. Thus, large large references are
-#'   discouraged. Please use the original reanno workflow for large references.
+#'   is missing for the reference, PAC_mapper will attempt to temporarily
+#'   generate such index automatically. Thus, large references are
+#'   discouraged. Instead, we suggest you use the original reanno workflow 
+#'   for large references.
 #'   
 #' @param mismatches Integer indicating the number of mismatches that should be
 #'   allowed in the mapping.
@@ -35,8 +36,8 @@
 #' @param threads Integer indicating the number of parallel processes that
 #'   should be used.
 #'
-#' @param report_string Logical whether an alignment string that shows in
-#'   character where sequences align against the reference. Works well with
+#' @param report_string Logical whether an alignment string that shows where 
+#'   sequences align against the reference in a character format. Works well with
 #'   tRNA, but makes the Alignments object difficult to work with when longer
 #'   references are used (default=FALSE).
 #'

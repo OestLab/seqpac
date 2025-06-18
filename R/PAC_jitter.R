@@ -3,13 +3,13 @@
 #' \code{PAC_jitter} Plots a jitter plot using the information in the Anno and
 #' Counts tables in a PAC object.
 #'
-#' Given a PAC object with grouped summaries the function will use column(s) in
-#' the Anno object to group the Counts table by row and then plot a jitter plot
-#' based on
+#' Given a PAC object with grouped summaries, the function will use column(s) in
+#' the Anno object to group assigned summary columns (summary_target) and plot a 
+#' jitter plot.
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-object containing Anno and a summary list-folder with
@@ -20,7 +20,7 @@
 #'   object.
 #'
 #' @param type Character. If type="jitter" (default) the jitter-plots will be
-#'   returned. If type="violine"
+#'   returned. If type="violin", a violin-plot will instead the returned.
 #'
 #' @param box Logical whether a boxplot should be plotted or not (default=TRUE)
 #'   
@@ -90,7 +90,7 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
                        type="jitter", limits=NULL, ypos_n=NULL, colors=NULL, 
                        box=TRUE){
   
-  ..count.. <- values <- biotype <-  NULL
+   values <- biotype <-  NULL
   
   ## Check S4
   if(isS4(PAC)){
@@ -106,13 +106,13 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
   
   if(is.null(summary_target[[1]])){
     stop(
-      "\nYou need to specify a target in PAC$summary with summary_target.")
+      "\nYou need to specify a target in PAC@summary with summary_target.")
     }
   if(is.null(names(PAC$summary[[summary_target[[1]]]]))){
     stop(
       "\nYou need to specify a valid summary_target.",
       "\n(Hint: Double check correct object name in",
-      "\nPAC$summary or rerun the 'PAC_summary' function.)"
+      "\nPAC@summary or rerun the 'PAC_summary' function.)"
       )
     }
   if(length(summary_target)==1){
@@ -123,13 +123,13 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
   if(is.null(anno_target[[1]])){
     warning(
       "No anno_target was specified.",
-      "\nJitter plot will not be devided into biotypes.")
+      "\nJitter plot will not be divided into biotypes.")
     ann$All <- "All"
     anno_target <- list("All", "All")}
   if(length(colnames(PAC$Anno)[anno_target[[1]]]) <1){
     stop(
       "\nYou need to specify a valid anno_target.",
-      "\n(Hint: Double check correct column name in PAC$Anno.)")
+      "\n(Hint: Double check correct column name in PAC@Anno.)")
     }
   if(length(anno_target) ==1){
     anno_target[[2]] <- unique(PAC$Anno[,anno_target[[1]]])
@@ -179,14 +179,14 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     if(type=="jitter"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
-        ggplot2::geom_hline(yintercept=0, col="#707177", cex=0.6) +
-        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), cex=1.5)+
+        ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
+        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), size=1)+
         ggplot2::stat_summary(geom = "crossbar", fun="median", 
                               fun.max = "median", fun.min = "median",
-                              width=0.7, cex=0.4, position = "identity", 
+                              width=0.7, linewidth=0.4, position = "identity", 
                               col="Black") +
         ggplot2::geom_text(stat="count", ggplot2::aes(
-            label=paste0("n=",..count.., "\nup:", perc_up[,num+1], "%")), 
+            label=paste0("n=", ggplot2::after_stat(count) , "\nup:", perc_up[,num+1], "%")), 
             size=3.5, y=ypos_n, col="Black") +
         ggplot2::labs(title=paste0(colnames(df)[num]) , x="Biotype" , 
                       y =  paste0(summary_target[[1]]) ) +
@@ -210,11 +210,11 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     if(type=="violin"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
-        ggplot2::geom_hline(yintercept=0, col="#707177", cex=0.6) +
+        ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
         ggplot2::geom_violin(width=0.9, trim=TRUE, scale="width", 
                              color="black")+
         ggplot2::geom_text(stat="count", ggplot2::aes(
-          label=paste0("n=",..count.., "\nup:", perc_up[,num+1], "%")), 
+          label=paste0("n=", ggplot2::after_stat(count) , "\nup:", perc_up[,num+1], "%")), 
           size=3.5, y=ypos_n, col="Black") +
         ggplot2::labs(title=paste0(colnames(df)[num]) , x="Biotype" , 
                       y =  paste0(summary_target[[1]]) ) +

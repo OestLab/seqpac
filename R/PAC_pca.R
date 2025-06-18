@@ -8,7 +8,7 @@
 #'
 #'@family PAC analysis
 #'
-#'@seealso \url{https://github.com/Danis102} for updates on the current package.
+#'@seealso \url{https://github.com/OestLab/seqpac} for updates on the current package.
 #'
 #'@param PAC PAC-list object.
 #'
@@ -151,10 +151,10 @@ PAC_pca <- function(PAC, norm="counts", type="pheno", graphs=TRUE,
           col <- col[,1]
         }
         rtio <- length(unique(col))/n_sampl
-      if(is.factor(col)|rtio<0.7){
+      if(is.factor(col)|rtio<0.4){
         col <- as.factor(as.character(col))
       }
-      if(is.numeric(col)|is.integer(col)|rtio>0.7){
+      if(is.numeric(col)|is.integer(col)|rtio>0.4){
         col <- as.numeric(col)
       }
     }

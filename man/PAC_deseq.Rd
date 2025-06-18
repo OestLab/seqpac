@@ -34,7 +34,7 @@ test/chi-squared test). See \code{\link[DESeq2]{DESeq}} for more details.
 (Default="Wald")}
 
 \item{fitType}{Character parsed directly to \code{\link[DESeq2]{DESeq}} that
-controls what type of despersion fit that should be used. Alternatives are
+controls what type of dispersion fit that should be used. Alternatives are
 either "parametric" (dispersion-mean relation), "local" (local regression
 of log dispersions), "mean" (mean of gene-wise dispersion). See
 \code{\link[DESeq2]{DESeq}} for more details. (Default="local")}
@@ -86,22 +86,22 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
 
 ## Simple model with embryonic stages using Wald test with local fit (default)
 table(pheno(pac)$stage)
-output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=2))
+output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=1))
 
 ## Batch corrected, graphs are generated for 'stage' (=first in the model)
 output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch,
-                                          threads=2))
+                                          threads=1))
 
-## Using pheno_target we can change focus
+## Using pheno_target 
 output_deseq <- suppressWarnings(PAC_deseq(pac,model= ~stage + batch, 
                                           pheno_target=list("batch"),
-                                          threads=2))
+                                          threads=1))
 
 ## With pheno_target we can change the direction for the comparison
 # Stage5 vs Stage3 (reverse order):
 output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch, 
                          pheno_target = list("stage", c("Stage5", "Stage3")),
-                         threads=2))  
+                         threads=1))  
 
 ## In the output you find PAC merged results, target plots and output_deseq   
 names(output_deseq)
@@ -109,7 +109,7 @@ tibble::as_tibble(output_deseq$result)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

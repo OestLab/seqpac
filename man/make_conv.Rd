@@ -26,7 +26,7 @@ then any user-defined reference name will be lost (see example below).}
 
 \item{ref_path_C}{Character string with path to 3rd fasta reference}
 
-\item{output}{Character indicating what type of output. As default
+\item{output}{Character indicating what type of output to provide. As default
 output="tibble" will result in a table in the tibble format as described in
 tibble/tidyverse packages. Anything else will result in a data frame.}
 
@@ -36,7 +36,7 @@ be returned. Thus, if skip_after=" ", seqnames will be trimmed after first
 white space. If a list of character strings, then each string will will be
 applied to each provided reference. Thus, if skip_after=list(ensembl=" ",
 ucsc="," , ncbi=";"), then seqnames will be trimmed at white space for the
-reference named "ensembl", and at "," for the reference named "uscs", etc.
+reference named "ensembl", and at "," for the reference named "ucsc", etc.
 If skip_after=NULL then the full seqnames are returned.}
 }
 \value{
@@ -61,7 +61,7 @@ then an error is returned.
 
 Sequence matching is done using md5 hashes, which dramatically increases the
 speed for perfect matches. Matching will always be done from reference A
-against the other references). Thus, if reference A (=1st reference in
+against the other references. Thus, if reference A (=1st reference in
 reference_list) contains less sequences than the other references, only the
 reference A sequences will be reported in the output, having the same order
 as in reference A.
@@ -115,9 +115,10 @@ conv_table
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates.
+\url{https://github.com/OestLab/seqpac} for updates.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{import_reanno}()},

@@ -28,7 +28,7 @@ runs independently of external software, while \code{trimming="cutadapt"}
 is dependent on an externally installed version of cutadapt and
 fastq_quality_filter. Trimmed fastq files are stored temporarily in the
 systems default temporary folder. Please, run \code{\link{make_trim}} and
-\code{\link{make_cutadapt}} seperately for perminant storage options, or
+\code{\link{make_cutadapt}} separately for permanent storage options, or
 set \code{save_temp=TRUE} to avoid that \code{make_counts} will delete all
 temporary files.  As default trimming=NULL, which indicates that input
 fastq files has already been trimmed.}
@@ -36,7 +36,7 @@ fastq files has already been trimmed.}
 \item{threads}{Integer stating the number of parallel jobs. Note, that
 reading multiple fastq files drains memory fast, using up to 10Gb per fastq
 file. To avoid crashing the system due to memory shortage, make sure that
-each thread on the machine have at least 10 Gb of memory availabe, unless
+each thread on the machine have at least 10 Gb of memory available, unless
 your fastq files are very small. Use \code{parallel::detectcores()} to see
 available threads on the machine.}
 
@@ -49,23 +49,23 @@ returned list (default=TRUE).}
 
 \item{parse}{Character strings defining the command that should be parsed to
 \code{\link{make_trim}} or \code{\link{make_cutadapt}}. This will allow
-you to customize your trimming according to 3' adaptor sequence and
+you to customize your trimming according to 3' adapter sequence and
 platform standards etc. Please see examples below and the manuals for
 \code{\link{make_trim}} and \code{\link{make_cutadapt}} for more details.
 For convenience, \code{parse} also have two default mode for sRNA trimming,
-using Illumina and New England Biotype (neb) type small RNA adaptors.
+using Illumina and New England Biotype (neb) type small RNA adapters.
 \code{make_counts} will automatically print the exact setting for each
 default mode. Briefly, both modes involves polyG (NextSeq/NovaSeq) trimming
-and 3' adaptor trimming, with a 0.1 tolerance for mismatch/indels. If
+and 3' adapter trimming, with a 0.1 tolerance for mismatch/indels. If
 parse="default_illumina", then the "TGGAATTCTCGGGTGCCAAGGAACTCCAGTCAC" 3'
-adaptor is trimmed and untrimmed sequences are removed. If
+adapter is trimmed and untrimmed sequences are removed. If
 parse="default_neb", then "AGATCGGAAGAGCACACGTCTGAACTCCA" is trimmed and
 untrimmed sequences are removed. Removing untrimmed sequences is
 recommended for sRNA sequencing.}
 
 \item{evidence}{Character vector with two inputs named 'experiment' and
 'sample' that controls the low-level evidence filter. Users may already at
-this point markly reduce the level of noise in the counts table by
+this point reduce the level of noise in the counts table by
 specifying the number of independent evidence that a specific sequence must
 have to be included. As default,
 \code{evidence=c(experiment=2, sample=1)} will include all sequences that
@@ -88,8 +88,8 @@ instead of in-memory. Important, this option will generate large temporary
 files. For a max fastq size of 1 GB (.gz compressed), keep at least 20 GB
 of free disk space. (default=FALSE).
 2. chunk_size: Integer, if set, determines whether reading and processing
-should be handled in chunks and how big those should be. If NULL sample are
-not handled in chunks. If handling a challenging dataset on low-end
+should be handled in chunks and how big those should be. If NULL, samples 
+are not handled in chunks. If handling a challenging dataset on low-end
 computers, a chunk_size of 50000000 is a good starting point.
 (default=NULL).
 3. rm_wild. Logical (panic filter). If evidence filter fails while
@@ -126,8 +126,8 @@ A list containing three objects:
 \code{make_counts} uses parallel processing to generate a count table.
 }
 \details{
-Given a paths to fastq this function performs low-level evidence filtering,
-generates a counts table of sequences passing the filter and plots summary
+Given a path to fastq files this function performs low-level evidence filtering,
+generating a counts table of sequences passing the filter and plots summary
 statistics.
 }
 \examples{
@@ -188,11 +188,12 @@ head(counts$progress_report)
  
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC generation: 
 \code{\link{PAC_check}()},
+\code{\link{PAC_create}()},
 \code{\link{make_PAC}()},
 \code{\link{make_cutadapt}()},
 \code{\link{make_pheno}()},

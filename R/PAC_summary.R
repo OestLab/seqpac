@@ -3,11 +3,11 @@
 #' \code{PAC_summary} summarizes data stored in a PAC object.
 #'
 #' Given a PAC object this function summarize data in counts(PAC) or in the norm
-#' 'folder' according to a grouping columns in pheno(PAC).
+#' 'folder' according to a grouping column in pheno(PAC).
 #' 
 #' @family PAC analysis
 #' 
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #' package.
 #'
 #' @param PAC PAC object containing a Pheno data.frame with samples as row
@@ -16,7 +16,7 @@
 #'   normalized table can be generated using the \code{\link{PAC_norm}}
 #'   function.
 #'   
-#' @param norm Character indicating what type of data to be used. If 'counts'
+#' @param norm Character indicating what type of data to be used. If 'counts',
 #'   the raw counts in Counts will be used (default). Given any other value, the
 #'   function will search for the value as a name on a data.frame stored in the
 #'   normalized list-folder.
@@ -35,15 +35,15 @@
 #'   of target column in Pheno 2nd object being a character vector of the target
 #'   group(s) in the target Pheno column (1st object).
 #'   
-#' @param rev Logical whether pairwise comparisions (e.g. log2FC) should be
+#' @param rev Logical whether pairwise comparisons (e.g. log2FC) should be
 #'   reversed (default=FALSE).
 #'   
 #' @param merge_pac Logical whether simplified annotation vector should
 #'   automatically be added to the Anno object of the input PAC list object
-#'   (default=TRUE). If \code{merge_pac=FALSE} a dataframe is returned. 
+#'   (default=TRUE). If \code{merge_pac=FALSE} a data.frame is returned. 
 #'   
 #' @return A PAC object with a pheno_summary folder containing the summarized
-#'   data in a dataframe. The dataframe will be named according to the
+#'   data in a data.frame. The data.frame will be named according to the
 #'   pheno_target, type and norm input.
 #'
 #' @examples
@@ -62,9 +62,9 @@
 #'                    type = "log2FC", pheno_target=list("stage"))
 #' 
 #' names(summary(pac))               # Names of individual summaries
-#' head(summary(pac)$cpmMeans_stage) # View individual individual summaries
+#' head(summary(pac)$cpmMeans_stage) # View individual summaries
 #' summary(pac)  # View merge summaries
-#' df <- as.data.frame(tibble::as_tibble(summary(pac))) # Merge multi summaries
+#' df <- as.data.frame(tibble::as_tibble(summary(pac))) # Merge multiple summaries
 #' head(df)
 #' 
 #' 
@@ -137,7 +137,7 @@ PAC_summary <- function(PAC, norm="counts", type="means", pheno_target=NULL,
   if(any(o_one)) {
   one_nam  <- names(o_one[o_one==TRUE])
   warning("Only found one sample in at least one group",
-          "\nSummery is based on this sample only!")
+          "\nSummary is based on this sample only!")
   dup_dat <- data[,ph %in% one_nam, drop=FALSE]
   samp_one <- colnames(data)[ph %in% one_nam]
   new_nam <-  paste0(samp_one, "(dup)")

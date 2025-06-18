@@ -27,9 +27,9 @@ sensitive. For example if \emph{hierarchy} is defined as list(rRNA="rRNA",
 miRNA="miRNA", piRNA="piRNA") a sequence annotated with 0 mismatches for all
 three biotypes will only be reported as rRNA since this biotype was put
 first in the list. Sequences annotated to neither of the biotypes listed in
-\emph{hierarchy} but still is annotated to something will be asigned as
+\emph{hierarchy}, that is still annotated to something will be assigned as
 "other". Sequences without an annotation down to the specified mismatch
-level (\code{mismatches} will be asigned as "no_anno".}
+level (\code{mismatches} will be assigned as "no_anno".}
 
 \item{mismatches}{Integer indicating the number of allowed mismatches. Note
 that this value can never be larger than the maximum number of mismatches
@@ -42,11 +42,11 @@ automatically be added to the Anno object if a PAC list object were given as
 input (default=FALSE).}
 
 \item{target_columns}{Character vector naming the target columns for the
-reannotation matrix. When \code{target_columns=NULL}(default), then the
+reannotation matrix. When \code{target_columns=NULL}(default), the
 function assumes that one (and only one) reannotation matrix for biotypes
 generatated by \code{\link{add_reanno}} is present in anno(PAC) (colnames =
 mis0_bio, mis1_bio, mis2_bio etc). With \code{target_columns} two
-alternative reannotation matrixes can be discriminated.}
+alternative reannotation matrices can be discriminated.}
 }
 \value{
 Character vector with single best-hit biotypes with fewest mismatches.
@@ -105,7 +105,7 @@ closeAllConnections()
  ref_paths <- list(trna= trna_file, rrna= rrna_file)
  
 ##  Then map the PAC-object against the fasta references. 
-# Warning: if you use your own data, you may want override=FALSE, to avoid
+# Warning: if you use your own data, you may want to use override=FALSE, to avoid
 # deleting previous mapping by mistake.
 
 map_reanno(pac, ref_paths=ref_paths, output_path=output,
@@ -169,9 +169,10 @@ table(anno(pac)$rRNA_biotypes_mis1)
 }
 \seealso{
 \url{http://bowtie-bio.sourceforge.net/index.shtml} for information about
- Bowtie \url{https://github.com/Danis102} for updates on the current package.
+ Bowtie \url{https://github.com/OestLab/seqpac} for updates on the current package.
 
 Other PAC reannotation: 
+\code{\link{PAC_annotate}()},
 \code{\link{add_reanno}()},
 \code{\link{as.reanno}()},
 \code{\link{import_reanno}()},

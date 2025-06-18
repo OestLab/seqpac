@@ -72,7 +72,7 @@ List, tibble dataframe or updated PAC object. See option
 This function will annotate a PAC object using input from a GTF/GFF file.
 }
 \details{
-Given a PAC object and a gtf formated annotation file(s), this function will
+Given a PAC object and a gtf formatted annotation file(s), this function will
 attempt to annotate sequences mapped to a reference genome against genomic
 coordinates in the gtf file(s). In case no genomic mapping coordinates are
 available in the PAC object, the function provides a backdoor into the
@@ -136,7 +136,7 @@ pac_merge <- PAC_gtf(pac_small, mismatches=0, return="merge",
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates.
+\url{https://github.com/OestLab/seqpac} for updates.
 
 Other PAC analysis: 
 \code{\link{PAC_covplot}()},

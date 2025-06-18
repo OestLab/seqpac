@@ -10,7 +10,7 @@
 #'
 #'@family PAC generation
 #'
-#'@seealso \url{https://github.com/Danis102} for updates on the current package.
+#'@seealso \url{https://github.com/OestLab/seqpac} for updates on the current package.
 #'
 #'@param input Character indicating the path to a directory containing fastq
 #'  formatted sequence files either compressed (.fastq.gz) or text (.fastq).
@@ -32,7 +32,7 @@
 #'   
 #'   Options for each input are: \describe{
 #'    \item{\strong{type}=}{
-#'        '\emph{hard_trim}': Trims all upto the very last nucleotide.\cr
+#'        '\emph{hard_trim}': Trims all up to the very last nucleotide.\cr
 #'        '\emph{hard_rm}': Same as 'hard_trim' but removes untrimmed 
 #'        sequences.\cr
 #'        '\emph{hard_save}': Same as 'hard_trim' but saves all untrimmed 
@@ -56,7 +56,7 @@
 #'        }
 #'        
 #'    \item{\strong{mismatch}=}{
-#'        Numeric controling the percent mismatch. 
+#'        Numeric controlling the percent mismatch. 
 #'        For instance, if min=10 and
 #'        mismatch=0.1, then 1 mismatch is allowed in the minimum overlap.
 #'        }
@@ -74,7 +74,7 @@
 #'   'mismatch' that controls poly G trimming. This trimming might be necessary
 #'   for fastq files from two channel illumina sequencers (e.g. NextSeq and
 #'   NovaSeq) where no color signals are interpreted as 'G', but where read
-#'   failure sometimes also results in long stratches of 'no-signal-Gs'.
+#'   failure sometimes also results in long stretches of 'no-signal-Gs'.
 #'
 #'   Works similar to \code{adapt_3_set} but instead of an adaptor sequence a
 #'   poly 'G' string is constructed from the 'min' input option. Thus, if
@@ -82,10 +82,10 @@
 #'   'GGGGGGGGGGNNNNN...etc' with 10 percent mismatch will be removed from the
 #'   output fastq file.
 #'   
-#' @param concat Integer setting the threshold for trimming concatamere-like
+#' @param concat Integer setting the threshold for trimming concatemer-like
 #'   adaptors. Even when adaptor synthesis and ligation are strictly controlled,
-#'   concatamer-like ("di-") adaptor sequences are formed. When \code{concat} is
-#'   an integer, \code{make_trim} will search all trimmed sequnces for
+#'   concatemer-like ("di-") adaptor sequences are formed. When \code{concat} is
+#'   an integer, \code{make_trim} will search all trimmed sequences for
 #'   additional adaptor sequence using a shorter version of the provided adaptor
 #'   in \code{adapt_3}. The length of the short adaptor is controlled by
 #'   \code{adapt_3_set$min}. If an additional, shorter, adaptor sequence is
@@ -98,12 +98,12 @@
 #'   result in trimming of real nucleotides that just happend to share sequence
 #'   with the adaptor. As default \code{concat}=12, which have been carefully
 #'   evaluated in relation to the risk of trimming real sequence. If
-#'   \code{concat}=NULL, concatamer-like adaptor trimming will not be done.
+#'   \code{concat}=NULL, concatemer-like adaptor trimming will not be done.
 #'
 #' @param seq_range Numeric vector with two inputs named 'min' and 'max', that
 #'   controls the sequence size filter. For example, if
 #'   \code{seq_range=c(min=15, max=50)} the function will extract sequences in
-#'   the range between 15-50 nucleotides after trimming. As defualt,
+#'   the range between 15-50 nucleotides after trimming. As default,
 #'   \code{seq_range=c(min=NULL, max=NULL)} and will retain all trimmed
 #'   sequences.
 #'
@@ -285,7 +285,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
       if(!is(logi_create, "try-error")){
         if(any(!logi_create)){
           warning("Was unable to create ", output, 
-                  "\nProbable reason: Permission denided")  
+                  "\nProbable reason: Permission denied")  
           
         }
       }
@@ -556,7 +556,7 @@ getTrim <- function(fstq, fstq_sav=NULL, in_fl=NULL, out_fl=NULL, par_parse){
   
   if(!length(unique(lgn)) == 1){
     warning("\nDiffering read lengths prior to adapter trimming.",
-            "\nHave you already performed 3-prim trimming?")
+            "\nHave you already performed 3'-trimming?")
   }
   
   #########################################################     

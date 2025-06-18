@@ -8,7 +8,7 @@
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC object containing a Pheno data.frame with samples as row
@@ -45,7 +45,7 @@
 #'   (Default="Wald")
 #'
 #' @param fitType Character parsed directly to \code{\link[DESeq2]{DESeq}} that
-#'   controls what type of despersion fit that should be used. Alternatives are
+#'   controls what type of dispersion fit that should be used. Alternatives are
 #'   either "parametric" (dispersion-mean relation), "local" (local regression
 #'   of log dispersions), "mean" (mean of gene-wise dispersion). See
 #'   \code{\link[DESeq2]{DESeq}} for more details. (Default="local")
@@ -73,22 +73,22 @@
 #'
 #'## Simple model with embryonic stages using Wald test with local fit (default)
 #'table(pheno(pac)$stage)
-#'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=2))
+#'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage, threads=1))
 #'
 #'## Batch corrected, graphs are generated for 'stage' (=first in the model)
 #'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch,
-#'                                           threads=2))
+#'                                           threads=1))
 #'
-#'## Using pheno_target we can change focus
+#'## Using pheno_target 
 #'output_deseq <- suppressWarnings(PAC_deseq(pac,model= ~stage + batch, 
 #'                                           pheno_target=list("batch"),
-#'                                           threads=2))
+#'                                           threads=1))
 #'
 #'## With pheno_target we can change the direction for the comparison
 #'# Stage5 vs Stage3 (reverse order):
 #'output_deseq <- suppressWarnings(PAC_deseq(pac, model= ~stage + batch, 
 #'                          pheno_target = list("stage", c("Stage5", "Stage3")),
-#'                          threads=2))  
+#'                          threads=1))  
 #'
 #'## In the output you find PAC merged results, target plots and output_deseq   
 #'names(output_deseq)
@@ -122,6 +122,12 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   # Make factors of model columns
   cols <- attr(terms.formula(model), "term.labels")
   cols <- unique(unlist(strsplit(cols, ":")))
+  compr<-pheno[,colnames(pheno) %in% cols]
+  if(is(compr, "data.frame")){
+  if((any(apply(combn(ncol(compr), 2), 2, function(x) identical(compr[, x[1]], compr[, x[2]]))))==TRUE) {
+    stop(cat="The column names in model appears to be repeated. \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the colnames in Pheno!")
+  }}
+  
   for (i in seq.int(length(cols))){
     #Sometime model terms ar complex
     # search for best pheno columns
@@ -145,7 +151,15 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   if(length(pheno_target)==1){
       pheno_target[[2]] <- as.character(unique(PAC$Pheno[,pheno_target[[1]]]))
     }
+  
+  #Check whether the pheno_target picks up one or many columns (will trg be
+  #a factor or a data.frame)  
   trg <- pheno[,colnames(pheno) == pheno_target[[1]]]
+  if(is(trg, "data.frame")){
+    warning(cat="The values in designated pheno_target may not unique column names. \nThis may cause unwanted comparisons. 
+            To ensure a correct comparison, please check the values in Pheno!")
+  }
+  
   mis <- !levels(trg) %in% pheno_target[[2]] 
   pheno[,colnames(pheno) == pheno_target[[1]]] <- factor(
     trg, levels=c(rev(pheno_target[[2]]),levels(trg)[mis]))

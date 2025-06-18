@@ -13,12 +13,12 @@ row names and samples as column names.}
 \item{resample}{Integer setting the number of permutations at each percentage
 step (default=10).}
 
-\item{steps}{Integer the number of percentage steps between 0-100% of the
+\item{steps}{Integer defining the number of percentage steps between 0-100% of the
 original dataset (default=10).}
 
 \item{thresh}{Integer vector containing mean count thresholds that will be
-targeted. Default is set to c(1,10), where each new occurance reaching 1
-count (>=1) and each new occurance reaching 10 counts (>=10) will be
+targeted. Default is set to c(1,10), where each new occurrence reaching 1
+count (>=1) and each new occurrence reaching 10 counts (>=10) will be
 analyzed.}
 
 \item{threads}{Number of cores to be used for performing the permutations.}
@@ -29,7 +29,7 @@ A list with ggplot2 graph objects: The 1:st graph shows
   saturation/diversity result at the 2:nd threshold, etc.
 }
 \description{
-\code{PAC_saturation} Perfoms an sequence diversity/saturation analysis on a
+\code{PAC_saturation} Performs an sequence diversity/saturation analysis on a
 PAC objects.
 }
 \details{
@@ -37,20 +37,20 @@ Given a PAC object the function will perform a sequence saturation analysis.
 This is done by downsampling the original dataset by permutation at different
 percentages of the original dataset. The closer the curve at the original
 sequence depth (100%) is to a plateau phase the more saturated is the
-diversity of sequences for the original dataset. Approaching the plateau,
+diversity of sequences for the original dataset. Approaching the plateau
 usually means that the sequencing depth of the library have sampled the full
 population of sequences available in the sample. Here we use an none-linear
 least square (\code{\link{nls}}) model with a self-starter for asymptotic
-regresssion (\code{SSasympt}) to describe the rate in which the library
+regression (\code{SSasympt}) to describe the rate in which the library
 approaches the plateau.
 }
 \examples{
 
 
-# OBS! The example below is using already down-sampled data. Still sequence
-# diversity is rather saturated on >=1 occurance. meaning that most sequences
+# OBS! The example below is using already down-sampled data. Still, sequence
+# diversity is rather saturated on >=1 occurrence. meaning that most sequences
 # in the samples has been caught. Nonetheless, sequences reaching >=2
-# occurences are not on plateau.
+# occurrences have not plateaued.
 
 load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
                   package = "seqpac", mustWork = TRUE))
@@ -62,7 +62,7 @@ cowplot::plot_grid(plotlist=plot_lst)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

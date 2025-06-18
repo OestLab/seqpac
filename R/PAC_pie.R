@@ -1,13 +1,13 @@
 #' Pie plot from PAC
 #'
-#' \code{PAC_pie} analyses nucleotide bias.
+#' \code{PAC_pie} Pie chart of annotation features (anno_target).
 #'
 #' Given a PAC object the function will summarize the counts into percent
-#' biotype and plot a pie chart.
+#' of a specified anno_target and plot a pie chart.
 #'
 #' @family PAC analysis
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
 #' @param PAC PAC-list object.
@@ -45,13 +45,13 @@
 #'   the pie.
 #'   
 #' @param labels Character that sets what labels to plot in the actual pie
-#'   besides the legend. If lables="all", then the anno_target variables will be
+#'   besides the legend. If lables="all" (default), then the anno_target variables will be
 #'   combined with percentage. If lables="percent" only percentages will be
-#'   plotted with the pie. If labels="none" (default) no lables will be present
+#'   plotted with the pie. If labels="none", no lables will be present
 #'   besides the legend.
 #'   
 #' @param no_anno Logical whether PAC sequences without an annotation should be
-#'   removed prior to plotting. Specifically, if no_anno=FALSE then sequences
+#'   removed prior to plotting. Specifically, if no_anno=FALSE, then sequences
 #'   annotated with "no_anno" in the anno_target column will be removed prior to
 #'   plotting. When no_anno=TRUE (default), then all sequences will be included
 #'   (unless excluded in the anno_target object).
@@ -97,7 +97,7 @@
 
 
 PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL, 
-                    labels="none", no_anno=TRUE, summary="sample", angle=-25){
+                    labels="all", no_anno=TRUE, summary="sample", angle=-25){
   
   ## Check S4
   if(isS4(PAC)){

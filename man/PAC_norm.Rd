@@ -12,7 +12,7 @@ row names and a Count table with raw counts.}
 
 \item{norm}{Character indicating what type of normalization method that
 should be applied to the counts(PAC). If norm="cpm", counts per million
-reads) is returned. Each sequence is then divided against the total number
+reads is returned. Each sequence is then divided against the total number
 of counts in a given sample. If norm="vst", counts(PAC) will be imported
 into the \code{\link[DESeq2]{varianceStabilizingTransformation}} function
 in the DESeq2-package with the options blind=TRUE and fitType="mean". If
@@ -33,7 +33,7 @@ A normalized count table, or if pac_merge=TRUE, a PAC object with
 \code{PAC_norm} generates normalized values from a PAC object
 }
 \details{
-Using the counts in a PAC object to generate normalized values in a dataframe
+Using the counts in a PAC object to generate normalized values in a data.frame
 with the same rownames as in the original PAC object
 }
 \examples{
@@ -45,7 +45,7 @@ df_norm <- PAC_norm(pac, norm = "vst", merge_pac = FALSE)
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC analysis: 

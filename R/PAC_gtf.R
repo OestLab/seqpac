@@ -2,7 +2,7 @@
 #'
 #' This function will annotate a PAC object using input from a GTF/GFF file.
 #'
-#' Given a PAC object and a gtf formated annotation file(s), this function will
+#' Given a PAC object and a gtf formatted annotation file(s), this function will
 #' attempt to annotate sequences mapped to a reference genome against genomic
 #' coordinates in the gtf file(s). In case no genomic mapping coordinates are
 #' available in the PAC object, the function provides a backdoor into the
@@ -11,7 +11,7 @@
 #' 
 #' @family PAC analysis
 #'   
-#' @seealso \url{https://github.com/Danis102} for updates.
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates.
 #'
 #' @param PAC PAC-list object. The Anno object needs to contain genome
 #'   coordinates in the following columns: "chr","start","end", and "strand".
@@ -151,7 +151,7 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
                                  .name_repair="minimal")
         return(gtf)
       }else{
-        return("No gtf-formted file was found.")  
+        return("No gtf-formatted file was found.")  
       }
     }
     return(x)
@@ -194,7 +194,7 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
     # If user know the columns:
     if(any(!file.exists(genome))){
       cat("\nNo genome fasta was found, will atempt", 
-          "\nfinding genome columns in PAC$Anno.")
+          "\nfinding genome columns in PAC@Anno.")
       anno_genome <- tibble::as_tibble(PAC$Anno[, genome, drop=FALSE], 
                                        .name_repair="minimal")
     }else{
@@ -249,14 +249,14 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
                                    strsplit(c_nams[logi_coord], "_"))[,1], 
       silent=TRUE)
   if(!is(try_err, "try-error")){
-      warning("Faild to generate prefix")
+      warning("Failed to generate prefix")
       }
   
   if(any(duplicated(prefix))){
     stop(
       "\nFound more than 1 possible genome annotation.",
       "\nAutomatic column identification only works when the results",
-      "\nof one fasta reference genome is reported in PAC$Anno.",
+      "\nof one fasta reference genome is reported in PAC@Anno.",
       "\nPlease, specify in 'genome=' the exact columns reporting the",
       "\nalignments against 1 reference genome (column prefix: mis0_, mis1_,",
       "\nmis2_ etc.) or proved a path to a bowtie indexed fasta genome file.")
@@ -326,7 +326,7 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
         "\ncheck that conversion between database formats (e.g. UCSC vs",
         "\nEnsembl vs NCBI) was completed. Check ?PAC_gtf and vingette(sepac)",
         "\nfor instructions on how to harmonize your gtf files to",
-        "\nthe reference genome (Note, may also depend on short gtf file).")
+        "\nthe reference genome (Note - this may also depend on short gtf file).")
     }
     if(!chrom_in_gtf/tot_chrom==1 ){
       cat("\n")
@@ -410,7 +410,7 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
         try_err<- try(olap <- GenomicRanges::findOverlaps(x, gtf_gr[[i]]),
                       silent=TRUE)
         if(is(try_err, "try-error")){
-          warning("Soemthing went wrong in GenomicRanges::findOverlaps")
+          warning("Something went wrong in GenomicRanges::findOverlaps")
         }
                 gtf <- gtf_lst[[i]][S4Vectors::subjectHits(olap), trg_cols]
         
