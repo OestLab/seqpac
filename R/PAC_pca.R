@@ -209,18 +209,21 @@ PAC_pca <- function(PAC, norm="counts", type="pheno", graphs=TRUE,
 
     }else{
       # For factor use factoextra
-      grphs$PC1_PC2 <- factoextra::fviz_pca_ind(
-        pca_res, habillage = col, geom=geom, repel=TRUE, addEllipses = FALSE, 
-        axes=c(1,2), invisible="quali", pointsize=2, labelsize=3, 
-        title="PC1_PC2 - Pheno")
-      grphs$PC1_PC3  <- factoextra::fviz_pca_ind(
-        pca_res, habillage = col, geom=geom, repel=TRUE,  addEllipses = FALSE, 
-        axes=c(1,3), invisible="quali", pointsize=2, labelsize=3, 
-        title="PC1_PC3 - Pheno",)
-      grphs$PC2_PC3  <- factoextra::fviz_pca_ind(
-        pca_res, habillage = col, geom=geom, repel=TRUE, addEllipses = FALSE, 
-        axes=c(2,3), invisible="quali", pointsize=2, labelsize=3, 
-        title="PC2_PC3 - Pheno")
+      base_args <- list(X = pca_res, habillage = col, geom = geom, 
+                        repel = TRUE, addEllipses = FALSE, invisible = "quali",
+                        pointsize = 2, labelsize = 3)
+      user_args <- list(...)
+      
+      grphs$PC1_PC2 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(1, 2), title = "PC1_PC2 - Pheno"))))
+      grphs$PC1_PC3 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(1, 3), title = "PC1_PC3 - Pheno"))))
+      grphs$PC2_PC3 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(2, 3), title = "PC2_PC3 - Pheno"))))
+      
       grphs <- lapply(grphs, function(x){
         x <- gginnards::move_layers(x, match_type="GeomPoint",
                                     position = "top")
@@ -267,36 +270,39 @@ PAC_pca <- function(PAC, norm="counts", type="pheno", graphs=TRUE,
         ylab(paste0("PCA3 (", round(con["comp 3",], digits=2), "%)")) 
 
     }else{
-        grphs$PC1_PC2 <- factoextra::fviz_pca_ind(
-          pca_res, geom="point", habillage = col, repel=TRUE, 
-          addEllipses = FALSE, axes=c(1,2), invisible="quali", 
-          pointsize=1,  title="PC1_PC2 - Anno")
-        grphs$PC1_PC3  <- factoextra::fviz_pca_ind(
-          pca_res, geom="point", habillage = col, repel=TRUE,  
-          addEllipses = FALSE, axes=c(1,3), invisible="quali", 
-          pointsize=1,  title="PC1_PC3 - Anno")
-        grphs$PC2_PC3  <- factoextra::fviz_pca_ind(
-          pca_res, geom="point", habillage = col, repel=TRUE, 
-          addEllipses = FALSE, axes=c(2,3), invisible="quali", 
-          pointsize=1,  title="PC2_PC3 - Anno")
+      base_args <- list(X = pca_res, habillage = col, geom = geom, 
+                        repel = TRUE, addEllipses = FALSE, invisible = "quali",
+                        pointsize = 1)
+      user_args <- list(...)
+      
+      grphs$PC1_PC2 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(1, 2), title = "PC1_PC2 - Anno"))))
+      grphs$PC1_PC3 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(1, 3), title = "PC1_PC3 - Anno"))))
+      grphs$PC2_PC3 <- do.call(
+        factoextra::fviz_pca_ind,
+        modifyList(base_args, c(user_args, list(axes = c(2, 3), title = "PC2_PC3 - Anno"))))
     }
   } 
   if(type=="both"){
-    grphs$PC1_PC2 <- factoextra::fviz_pca_biplot(
-      pca_res, habillage = col, geom=c("arrow", "text"), geom.var = "point", 
-      col.var = "black", repel=TRUE, addEllipses = FALSE, axes=c(1,2), 
-      invisible="quali", pointsize=0.5, labelsize=3, 
-      title="PC1_PC2 - Biplot", ...)
-    grphs$PC1_PC3 <- factoextra::fviz_pca_biplot(
-      pca_res, habillage = col, geom=c("arrow", "text"), geom.var = "point", 
-      col.var = "black", repel=TRUE, addEllipses = FALSE, axes=c(1,3), 
-      invisible="quali", pointsize=0.5, labelsize=3, 
-      title="PC1_PC3 - Biplot", ...)
-    grphs$PC2_PC3 <- factoextra::fviz_pca_biplot(
-      pca_res, habillage = col, geom=c("arrow", "text"), geom.var = "point", 
-      col.var = "black", repel=TRUE, addEllipses = FALSE, axes=c(2,3), 
-      invisible="quali", pointsize=0.5, labelsize=3, 
-      title="PC2_PC3 - Biplot", ...)
+    base_args <- list(X = pca_res, habillage = col, geom=c("arrow", "text"), 
+                      geom.var = "point",col.var = "black",labelsize=3,
+                      repel = TRUE, addEllipses = FALSE, invisible = "quali",
+                      pointsize = 0.5)
+    user_args <- list(...)
+    
+    grphs$PC1_PC2 <- do.call(
+      factoextra::fviz_pca_ind,
+      modifyList(base_args, c(user_args, list(axes = c(1, 2), title = "PC1_PC2 - Biplot"))))
+    grphs$PC1_PC3 <- do.call(
+      factoextra::fviz_pca_ind,
+      modifyList(base_args, c(user_args, list(axes = c(1, 3), title = "PC1_PC3 - Biplot"))))
+    grphs$PC2_PC3 <- do.call(
+      factoextra::fviz_pca_ind,
+      modifyList(base_args, c(user_args, list(axes = c(2, 3), title = "PC2_PC3 - Biplot"))))
+    
     grphs <- lapply(grphs, function(x){
       x <- gginnards::move_layers(x, match_type="GeomPoint", 
                                   position = "bottom") 
