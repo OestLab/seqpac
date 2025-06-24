@@ -707,6 +707,58 @@ an index free alternative).
 
 <br>
 
+## Quick guide of the annotation workflow
+
+The procedure to annotate sequences in Seqpac is called reannotation and 
+consists of three different main functions:
+
+- `map_reanno` that performs bowtie reference mapping over mismatch cycles 
+- `make_reanno` that makes a reannotation (reanno) object.
+- `add_reanno` that incorporates the annotation information into the PAC
+
+There are two primary modes, "genome" or "biotype", for mapping and the choice 
+will reflect the output. Using "genome", a workflow anticipating information 
+such as genomic coordinates is applied. Using "biotype", the output is simpler, 
+using search terms matching the reference fasta name. 
+
+For more information, see 4.4.
+
+<br>
+Alignments can be done quickly using the annotation wrapper, `PAC_annotate`. 
+This function covers the most basic annotation workflow using the genome or 
+biotype option. The wrapper runs all three reanno-functions `map_reanno`, 
+`make_reanno`, and `add_reanno` to annotate the PAC object. However, We 
+recommend to use each function separately to gain access to their full potential.
+
+```{r, eval=TRUE, results=FALSE, message=FALSE, warning=FALSE, error=FALSE}
+###--------------------------------------------------------------------- 
+## Setup using example data
+# Using the mycoplasma fasta
+genome <- system.file("extdata/mycoplasma_genome", "mycoplasma.fa",
+                      package = "seqpac", mustWork = TRUE)
+# Generate bowtie indexes
+if(!sum(stringr::str_count(list.files(dirname(genome)), ".ebwt")) ==6){
+  Rbowtie::bowtie_build(genome,
+                        outdir=dirname(genome),
+                        prefix="mycoplasma", force=TRUE)}
+# Load example PAC
+load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
+                 package = "seqpac", mustWork = TRUE))
+
+# Output directory used for map_reanno output
+output_path <- paste0(tempdir(),"/seqpac/anno_example")
+
+# Run PAC_annotate wrapper
+pac <- PAC_annotate(pac=pac,
+                    genome = genome,
+                    output_path = output_path)
+
+head(pac@Anno)
+
+``` 
+
+<br>
+
 ## Fasta references
 Small RNA annotation/mapping depends heavily on choosing your references wisely
 and not to be too greedy if possible. If your hypothesis target a specific type
