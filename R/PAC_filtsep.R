@@ -1,6 +1,6 @@
-#' Generates filtered sequence name list seperated on group  
+#' Generates filtered sequence name list separated on group  
 #'
-#' \code{PAC_filtsep} Group seperated filtered name list
+#' \code{PAC_filtsep} Group separated filtered name list
 #'
 #' Given a PAC object the function will extract sequences within the
 #' given filter within a given group.

@@ -69,11 +69,11 @@
 
 PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
   
-  inpath=input
-  outpath=output
+  inpath<-input
+  outpath<-output
   
   if(!is.null(lanes)){
-    merge_lanes(in_path=inpath, out_path = outpath)
+    merge_lanes(input=inpath, output = outpath)
   }
   if(!is.null(lanes)){
     

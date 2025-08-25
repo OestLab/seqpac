@@ -15,7 +15,7 @@
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
 #'   row names and a count table with raw counts.
 #'
-#' @param range Integer vector giving the range  in sequence lengths
+#' @param nucleotide_range Integer vector giving the nucleotide_range  in sequence lengths
 #'   (default=c(min, max)).
 #'   
 #' @param colors Character vector with RGB color codes to be parsed to ggplot2. 
@@ -87,7 +87,7 @@
 #' 
 #' @export
 
-PAC_sizedist <- function(PAC, norm="counts", range=NULL, anno_target, 
+PAC_sizedist <- function(PAC, norm="counts", nucleotide_range=NULL, anno_target, 
                          pheno_target=NULL, summary_target=NULL, colors=NULL,
                          ymax=NULL){
   
@@ -112,11 +112,11 @@ PAC_sizedist <- function(PAC, norm="counts", range=NULL, anno_target,
       anno_target[[2]] <- as.character(unique(PAC$Anno[,anno_target[[1]]]))
      }
     }
-  if(is.null(range)){
-    range <- c(min(PAC$Anno$Size), max(PAC$Anno$Size))
+  if(is.null(nucleotide_range)){
+    nucleotide_range <- c(min(PAC$Anno$Size), max(PAC$Anno$Size))
     }
   
-  PAC <- seqpac::PAC_filter(PAC, size=range, pheno_target=pheno_target, 
+  PAC <- seqpac::PAC_filter(PAC, nucleotide_range=nucleotide_range, pheno_target=pheno_target, 
                             anno_target=anno_target, subset_only=TRUE)
   
   stopifnot(PAC_check(PAC))
@@ -141,7 +141,7 @@ PAC_sizedist <- function(PAC, norm="counts", range=NULL, anno_target,
 
   #### Summarize over size and biotype
   bio_fact <- factor(anno[, anno_target[[1]]], levels=anno_target[[2]])
-  seq_range <- seq(range[1], range[2])
+  seq_range <- seq(nucleotide_range[1], nucleotide_range[2])
   size_fact <- factor(anno$Size, levels=seq_range)
   size_lst <- lapply(as.list(data), function(x){
     bio_agg <- stats::aggregate(x, list(bio_fact, size_fact), sum)

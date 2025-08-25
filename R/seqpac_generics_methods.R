@@ -566,7 +566,7 @@ setMethod("nrow", "PAC", nrow.PAC)
 #' suppressWarnings(file.remove(paste(output, out_fls, sep="/")))
 #'
 #' ##  Then map your PAC-object against the fasta references 
-#'  map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#'  map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=2,  import="biotype", 
 #'                threads=2, keep_temp=FALSE)
 #' 
@@ -652,7 +652,7 @@ setReplaceMethod("overview", methods::signature(object="reanno",
 #' suppressWarnings(file.remove(paste(output, out_fls, sep="/")))
 #'
 #' ##  Then map your PAC-object against the fasta references 
-#'  map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#'  map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=2,  import="biotype", 
 #'                threads=2, keep_temp=FALSE)
 #' 
@@ -734,7 +734,7 @@ names.reanno <- function(x){ names(as(x, "list"))}
 #' suppressWarnings(file.remove(paste(output, out_fls, sep="/")))
 #'
 #' ##  Then map your PAC-object against the fasta references
-#'  map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#'  map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=2,  import="biotype", 
 #'                threads=2, keep_temp=FALSE)
 #' 

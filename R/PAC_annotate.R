@@ -31,9 +31,9 @@
 #' used, please run each function separately. Default=NULL, where no biotype-
 #' based mapping will be performed.
 #'   
-#' @param pac PAC-object used for mapping.
+#' @param PAC PAC-object used for mapping.
 #' 
-#' @param output_path Output directory for summarized annotation 
+#' @param output Output directory for summarized annotation 
 #' information (.Rdata files) created by map_reanno.
 #'    
 #' @return PAC object with annotation information retrieved from mapping
@@ -57,14 +57,14 @@
 #'                  package = "seqpac", mustWork = TRUE))
 #' anno(pac) <- anno(pac)[,1, drop = FALSE]
 #' 
-#' output_path <- paste0(tempdir(),"/seqpac/test")
+#' output <- paste0(tempdir(),"/seqpac/test")
 #' 
 #' #as we only test this against the mycoplasma genome,
 #' #we expect a small overlap (0.03%)
 #' 
-#' pac <- PAC_annotate(pac=pac,
+#' pac <- PAC_annotate(PAC=pac,
 #'                     genome = genome,
-#'                     output_path = output_path)
+#'                     output = output)
 #'
 #' @export
 
@@ -72,8 +72,8 @@
 
 PAC_annotate <- function(genome=NULL,
                          biotype=NULL,
-                         output_path=NULL,
-                         pac){
+                         output=NULL,
+                         PAC){
   
   cat("Using the working directory as output folder: ",getwd())
   
@@ -94,23 +94,23 @@ PAC_annotate <- function(genome=NULL,
     #if(){} - here, check whether a file or a website to use like biomart or bsgenome
     #perform mapping with "genome" functionality
     
-    map_reanno(pac, import="genome", ref_paths=list(genome=genome), 
-               output_path=output_path, mismatches=0, override = FALSE)
-    reanno<-make_reanno(output_path, PAC=pac, mis_fasta_check=TRUE)
-    pac <- add_reanno(reanno, type="genome", mismatches=0, merge_pac=pac)
+    map_reanno(PAC, import="genome", input=list(genome=genome), 
+               output=output, mismatches=0, override = FALSE)
+    reanno<-make_reanno(output, PAC=PAC, mis_fasta_check=TRUE)
+    PAC <- add_reanno(reanno, type="genome", mismatches=0, merge_pac=PAC)
     
   }
   
   if(!is.null(biotype)){
     #perform mapping with "biotype" functionality
-    map_reanno(pac, import="biotype", ref_paths=list(biotype=biotype), 
-               output_path=output_path, mismatches=0, override=FALSE)
-    reanno<-make_reanno(output_path, PAC=pac, mis_fasta_check=TRUE)
+    map_reanno(PAC, import="biotype", input=list(biotype=biotype), 
+               output=output, mismatches=0, override=FALSE)
+    reanno<-make_reanno(output, PAC=PAC, mis_fasta_check=TRUE)
     bio_search <- list(biotype=c("rRNA", "tRNA", "miRNA",
                                  "snoRNA", "snRNA", "piRNA"))
-    pac <- add_reanno(reanno, type="biotype", mismatches=0, merge_pac=pac, 
+    PAC <- add_reanno(reanno, type="biotype", mismatches=0, merge_pac=PAC, 
                       bio_search=bio_search, bio_perfect=FALSE)
-    pac <- simplify_reanno(input=pac, mismatches=0,
+    PAC <- simplify_reanno(input=PAC, mismatches=0,
                            merge_pac=TRUE,
                            hierarchy=list(rRNA="biotype_rRNA",
                                           miRNA="biotype_miRNA",
@@ -120,6 +120,6 @@ PAC_annotate <- function(genome=NULL,
     
   }
   
-  return(pac)
+  return(PAC)
   
 }

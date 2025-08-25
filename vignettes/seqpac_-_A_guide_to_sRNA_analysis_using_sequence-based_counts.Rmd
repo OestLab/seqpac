@@ -1,15 +1,15 @@
 ---
 title: "A guide to small RNA analysis using Seqpac"
 shorttitle: "sRNA analysis using Seqpac"
-author: "Daniel Nätt, Signe Skog, Lovisa Örkenby, Alessandro Gozzo, Anna Asratian"
+author: "Daniel Nätt, Signe Isacson, Lovisa Örkenby, Alessandro Gozzo, Anna Asratian"
 date: "`r format(Sys.Date(), '%m/%d/%Y')`"
 abstract: >
     Seqpac provides functions and workflows for analysis of short sequenced 
     reads. It was originally developed for small RNA (sRNA) analysis, but can 
     be implemented on any sequencing raw data (provided as a fastq-file), where 
     the unit of measurement is counts of unique sequences. The core of the 
-    Seqpac strategy is the generation and subsequence annotation/analysis/
-    visualization of a standardized object called PAC. Using an innovative 
+    Seqpac strategy is the generation and subsequent annotation/analysis/
+    visualization of a standardized object called PAC. Using an  
     target system, Seqpac process, analyze and visualize group differences 
     using the PAC object. Seqpac is particularly useful in generating sequence 
     coverage profiles across reference sequences (such as tRNA or gene coverage)
@@ -52,8 +52,8 @@ if (!require("BiocManager"))
 BiocManager::install("seqpac")
 
 ## Installation github:
-devtools::install_github("Danis102/seqpac", 
-                         dependencies=TRUE, ref="development")
+devtools::install_github("OestLab/seqpac", 
+                         dependencies=TRUE)
 
 
 
@@ -74,10 +74,18 @@ It starts with .fastq files straight from the sequencing machine, and ends with 
 performed. This workflow may be performed by three functions as follows: 
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, results = "hide"}
-
-#pac <- PAC_create()
-#pac <- PAC_annotate()
-#results <- PAC_analyze()
+# #Loading example files
+#  sys_path = system.file("extdata", package = "seqpac", mustWork = TRUE)
+#  fastq <- list.files(path = sys_path, pattern = "fastq", all.files = FALSE, full.names = TRUE)
+#  ref_tRNA <- system.file("extdata/trna", "tRNA.fa", package = "seqpac", mustWork = TRUE)
+# if(!sum(stringr::str_count(list.files(dirname(ref_tRNA)), ".ebwt")) ==6){
+#   Rbowtie::bowtie_build(ref_tRNA, outdir=dirname(ref_tRNA), prefix="tRNA", force=TRUE)}
+# output_path <- paste0(tempdir(),"/seqpac/anno_example")
+# 
+# # Running the workflow
+# pac <- PAC_create(input=fastq, trim="default_neb")
+# pac <- PAC_annotate(biotype=ref_tRNA, PAC=pac, output=output_path)
+# results <- PAC_analyze(PAC=pac)
 
 ```
 
@@ -193,16 +201,16 @@ workflow, as will be described below.
  count_list  <- make_counts(fastq, plot = FALSE, 
                              parse="default_neb", trimming="seqpac")
  pac <- make_PAC(count_list$counts)
- pheno(pac)$groups <- c(rep("gr1",3), rep("gr2",3)) #Add groups to pheno table
+ pheno(pac)$groups <- (rep(c("gr1", "gr2"),each=3)) #Add groups to pheno table
  
  # Preprocess PAC-object and creat means
  pac <- PAC_norm(pac)                        # Default normalization is cpm
- pac <- PAC_filter(pac, size=c(15,60))       # Here, filter on sequence length
+ pac <- PAC_filter(pac, nucleotide_range=c(15,60))       # Here, filter on sequence length
  pac <- PAC_summary(pac, norm = "cpm", type = "means", 
                     pheno_target=list("groups", unique(pheno(pac)$groups)))
  
  # Quickly align (annotate) and plot PAC-object
- map_tRNA <- PAC_mapper(pac, ref=ref_tRNA, override=TRUE)
+ map_tRNA <- PAC_mapper(pac, input=ref_tRNA, override=TRUE)
  plts <- PAC_covplot(pac, map_tRNA, summary_target=list("cpmMeans_groups"))
  plts[[13]]
 
@@ -544,7 +552,7 @@ Here are some examples:
  ###--------------------------------------------------------------------- 
 ## Extracts all sequences between 20-30 nt in length with at least 5 counts 
 ## in 20% of all samples.
-pac_filt <- PAC_filter(pac, size=c(20,30), threshold=5, 
+pac_filt <- PAC_filter(pac, nucleotide_range =c(20,30), threshold=5, 
                           coverage=20, norm = "counts",  
                           pheno_target=NULL, anno_target=NULL)
 ```
@@ -749,9 +757,9 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
 output_path <- paste0(tempdir(),"/seqpac/anno_example")
 
 # Run PAC_annotate wrapper
-pac <- PAC_annotate(pac=pac,
+pac <- PAC_annotate(PAC=pac,
                     genome = genome,
-                    output_path = output_path)
+                    output = output_path)
 
 head(pac@Anno)
 
@@ -1050,7 +1058,7 @@ myco_path <- system.file("extdata/mycoplasma_genome", "mycoplasma.fa",
 ref_paths <- list(myco=myco_path)
 
 #Run map_reanno
-map_reanno(PAC=pac, ref_paths=ref_paths, output_path=outpath_genome,
+map_reanno(PAC=pac, input=ref_paths, output=outpath_genome,
            type="internal", mismatches=1, import="genome",
            threads=1, keep_temp=TRUE)
 
@@ -1082,7 +1090,7 @@ rrna_path <- system.file("extdata/rrna", "rRNA.fa",
 ref_paths <- list(tRNA=trna_path,
                   rRNA=rrna_path)
 
-map_reanno(pac, ref_paths=ref_paths, output_path=outpath_biotype,
+map_reanno(pac, input=ref_paths, output=outpath_biotype,
            type="internal", mismatches=1,  import="biotype",
            threads=1, keep_temp=TRUE)
 
@@ -1452,7 +1460,7 @@ output_pca <- PAC_pca(pac, pheno_target =list("stage"),
 ```
 ```{r, eval=TRUE, fig.show=FALSE, results="hide", fig.keep='none'} 
 # Plotting sequences instead
-output_pca <- PAC_pca(pac, type = "anno", 
+output_pca <- PAC_pca(pac, style = "anno", 
                       anno_target =list("Biotypes_mis0"))
 
 ```
@@ -1573,12 +1581,12 @@ cowplot::plot_grid(plotlist=list(p1, p2))
 # (Hint: if you want them to appear not on top, rename them)
 
 # Reorder samples by pheno_targets
-PAC_stackbar(pac, pheno_target=list("batch"), summary="samples", 
+PAC_stackbar(pac, pheno_target=list("batch"),  
              anno_target=list("Biotypes_mis0"))
 
-# Instead, summarized over pheno_target (summary="pheno") 
-PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), summary="pheno", 
-             pheno_target=list("stage"))
+# Instead, summarized over pheno_target  
+PAC_stackbar(pac, anno_target=list("Biotypes_mis0"),  
+             summary_target = list("cpmMeans_stage"))
 
 ```
 
@@ -1590,6 +1598,8 @@ PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), summary="pheno",
 ###---------------------------------------------------------------------
 ## Pie charts in Seqpac 
 
+pac <- PAC_summary(pac)
+
 # Choose an anno_target and plot samples (summary="samples"; default)
 PAC_pie(pac, anno_target=list("Biotypes_mis0"))
 
@@ -1598,23 +1608,23 @@ ord_bio <- as.character(sort(unique(anno(pac)$Biotypes_mis3)),
                         unique(anno(pac)$Biotypes_mis0))
 
 output_pie_1 <- PAC_pie(pac, anno_target=list("Biotypes_mis0", ord_bio), 
-                        summary="all", labels="percent")
+                        summary_target = list("countsMeans_All"), labels="percent")
 output_pie_2 <- PAC_pie(pac, anno_target=list("Biotypes_mis3", ord_bio), 
-                        summary="all", labels="percent")
+                        summary_target = list("countsMeans_All"), labels="percent")
 
 cowplot::plot_grid(plotlist=c(output_pie_1, output_pie_2), 
                    labels = c("mis 0","legend", "mis 3"),
                    ncol=2, nrow=2, greedy=TRUE, scale=1.15)
 
 # Rotate
-PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary="all", angle=180)
-PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary="all", angle=40)
+PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary_target = list("countsMeans_All"), angle=180)
+PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary_target = list("countsMeans_All"), angle=40)
 
 # Compare biotype mapping with or without mismatches and group by pheno(PAC)
 ord_bio <- as.character(sort(unique(anno(pac)$Biotypes_mis0)))  
-output_mis0 <- PAC_pie(pac, pheno_target=list("stage"), summary="pheno", 
+output_mis0 <- PAC_pie(pac, pheno_target=list("stage"), summary_target = list("cpmMeans_stage"), 
                        anno_target=list("Biotypes_mis0", ord_bio))
-output_mis3 <- PAC_pie(pac, pheno_target=list("stage"), summary="pheno", 
+output_mis3 <- PAC_pie(pac, pheno_target=list("stage"), summary_target = list("cpmMeans_stage"), 
                        anno_target=list("Biotypes_mis3", ord_bio))
 
 cowplot::plot_grid(plotlist=c(output_mis0, output_mis3), 
@@ -1690,7 +1700,12 @@ ref <- "/some/path/to/trna/fasta/recerence.fa"
 ref <- system.file("extdata/trna2", "tRNA2.fa", 
                           package = "seqpac", mustWork = TRUE)          
 
-map_object <- PAC_mapper(pac_trna, ref=ref, N_up = "NNN", N_down = "NNN", 
+#is it here with the N up?
+# map_object <- PAC_mapper(pac_trna, input=ref, N_up = "NNN", N_down = "NNN", 
+#                          mismatches=0, threads=1, report_string=TRUE,
+#                          override=TRUE)
+
+map_object <- PAC_mapper(pac_trna, input=ref,
                          mismatches=0, threads=1, report_string=TRUE,
                          override=TRUE)
 
@@ -1866,7 +1881,7 @@ cowplot::plot_grid(trna_result$plots$Expression_Anno_1$Stage1,
 ```
 
 <br>
-That completes this vignette. Good luck!
+That completes this vignette. Good luck with your analyses!
 
 <br>
 ```{r, eval=TRUE}

@@ -4,7 +4,7 @@
 \alias{PAC_annotate}
 \title{Wrapper for annotation of PAC object}
 \usage{
-PAC_annotate(genome = NULL, biotype = NULL, output_path = NULL, pac)
+PAC_annotate(genome = NULL, biotype = NULL, output = NULL, PAC)
 }
 \arguments{
 \item{genome}{Character indicating path to reference genome in fasta (.fa) 
@@ -23,10 +23,10 @@ hiearchy: rRNA, miRNA, tRNA, snoRNA, snRNA. If other references wish to be
 used, please run each function separately. Default=NULL, where no biotype-
 based mapping will be performed.}
 
-\item{output_path}{Output directory for summarized annotation 
+\item{output}{Output directory for summarized annotation 
 information (.Rdata files) created by map_reanno.}
 
-\item{pac}{PAC-object used for mapping.}
+\item{PAC}{PAC-object used for mapping.}
 }
 \value{
 PAC object with annotation information retrieved from mapping
@@ -62,14 +62,14 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
                  package = "seqpac", mustWork = TRUE))
 anno(pac) <- anno(pac)[,1, drop = FALSE]
 
-output_path <- paste0(tempdir(),"/seqpac/test")
+output <- paste0(tempdir(),"/seqpac/test")
 
 #as we only test this against the mycoplasma genome,
 #we expect a small overlap (0.03\%)
 
-pac <- PAC_annotate(pac=pac,
+pac <- PAC_annotate(PAC=pac,
                     genome = genome,
-                    output_path = output_path)
+                    output = output)
 
 }
 \seealso{
