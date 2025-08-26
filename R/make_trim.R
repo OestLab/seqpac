@@ -201,6 +201,8 @@
 # This function applies getTrim over parallel fastq (foreach)
 # It also manage chunks by appending trimmed fastq in a while loop
 # Updates progress report for each progressive chunk across all fastq
+
+
 make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE, 
                            threads=1, chunk_size=NULL,
                            polyG=c(type=NULL, min=NULL, mismatch=NULL),
@@ -216,7 +218,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
   
     nam_trim <- nam <- fls <- NULL
   
-    fls <- list.files(input, pattern ="fastq.gz\\>|\\.fastq\\>", 
+    fls <- list.files(input, pattern ="fastq.gz\\>|\\.fastq\\>|\\.fq.gz\\>", 
                       full.names=TRUE, recursive=TRUE, include.dirs = TRUE)
     if(length(fls) == 0){
     fls <- input
@@ -899,3 +901,4 @@ getTrim <- function(fstq, fstq_sav=NULL, in_fl=NULL, out_fl=NULL, par_parse){
   
   return(sav_lst)
 }
+
