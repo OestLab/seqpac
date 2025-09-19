@@ -761,7 +761,7 @@ pac <- PAC_annotate(PAC=pac,
                     genome = genome,
                     output = output_path)
 
-head(pac@Anno)
+head(anno(pac))
 
 ``` 
 
@@ -1221,7 +1221,7 @@ anno_temp <- add_reanno(reanno_biotype, bio_search=bio_search,
 
 ```
 ```{r, eval=TRUE, results=FALSE, message=FALSE, warning=FALSE}
-# References with no search term hits are classified as "Other":
+# The references with no search term hits are classified as "Other":
 anno_temp <- add_reanno(reanno_biotype, bio_search=bio_search, 
                         type="biotype", bio_perfect=FALSE, mismatches = 1)
 
