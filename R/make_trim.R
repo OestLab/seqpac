@@ -100,11 +100,11 @@
 #'   evaluated in relation to the risk of trimming real sequence. If
 #'   \code{concat}=NULL, concatemer-like adaptor trimming will not be done.
 #'
-#' @param seq_range Numeric vector with two inputs named 'min' and 'max', that
+#' @param nucleotide_range Numeric vector with two inputs named 'min' and 'max', that
 #'   controls the sequence size filter. For example, if
-#'   \code{seq_range=c(min=15, max=50)} the function will extract sequences in
+#'   \code{nucleotide_range=c(min=15, max=50)} the function will extract sequences in
 #'   the range between 15-50 nucleotides after trimming. As default,
-#'   \code{seq_range=c(min=NULL, max=NULL)} and will retain all trimmed
+#'   \code{nucleotide_range=c(min=NULL, max=NULL)} and will retain all trimmed
 #'   sequences.
 #'
 #' @param quality Numeric vector with two inputs named 'threshold' and 'percent'
@@ -174,7 +174,7 @@
 #'        adapt_3_set=c(type="hard_rm", min=10, mismatch=0.1), 
 #'        adapt_3="AGATCGGAAGAGCACACGTCTGAACTCCAGTCACTA", 
 #'        polyG=c(type="hard_trim", min=20, mismatch=0.1),
-#'        seq_range=c(min=14, max=70),
+#'        nucleotide_range=c(min=14, max=70),
 #'        quality=c(threshold=20, percent=0.8))
 #'        
 #' list.files(path = output, pattern = "fastq") #after
@@ -194,13 +194,15 @@
 #' #      adapt_3_set=<options_for_main_trimming, 
 #' #      adapt_3=<sequence_to be trimmed, 
 #' #      polyG=<Illumina_Nextseq_type_poly_G_trimming>,
-#' #      seq_range=<what_sequence_range_to_save>,
+#' #      nucleotide_range=<what_sequence_range_to_save>,
 #' #      quality=<quality_filtering_options>))
 #' @export
 ### make_trim ###
 # This function applies getTrim over parallel fastq (foreach)
 # It also manage chunks by appending trimmed fastq in a while loop
 # Updates progress report for each progressive chunk across all fastq
+
+
 make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE, 
                            threads=1, chunk_size=NULL,
                            polyG=c(type=NULL, min=NULL, mismatch=NULL),
@@ -208,7 +210,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
                            adapt_3="AGATCGGAAGAGCACACGTCTGAACTCCAGTCACTA", 
                            adapt_5_set=c(type=NULL, min=NULL, mismatch=NULL), 
                            adapt_5=NULL, 
-                           seq_range=c(min=NULL, max=NULL),
+                           nucleotide_range=c(min=NULL, max=NULL),
                            quality=c(threshold=20, percent=0.8)){
 
   ##### General setup #######################################
@@ -216,7 +218,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
   
     nam_trim <- nam <- fls <- NULL
   
-    fls <- list.files(input, pattern ="fastq.gz\\>|\\.fastq\\>", 
+    fls <- list.files(input, pattern ="fastq.gz\\>|\\.fastq\\>|\\.fq.gz\\>", 
                       full.names=TRUE, recursive=TRUE, include.dirs = TRUE)
     if(length(fls) == 0){
     fls <- input
@@ -309,7 +311,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
   par_parse <- list(output=output, indels=indels, concat=concat, 
                     polyG=polyG, adapt_3_set=adapt_3_set, adapt_3=adapt_3,
                     adapt_5_set=adapt_5_set, adapt_5=adapt_5, quality=quality, 
-                    chunk_size=chunk_size, seq_range=seq_range)
+                    chunk_size=chunk_size, nucleotide_range=nucleotide_range)
   
   doParallel::registerDoParallel(threads)
   `%dopar%` <- foreach::`%dopar%`
@@ -398,7 +400,7 @@ make_trim <- function(input, output, indels=TRUE, concat=12, check_mem=FALSE,
                 sum(prog_report$quality["removed"], 
                     prog_report_temp$quality["removed"])
             }
-            if(!is.null(seq_range)){ 
+            if(!is.null(nucleotide_range)){ 
               prog_report$size["removed"] <- 
                 sum(prog_report$size["removed"], 
                     prog_report_temp$size["removed"])
@@ -530,7 +532,7 @@ getTrim <- function(fstq, fstq_sav=NULL, in_fl=NULL, out_fl=NULL, par_parse){
   concat <- par_parse$concat
   quality <- par_parse$quality
   chunk_size <- par_parse$chunk_size
-  seq_range <- par_parse$seq_range
+  nucleotide_range <- par_parse$nucleotide_range
   polyG <- par_parse$polyG
   adapt_3_set <- par_parse$adapt_3_set
   adapt_3 <- par_parse$adapt_3
@@ -852,12 +854,12 @@ getTrim <- function(fstq, fstq_sav=NULL, in_fl=NULL, out_fl=NULL, par_parse){
   
   ########################
   ##### Size filter ######
-  if(!is.null(seq_range)){
-    logi_min <- Biostrings::width(fstq@sread) >= seq_range["min"]
-    logi_max <- Biostrings::width(fstq@sread) <= seq_range["max"]
+  if(!is.null(nucleotide_range)){
+    logi_min <- Biostrings::width(fstq@sread) >= nucleotide_range["min"]
+    logi_max <- Biostrings::width(fstq@sread) <= nucleotide_range["max"]
     sav_lst$size <- c(too_short=sum(!logi_min), 
                       too_long=sum(!logi_max), 
-                      seq_range)
+                      nucleotide_range)
     fstq <- fstq[logi_min+logi_max==2]
     rm(logi_min, logi_max)
     gc(reset=TRUE)
@@ -899,3 +901,4 @@ getTrim <- function(fstq, fstq_sav=NULL, in_fl=NULL, out_fl=NULL, par_parse){
   
   return(sav_lst)
 }
+

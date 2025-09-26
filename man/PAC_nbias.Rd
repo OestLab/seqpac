@@ -8,7 +8,7 @@ PAC_nbias(
   PAC,
   position = 1,
   norm = NULL,
-  range = NULL,
+  nucleotide_range = NULL,
   anno_target = NULL,
   pheno_target = NULL,
   summary_target = NULL,
@@ -30,7 +30,7 @@ analysis will be done on cpm values returned from \code{PAC_norm} function
 and stored in the norm folder of the PAC-list object. The name of any other
 table in the norm(PAC) folder can also be used.}
 
-\item{range}{Integer vector indicating the sequence size range
+\item{nucleotide_range}{Integer vector indicating the sequence size range
 (default=c(min, max)).}
 
 \item{anno_target}{List with: 

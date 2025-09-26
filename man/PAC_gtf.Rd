@@ -123,7 +123,7 @@ test <- apply(test, 2, function(x){substr(x, 1, 7)})
 test <- apply(test, 1, function(x){paste(x, collapse = "")})
 new_anno$temp <- ifelse(grepl("Warning",  test), "rm", "keep")
 anno(pac) <- new_anno
-pac_small <- PAC_filter(pac, subset_only=TRUE, size = c(20,22),
+pac_small <- PAC_filter(pac, subset_only=TRUE, nucleotide_range = c(20,22),
                   anno_target=list("temp", "keep"))
 
 #  Run PAC_gtf

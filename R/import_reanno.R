@@ -88,7 +88,7 @@
 #' # mapping by mistake. keep_temp=TRUE can be used to run import_reanno
 #' # independently.
 #' 
-#' map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#' map_reanno(pac, input=ref_paths, output=output,
 #'            type="internal", mismatches=2,  import="biotype", 
 #'            threads=2, keep_temp=TRUE, override=TRUE)
 #' 

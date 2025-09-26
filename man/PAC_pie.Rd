@@ -9,9 +9,10 @@ PAC_pie(
   anno_target = NULL,
   pheno_target = NULL,
   colors = NULL,
+  norm = "counts",
   labels = "all",
   no_anno = TRUE,
-  summary = "sample",
+  summary_target = NULL,
   angle = -25
 )
 }
@@ -40,6 +41,9 @@ generated using a default color palette. Important: In default mode,
 categories named "other" or no_anno" will automatically receive a grey
 color.}
 
+\item{norm}{Character vector defining what normalized data to plot. 
+(default="counts")}
+
 \item{labels}{Character that sets what labels to plot in the actual pie
 besides the legend. If lables="all" (default), then the anno_target variables will be
 combined with percentage. If lables="percent" only percentages will be
@@ -52,11 +56,8 @@ annotated with "no_anno" in the anno_target column will be removed prior to
 plotting. When no_anno=TRUE (default), then all sequences will be included
 (unless excluded in the anno_target object).}
 
-\item{summary}{Character defining whether to stack individual samples or
-using a mean of samples. If summary="samples" individual samples will be
-plotted (default). If summary="pheno" means of the sample groups targeted
-by the pheno_target input will be plotted. If summary="all" mean of all
-samples will be plotted.}
+\item{summary_target}{List with 1st object being a character of which summary
+to use, produced by \code{PAC_summary}. (default=NULL)}
 
 \item{angle}{Integer (positive or negative) that sets the rotation of
 the pie.}
@@ -81,30 +82,35 @@ of a specified anno_target and plot a pie chart.
 load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
                   package = "seqpac", mustWork = TRUE))
 
-# Choose an anno_target and plot samples (summary="samples"; default)
+# Choose an anno_target and plot all samples (deafult):
 output_pie <- PAC_pie(pac, anno_target=list("Biotypes_mis0"))
 output_pie[[1]]
 output_pie[[6]]
 
-# Summary="all" will give a mean of all samples:
-PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary="all")
+# Defining a summary_target will show summarised data:
+pac<-PAC_summary(pac)
+PAC_pie(pac, anno_target=list("Biotypes_mis0"), 
+summary_target=list("countsMeans_All"))
 # Rotate:
-PAC_pie(pac, anno_target=list("Biotypes_mis0"), summary="all", angle=180)
+PAC_pie(pac, anno_target=list("Biotypes_mis0"), 
+summary_target=list("countsMeans_All"), angle=180)
 
 
 #  Make ordered pie charts of grand mean percent of all samples
 ord_bio <- as.character(sort(unique(anno(pac)$Biotypes_mis3)), 
                                     unique(anno(pac)$Biotypes_mis0))
 output_pie_1 <- PAC_pie(pac, anno_target=list("Biotypes_mis0", ord_bio), 
-                        summary="all")
+                        labels = "percent", summary_target=list("countsMeans_All"))
 output_pie_2 <- PAC_pie(pac, anno_target=list("Biotypes_mis3", ord_bio), 
-                        summary="all")
+                        labels = "percent", summary_target=list("countsMeans_All"))
 cowplot::plot_grid(plotlist=c(output_pie_1, output_pie_2), nrow=2, 
                    scale = 1.0)
 
 #  Shortcut to remove no annotations ("no_anno") in the anno_target column
-PAC_pie(pac, anno_target=list("Biotypes_mis3"), summary="all", no_anno=TRUE)
-PAC_pie(pac, anno_target=list("Biotypes_mis3"), summary="all", no_anno=FALSE)
+PAC_pie(pac, anno_target=list("Biotypes_mis3"), summary_target=list("countsMeans_All"),
+ no_anno=TRUE)
+PAC_pie(pac, anno_target=list("Biotypes_mis3"), summary_target=list("countsMeans_All"), 
+no_anno=FALSE)
 
 }
 \seealso{

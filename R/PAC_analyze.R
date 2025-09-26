@@ -54,13 +54,12 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
     PAC <- PAC_summary(PAC, pheno_target = pheno_target, norm="cpm", type="log2FC")
     jitter <- PAC_jitter(PAC, summary_target = list(paste0("Log2FC_",pheno_target[[1]])),
                          anno_target = anno_target)
-    sb1<-PAC_stackbar(PAC, anno_target = anno_target, pheno_target = pheno_target, norm = "cpm")
-    sb2<-PAC_stackbar(PAC, anno_target = anno_target, pheno_target = pheno_target, norm = "cpm",
-                     summary="pheno")
-    sd <- PAC_sizedist(PAC, norm="cpm", anno_target = anno_target, range=c(15,75),
+    sb1<-PAC_stackbar(PAC, anno_target = anno_target, summary_target = list(paste0("cpmMeans_",pheno_target[[1]])), norm = "cpm")
+    sb2<-PAC_stackbar(PAC, anno_target = anno_target, summary_target = list(paste0("cpmMeans_",pheno_target[[1]])), norm = "cpm")
+    sd <- PAC_sizedist(PAC, norm="cpm", anno_target = anno_target, nucleotide_range =c(15,75),
                         summary_target = list(paste0("cpmMeans_",pheno_target[[1]])))
-    pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
-                   summary="pheno")
+    # pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
+    #                summary="pheno")
     pca <- PAC_pca(PAC, pheno_target = pheno_target)
   }
   else{
@@ -70,11 +69,11 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
                          anno_target = anno_target)
     sb1<-PAC_stackbar(PAC, anno_target = anno_target, pheno_target = pheno_target, norm = "counts")
     sb2<-PAC_stackbar(PAC, anno_target = anno_target, pheno_target = pheno_target, norm = "counts",
-                      summary="pheno")
-    sd <- PAC_sizedist(PAC, norm="counts", anno_target = anno_target, range=c(15,75),
+                      summary_target= list(paste0("countsMeans_",pheno_target[[1]])))
+    sd <- PAC_sizedist(PAC, norm="counts", anno_target = anno_target, nucleotide_range =c(15,75),
                        summary_target = list(paste0("countsMeans_",pheno_target[[1]])))
-    pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
-                   summary="pheno")
+    # pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
+    #                summary="pheno")
     pca <- PAC_pca(PAC, pheno_target = pheno_target)
   }
   

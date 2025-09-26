@@ -13,10 +13,10 @@
 #' 
 #' @family PAC generation
 #'
-#' @seealso \url{https://github.com/Danis102} for updates on the current
+#' @seealso \url{https://github.com/OestLab/seqpac} for updates on the current
 #'   package.
 #'
-#' @param in_path Character string with the path to lane files that should be
+#' @param input Character string with the path to lane files that should be
 #'   merged. The names of the lane files should follow the convention:
 #'   'sample1_lane1.fastq.gz, sample1_lane2.fastq.gz, sample2_lane1.fastq.gz,
 #'   etc', where the first part of the name indicate the sample while the second
@@ -24,7 +24,7 @@
 #'   names based on that the second part is "_lane" or "_L00". The function only takes fastq.gz
 #'   compressed files.
 #'   
-#' @param out_path Character string with the path to destination folder for
+#' @param output Character string with the path to destination folder for
 #'   merged fastq.gz files.
 #'   
 #' @param threads Integer indicating the number of parallel processes that
@@ -39,9 +39,9 @@
 #' @examples
 #'
 #' ## The simple principle: 
-#' # in_path <- "/some/path/to/lane/files/fastq.gz"
-#' # out_path <- "/some/path/to/merged/files/"
-#' # merge_lanes(in_path, out_path, threads=12)
+#' # input <- "/some/path/to/lane/files/fastq.gz"
+#' # output <- "/some/path/to/merged/files/"
+#' # merge_lanes(input, output, threads=12)
 #' 
 #' 
 #' ## Real example
@@ -82,10 +82,10 @@
 #' 
 #' @export
 
-merge_lanes <- function(in_path, out_path, threads=1, nlanes=NULL){
+merge_lanes <- function(input, output, threads=1, nlanes=NULL){
   j <- NULL
-  fls <- list.files(in_path, pattern=".fastq.gz", recursive  = TRUE)
-  fls_full <- list.files(in_path, pattern=".fastq.gz", full.names = TRUE, recursive  = TRUE)
+  fls <- list.files(input, pattern=".fastq.gz", recursive  = TRUE)
+  fls_full <- list.files(input, pattern=".fastq.gz", full.names = TRUE, recursive  = TRUE)
 
   # Error if no files are found
   if(length(fls) < 1){
@@ -134,7 +134,7 @@ merge_lanes <- function(in_path, out_path, threads=1, nlanes=NULL){
     lns  <- which(grepl(fl_base, fls_full))
     fsp_nam  <- paste0(fl_base, ".fastq.gz")
     fsp_nam <- sub(".*/", "", fsp_nam)
-    out_nam  <- file.path(out_path, fsp_nam)
+    out_nam  <- file.path(output, fsp_nam)
     for(i in seq.int(length(lns))){
         if(i == 1){
           file.copy(fls_full[lns[i]], out_nam)
@@ -143,6 +143,6 @@ merge_lanes <- function(in_path, out_path, threads=1, nlanes=NULL){
         }
     }
   }
-  out_path <-return("TRUE")
+  output <-return("TRUE")
   doParallel::stopImplicitCluster()
 }

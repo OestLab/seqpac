@@ -6,7 +6,7 @@ invisible(capture.output(
       load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata", 
                        package = "seqpac", mustWork = TRUE))
       
-      pac_lowfilt <- PAC_filter(pac, size=c(15,80), threshold=5, 
+      pac_lowfilt <- PAC_filter(pac, nucleotide_range=c(15,80), threshold=5, 
                                 coverage=20, norm = "counts",  
                                 pheno_target=NULL, anno_target=NULL)
       

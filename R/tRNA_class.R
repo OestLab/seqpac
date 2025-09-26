@@ -72,7 +72,7 @@
 #'
 #'##--------------------------------------##
 #'## Create a map object using PAC_mapper ##
-#'map_object <- PAC_mapper(pac_trna, ref=trna_ref, 
+#'map_object <- PAC_mapper(pac_trna, input=trna_ref, 
 #'                         N_up = "NNN", N_down = "NNN",
 #'                         mismatches=0, threads=2, 
 #'                         report_string=TRUE, override = TRUE)

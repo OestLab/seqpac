@@ -1,16 +1,12 @@
 # seqpac
 A Framework for small RNA analysis in R using Sequence-Based Counts
-<br>
-<br>
-We are sad to inform that the main developer of Seqpac - Daniel Nätt - passed away in April of 2023. <br>
-If any issues or questions regarding Seqpac has occured and remains unanswered, please contact Signe Skog (signe.skog@liu.se) for assistance. We are working on getting develpoment back on track and to go through issues. 
 
 <br>
 
 ---
 ### Installation
 In R:<br>
-`devtools::install_github("Danis102/seqpac", dependencies=TRUE)`
+`devtools::install_github("OestLab/seqpac", dependencies=TRUE)`
 
 OR
 

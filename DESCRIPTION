@@ -1,12 +1,13 @@
 Package: seqpac
 Type: Package
 Title: Seqpac: A Framework for smallRNA analysis in R using Sequence-Based Counts
-Version: 1.9.1
+Version: 1.10.00
 Authors@R: c(
     person("Signe", "Isacson", email="signe.skog@liu.se", role= c("aut", "ctb")),
     person("Daniel", "Natt", email="daniel.natt@liu.se", role= c("aut", "fnd")),
     person("Lovisa", "Örkenby", email="lovisa.orkenby@liu.se", role= c("aut", "ctb")),
-    person("Alessandro", "Gozzo", email="alessandro.gozzo@liu.se", role= c("aut", "ctb", "cre")),
+    person("Alessandro", "Gozzo", email="alessandro.gozzo@liu.se", role= c("aut","ctb", "cre"),
+    comment=c(ORCID="0000-0002-6466-627X")),
     person("Anna", "Asratian", email="anna.asratian@liu.se", role= c("aut", "ctb")),
     person("Anita", "Öst", email="anita.ost@liu.se", role= c("aut", "fnd"))
     )
@@ -42,7 +43,7 @@ biocViews:
   Workflow, BasicWorkflow, GeneExpressionWorkflow, EpigeneticsWorkflow, 
   AnnotationWorkflow
 Depends:
-  R (>= 4.2.0)
+  R (>= 4.5.0)
 Imports:
   Biostrings (>= 2.46.0),
   foreach (>= 1.5.1),
@@ -66,7 +67,8 @@ Imports:
   stringr (>= 1.4.0),
   stats (>= 3.4.4),
   methods,
-  S4Vectors 
+  S4Vectors,
+  readr
 Suggests:
   benchmarkme (>= 0.6.0),
   DESeq2 (>= 1.18.1),
@@ -81,7 +83,6 @@ Suggests:
   venneuler,
   R.utils,
   bigreadr,
-  readr,
   vroom
 VignetteBuilder:
   knitr

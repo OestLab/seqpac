@@ -72,8 +72,8 @@
 #'   Pheno containing the same patient ID reported twice for each patient
 #'   (before and after).
 #'   
-#' @param ymax_1 Integer that sets the maximum y for all mean plots (all plots
-#'   gets the same y-axes). If ymax_1=NULL (default), then ggplot2 will
+#' @param ymax Integer that sets the maximum y for all mean plots (all plots
+#'   gets the same y-axes). If ymax=NULL (default), then ggplot2 will
 #'   automatically set ymax for each plot individually (different y-axes).
 #'   
 #' @return List of ggplot2 plots and the data used for generating the plots. Use
@@ -107,7 +107,7 @@
 #'
 #'##--------------------------------------##
 #'## Create a map object using PAC_mapper ##
-#'map_object <- PAC_mapper(pac_trna, ref=trna_ref, 
+#'map_object <- PAC_mapper(pac_trna, input=trna_ref, 
 #'                         N_up = "NNN", N_down = "NNN",
 #'                         mismatches=0, threads=2, 
 #'                         report_string=TRUE, override = TRUE)
@@ -213,7 +213,7 @@
 
 PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15, 
                      log2fc=FALSE, pheno_target = NULL, anno_target_1 = NULL, 
-                     ymax_1=NULL, anno_target_2 = NULL, paired=FALSE, 
+                     ymax=NULL, anno_target_2 = NULL, paired=FALSE, 
                      paired_IDs=NULL) {
   
   
@@ -428,8 +428,8 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
       ggplot2::scale_y_log10(limits = c(min(breaks),max(breaks)), 
                              breaks=breaks)+
       ggplot2::coord_flip()
-    if(!is.null(ymax_1)){
-      plot <- plot + ggplot2::scale_y_continuous(limits=c(0,ymax_1))
+    if(!is.null(ymax)){
+      plot <- plot + ggplot2::scale_y_continuous(limits=c(0,ymax))
       }
     return(plot)
   })               

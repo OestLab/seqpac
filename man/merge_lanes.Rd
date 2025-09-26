@@ -4,10 +4,10 @@
 \alias{merge_lanes}
 \title{Merge fastq lane files}
 \usage{
-merge_lanes(in_path, out_path, threads = 1, nlanes = NULL)
+merge_lanes(input, output, threads = 1, nlanes = NULL)
 }
 \arguments{
-\item{in_path}{Character string with the path to lane files that should be
+\item{input}{Character string with the path to lane files that should be
 merged. The names of the lane files should follow the convention:
 'sample1_lane1.fastq.gz, sample1_lane2.fastq.gz, sample2_lane1.fastq.gz,
 etc', where the first part of the name indicate the sample while the second
@@ -15,7 +15,7 @@ part indicate lanes. The function will automatically try to identify sample
 names based on that the second part is "_lane" or "_L00". The function only takes fastq.gz
 compressed files.}
 
-\item{out_path}{Character string with the path to destination folder for
+\item{output}{Character string with the path to destination folder for
 merged fastq.gz files.}
 
 \item{threads}{Integer indicating the number of parallel processes that
@@ -44,9 +44,9 @@ work, try defining number of lanes to be merged by @param nlanes.
 \examples{
 
 ## The simple principle: 
-# in_path <- "/some/path/to/lane/files/fastq.gz"
-# out_path <- "/some/path/to/merged/files/"
-# merge_lanes(in_path, out_path, threads=12)
+# input <- "/some/path/to/lane/files/fastq.gz"
+# output <- "/some/path/to/merged/files/"
+# merge_lanes(input, output, threads=12)
 
 
 ## Real example
@@ -87,7 +87,7 @@ suppressWarnings(file.remove(fls_temp))
 
 }
 \seealso{
-\url{https://github.com/Danis102} for updates on the current
+\url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
 Other PAC generation: 

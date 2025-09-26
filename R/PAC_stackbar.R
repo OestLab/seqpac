@@ -3,8 +3,8 @@
 #' \code{PAC_stackbar} Generates a graph that stack classes up to 100% or on total reads.
 #'
 #' Given a PAC object the function will attempt to extract group information
-#' from Pheno, class information from Anno, and summarize this over the data
-#' in Counts or norm to generate a stacked (percent or total counts) bar.
+#' from Pheno, class information from Anno, or summarized data to generate a 
+#' stacked (percent or total counts) bar.
 #'
 #' @family PAC analysis
 #'
@@ -32,6 +32,13 @@
 #'                          the same order in the stacked bar graph.
 #'                          (default=NULL)
 #'                          
+#' @param summary_target List with: 
+#'                          1st object being character vector of target
+#'                          column(s) in Summary. This is produced by
+#'                          \code{PAC_summary}. If no summary_target is 
+#'                          defined, samples will be plotted individually.
+#'                          (default=NULL)
+#'                          
 #' @param color Character vector with rgb color hex codes in the same length
 #'   as the number of biotypes. For example see:
 #'   https://www.coolgenerator.com/rgb-color-generator. color=NULL will
@@ -47,18 +54,12 @@
 #'   
 #' @param total Logical, whether the total counts should be added at the bottom
 #'   of each graph (default=TRUE).
-#'
-#' @param summary Character vector defining whether to stack individual samples
-#'   in each stack, or using a group mean of samples sharing the same names in
-#'   the specified pheno_target. If summary="samples" individual samples will be
-#'   plotted, if summary="pheno" means of pheno_target will be plotted, while if
-#'   summary= "all" a mean of all samples will be plotted. (Default="samples").
 #'   
 #' @param norm Character vector defining what data to base analysis on, e.g 
 #'   "counts" for raw counts (default), "cpm" for normalized data or any other
 #'   column in norm section of PAC object.
 #'   
-#' @param plot Character vector defining how data is to be presented in stack
+#' @param style Character vector defining how data is to be presented in stack
 #'   bar, where default is "percent", showing the percentage of the anno_target
 #'   of all reads. Other option is "total", where the total amount of
 #'   counts/normalized reads are stacked in one stack per anno_target.
@@ -74,7 +75,7 @@
 #' ### Stacked bars in seqpac 
 #' ##----------------------------------------
 #' 
-#' # Choose an anno_target and plot samples (summary="samples")
+#' # Choose an anno_target and plot samples
 #' PAC_stackbar(pac, anno_target=list("Biotypes_mis0"))
 #' 
 #' # 'no_anno' and 'other' will always end on top not matter the order
@@ -85,24 +86,29 @@
 #' # (Hint: if you don't want them to appear on top, rename them)
 #' 
 #' # Reorder samples by pheno_targets
-#' PAC_stackbar(pac, pheno_target=list("batch"), summary="samples", 
+#' PAC_stackbar(pac, pheno_target=list("batch"), 
 #'              anno_target=list("Biotypes_mis0"))
 #' 
 #' # Summarized over pheno_target 
 #' # (as default PAC_stackbar orders by pheno_target but plots all samples, 
-#' #  unless summary="pheno")
-#' PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), 
-#'              summary="pheno", pheno_target=list("stage"))
+#' #  unless a summary_target is defined)
+#' 
+#' pac <- PAC_summary(pac, pheno_target=list("stage"))
+#' PAC_stackbar(pac, anno_target=list("Biotypes_mis0"),
+#'              summary_target=list("countsMeans_stage"))
 #' 
 #' # Summarized over a grand mean of all samples
-#' PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), summary="all")
+#' 
+#' pac <- PAC_summary(pac)
+#' PAC_stackbar(pac, anno_target=list("Biotypes_mis0"), 
+#'         summary_target=list("countsMeans_All"))
 #' 
 #' @export
 
 
-PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL, 
-                        width=1.0, no_anno=TRUE, total=TRUE, 
-                        summary="samples", norm="counts", plot="percent"){
+PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, summary_target=NULL, 
+                        color=NULL, width=1.0, no_anno=TRUE, total=TRUE, 
+                        norm="counts", style="percent"){
   ## Check S4
   if(isS4(PAC)){
     tp <- "S4"
@@ -144,7 +150,6 @@ PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL,
                         pheno_target=pheno_target, anno_target=anno_target)
   anno <- PAC_sub$Anno
   pheno <- PAC_sub$Pheno
-  data <- PAC_sub$Counts
   
   if(norm == "counts"){
     data <- PAC_sub$Counts
@@ -153,39 +158,19 @@ PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL,
     data <- PAC_sub$norm[norm][[1]]
   }
   
+  if(!is.null(summary_target)){
+    data <- PAC_sub$summary[summary_target[[1]]]
+    data <- data[[1]]
+  }
+  
   ### Removing no_Anno
   if(no_anno==FALSE){
     data <- data[!as.character(anno[, anno_target[[1]]]) == "no_anno",]
     anno <- anno[!as.character(anno[, anno_target[[1]]]) == "no_anno",]
   }
-  
-  ### Totaling all counts per sample and sums each per biotype
-  if(summary=="all"){
-    tot_cnts <- mean(colSums(data))
-    names(tot_cnts) <- "all"
-    data_shrt <- stats::aggregate(data, list(anno[, anno_target[[1]]]), "sum")
-    data_shrt <- data.frame(Group.1=data_shrt[,1], 
-                            all= rowMeans(data_shrt[,-1])) 
     
-  }else{
-    data_shrt <- stats::aggregate(data, list(anno[, anno_target[[1]]]), "sum")
-    if(summary %in% c("sample","samples")){
-      tot_cnts <- colSums(data)
-    }
-    if(summary=="pheno"){
-      x <- split(pheno, pheno[, pheno_target[[1]]])
-      data_pheno_shrt <- as.data.frame(data_shrt$Group.1)
-     for(i in seq.int(length(x))){
-       names <- as.data.frame(x[i])
-       names <- rownames(names)
-       data_pheno <- data_shrt[, colnames(data_shrt) %in% names,drop=FALSE]
-       data_pheno <- rowMeans(data_pheno)
-       data_pheno_shrt <- as.data.frame(cbind(data_pheno_shrt, data_pheno))}
-    colnames(data_pheno_shrt) <- c("Group.1", names(x))
-    data_shrt <- data_pheno_shrt
-    tot_cnts <- colSums(data_shrt[,-1,drop=FALSE])
-    }
-  }  
+  data_shrt <- stats::aggregate(data, list(anno[, anno_target[[1]]]), "sum")
+  tot_cnts <- colSums(data)
   data_shrt_total <- data_shrt
   data_shrt_perc <- data_shrt
   data_shrt_perc[,-1] <- "NA"
@@ -199,7 +184,7 @@ PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL,
   colnames(data_long_tot) <- c("Category", "Sample",  "Value")
   data_long_perc$Value <- data_long_perc$Value * 100
   
-  if(plot=="total"){
+  if(style=="total"){
     data_long_perc<-data_long_tot
   }
 
@@ -214,21 +199,10 @@ PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL,
                                     levels=bio)
     
   # Pheno
-  if(is.null(pheno_target)){
+  if(is.null(pheno_target) && is.null(summary_target)){
     data_long_perc$Sample <- factor(as.character(data_long_perc$Sample), 
                                     levels=as.character(
                                       unique(data_long_perc$Sample)))
-  }else{
-    if(summary %in% c("sample","samples")){
-    stopifnot(any(!rownames(PAC$Pheno) %in% as.character(
-      data_long_perc$Sample))==FALSE)
-    sampl_ord <- do.call("c", split(rownames(PAC$Pheno), 
-                                    factor(PAC$Pheno[,pheno_target[[1]]], 
-                                           levels=pheno_target[[2]])))
-    data_long_perc$Sample <- factor(as.character(data_long_perc$Sample), 
-                                    levels=as.character(sampl_ord))
-    data_long_perc <- data_long_perc[!is.na(data_long_perc$Sample),,drop=FALSE]
-    }
   }
   
   ## Add total counts
@@ -256,9 +230,9 @@ PAC_stackbar <- function(PAC, anno_target=NULL, pheno_target=NULL, color=NULL,
     ggplot2::geom_text(ggplot2::aes(label=tot_counts), nudge_y=-3, nudge_x=0,
                        angle = 0, color="black", size=4)+
     ggplot2::geom_hline(yintercept=0, col="black")+
-    { if(plot=="percent")ggplot2::coord_cartesian(ylim = c(-2, 100)) }+ 
-    { if(plot=="percent") ggplot2::ylab("Percent of total reads")} +
-    {if(plot=="total") ggplot2::ylab("Total reads")} +
+    { if(style=="percent")ggplot2::coord_cartesian(ylim = c(-2, 100)) }+ 
+    { if(style=="percent") ggplot2::ylab("Percent of total reads")} +
+    {if(style=="total") ggplot2::ylab("Total reads")} +
     ggplot2::geom_hline(yintercept=100, col="black")+
     ggplot2::scale_fill_manual(values=rev(color))+
     ggplot2::theme_classic()+

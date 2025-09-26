@@ -6,7 +6,7 @@
 \usage{
 PAC_mapper(
   PAC,
-  ref,
+  input,
   mismatches = 0,
   multi = "remove",
   threads = 1,
@@ -19,7 +19,7 @@ PAC_mapper(
 \arguments{
 \item{PAC}{PAC-list object.}
 
-\item{ref}{Character indicating the path to the fasta (.fa) reference file or
+\item{input}{Character indicating the path to the fasta (.fa) reference file or
 a DNAStringSet with already loaded reference sequences. If a Bowtie index
 is missing for the reference, PAC_mapper will attempt to temporarily
 generate such index automatically. Thus, large references are
@@ -105,7 +105,7 @@ ref_rRNA <- system.file("extdata/rrna", "rRNA.fa",
 
 ## Map using PAC-mapper
 map_rRNA <- PAC_mapper(pac_rRNA, mismatches=0, 
-                        threads=1, ref=ref_rRNA, override=TRUE)
+                        threads=1, input=ref_rRNA, override=TRUE)
 
 }
 \seealso{
