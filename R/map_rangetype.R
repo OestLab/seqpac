@@ -100,7 +100,7 @@
 #' # Then re-annotate only tRNA using the PAC_mapper function
 #' ref <- system.file("extdata/trna", "tRNA.fa", 
 #'                          package = "seqpac", mustWork = TRUE)
-#' map_object <- PAC_mapper(pac_trna, ref=ref, N_up = "NNN", N_down = "NNN", 
+#' map_object <- PAC_mapper(pac_trna, input=ref, N_up = "NNN", N_down = "NNN", 
 #'                          mismatches=0, threads=2, report_string=TRUE, 
 #'                          override=TRUE)
 #' 

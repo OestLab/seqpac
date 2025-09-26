@@ -6,7 +6,7 @@
 \usage{
 PAC_filter(
   PAC,
-  size = NULL,
+  nucleotide_range = NULL,
   threshold = 0,
   coverage = 0,
   norm = "counts",
@@ -21,7 +21,7 @@ PAC_filter(
 \item{PAC}{PAC-list object containing an Anno data.frame with sequences as
 row names and a Counts table with raw counts or counts per million (cpm).}
 
-\item{size}{Integer vector giving the size interval, as c(min,max), that
+\item{nucleotide_range}{Integer vector giving the size interval, as c(min,max), that
 should be saved (default=c(min,max)).}
 
 \item{threshold}{Integer giving the threshold in counts or normalized counts
@@ -77,7 +77,7 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
 ###--------------------------------------------------------------------- 
 ## Extracts all sequences between 10-80 nt in length with at 
 ## least 5 counts in 20\% of all samples.
-pac_lowfilt <- PAC_filter(pac, size=c(10,80), threshold=5,
+pac_lowfilt <- PAC_filter(pac, nucleotide_range=c(10,80), threshold=5,
                          coverage=20, norm = "counts",
                          pheno_target=NULL, anno_target=NULL)
 

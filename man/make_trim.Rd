@@ -17,7 +17,7 @@ make_trim(
   adapt_3 = "AGATCGGAAGAGCACACGTCTGAACTCCAGTCACTA",
   adapt_5_set = c(type = NULL, min = NULL, mismatch = NULL),
   adapt_5 = NULL,
-  seq_range = c(min = NULL, max = NULL),
+  nucleotide_range = c(min = NULL, max = NULL),
   quality = c(threshold = 20, percent = 0.8)
 )
 }
@@ -135,11 +135,11 @@ sequence is provided in \code{adapt_5}.}
 sequences are only trimmed in specialized protocols or in very short
 paired-end sequencing.}
 
-\item{seq_range}{Numeric vector with two inputs named 'min' and 'max', that
+\item{nucleotide_range}{Numeric vector with two inputs named 'min' and 'max', that
 controls the sequence size filter. For example, if
-\code{seq_range=c(min=15, max=50)} the function will extract sequences in
+\code{nucleotide_range=c(min=15, max=50)} the function will extract sequences in
 the range between 15-50 nucleotides after trimming. As default,
-\code{seq_range=c(min=NULL, max=NULL)} and will retain all trimmed
+\code{nucleotide_range=c(min=NULL, max=NULL)} and will retain all trimmed
 sequences.}
 
 \item{quality}{Numeric vector with two inputs named 'threshold' and 'percent'
@@ -195,7 +195,7 @@ prog_report  <-  make_trim(
        adapt_3_set=c(type="hard_rm", min=10, mismatch=0.1), 
        adapt_3="AGATCGGAAGAGCACACGTCTGAACTCCAGTCACTA", 
        polyG=c(type="hard_trim", min=20, mismatch=0.1),
-       seq_range=c(min=14, max=70),
+       nucleotide_range=c(min=14, max=70),
        quality=c(threshold=20, percent=0.8))
        
 list.files(path = output, pattern = "fastq") #after
@@ -215,7 +215,7 @@ prog_report
 #      adapt_3_set=<options_for_main_trimming, 
 #      adapt_3=<sequence_to be trimmed, 
 #      polyG=<Illumina_Nextseq_type_poly_G_trimming>,
-#      seq_range=<what_sequence_range_to_save>,
+#      nucleotide_range=<what_sequence_range_to_save>,
 #      quality=<quality_filtering_options>))
 }
 \seealso{
