@@ -19,8 +19,8 @@
 #'   changes). Rows should be unique sequences as the rownames of a PAC summary
 #'   object.
 #'
-#' @param type Character. If type="jitter" (default) the jitter-plots will be
-#'   returned. If type="violin", a violin-plot will instead the returned.
+#' @param style Character. If style="jitter" (default) the jitter-plots will be
+#'   returned. If style="violin", a violin-plot will instead the returned.
 #'
 #' @param box Logical whether a boxplot should be plotted or not (default=TRUE)
 #'   
@@ -65,10 +65,10 @@
 #' cowplot::plot_grid(plotlist=plots_FCgrand, nrow = 3, ncol = 1) 
 #'
 #' ## Violin plots instead
-#' plots_FC <- PAC_jitter(pac, type="violin", 
+#' plots_FC <- PAC_jitter(pac, style="violin", 
 #'                        summary_target=list("Log2FC_stage"), 
 #'                        anno_target=list("Biotypes_mis0"))
-#' plots_FCgrand <- PAC_jitter(pac, type="violin", 
+#' plots_FCgrand <- PAC_jitter(pac, style="violin", 
 #'                             summary_target=list("percGrand_stage"), 
 #'                             anno_target=list("Biotypes_mis0"))
 #'
@@ -78,7 +78,7 @@
 #'
 #' ## Violin with changed biotype order
 #' new_order  <- as.character(unique(anno(pac)$Biotypes_mis0))[c(2,4,3,6,7,5,1)]
-#' plots_FC <- PAC_jitter(pac, type="violin", 
+#' plots_FC <- PAC_jitter(pac, style="violin", 
 #'                        summary_target=list("Log2FC_stage"), 
 #'                        anno_target=list("Biotypes_mis0", new_order))
 #' cowplot::plot_grid(plotlist=plots_FC, nrow = 3, ncol = 1)
@@ -87,7 +87,7 @@
 #' @export
 #'
 PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL, 
-                       type="jitter", limits=NULL, ypos_n=NULL, colors=NULL, 
+                       style="jitter", limits=NULL, ypos_n=NULL, colors=NULL, 
                        box=TRUE){
   
    values <- biotype <-  NULL
@@ -176,7 +176,7 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     if(is.null(limits)){limits <- c((mima[1]*1.2),  max_lim)}
     if(is.null(limits)){limits <- c((mima[1]*1.2),  max_lim)}
     
-    if(type=="jitter"){
+    if(style=="jitter"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
         ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
@@ -207,7 +207,7 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
         }
 
     }
-    if(type=="violin"){
+    if(style=="violin"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
         ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +

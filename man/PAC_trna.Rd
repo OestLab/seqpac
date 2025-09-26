@@ -13,7 +13,7 @@ PAC_trna(
   log2fc = FALSE,
   pheno_target = NULL,
   anno_target_1 = NULL,
-  ymax_1 = NULL,
+  ymax = NULL,
   anno_target_2 = NULL,
   paired = FALSE,
   paired_IDs = NULL
@@ -64,8 +64,8 @@ typically used for isotype classification in tsRNA analysis (example:
 LysCTT, GlyGGC etc). Specifying only the column name, will automatically
 include all classifications in the anno_target column.}
 
-\item{ymax_1}{Integer that sets the maximum y for all mean plots (all plots
-gets the same y-axes). If ymax_1=NULL (default), then ggplot2 will
+\item{ymax}{Integer that sets the maximum y for all mean plots (all plots
+gets the same y-axes). If ymax=NULL (default), then ggplot2 will
 automatically set ymax for each plot individually (different y-axes).}
 
 \item{anno_target_2}{Same as anno_target_2 but specifying the the second
@@ -125,7 +125,7 @@ ss_file <- system.file("extdata/trna2", "tRNA2.ss",
 
 ##--------------------------------------##
 ## Create a map object using PAC_mapper ##
-map_object <- PAC_mapper(pac_trna, ref=trna_ref, 
+map_object <- PAC_mapper(pac_trna, input=trna_ref, 
                         N_up = "NNN", N_down = "NNN",
                         mismatches=0, threads=2, 
                         report_string=TRUE, override = TRUE)

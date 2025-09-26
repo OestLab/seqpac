@@ -82,7 +82,7 @@
 #' ## Map using PAC-mapper
 #'       
 #' map_tRNA <- PAC_mapper(pac_tRNA, mismatches=0, 
-#'                         threads=1, ref=ref_tRNA, override=TRUE)
+#'                         threads=1, input=ref_tRNA, override=TRUE)
 #'
 #' ## Plot tRNA using xseq=TRUE gives you reference sequence as X-axis:
 #' # (OBS! Long reference will not print well with xseq=TRUE)

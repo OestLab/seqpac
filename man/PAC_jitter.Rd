@@ -8,7 +8,7 @@ PAC_jitter(
   PAC,
   summary_target = NULL,
   anno_target = NULL,
-  type = "jitter",
+  style = "jitter",
   limits = NULL,
   ypos_n = NULL,
   colors = NULL,
@@ -33,8 +33,8 @@ summarized data.}
 Anno or the name of the annotation column in case of input being a
 dataframe.}
 
-\item{type}{Character. If type="jitter" (default) the jitter-plots will be
-returned. If type="violin", a violin-plot will instead the returned.}
+\item{style}{Character. If style="jitter" (default) the jitter-plots will be
+returned. If style="violin", a violin-plot will instead the returned.}
 
 \item{limits}{Integer vector with the y-limits to be parsed to ggplot2.}
 
@@ -79,10 +79,10 @@ cowplot::plot_grid(plotlist=plots_FC, nrow = 3, ncol = 1)
 cowplot::plot_grid(plotlist=plots_FCgrand, nrow = 3, ncol = 1) 
 
 ## Violin plots instead
-plots_FC <- PAC_jitter(pac, type="violin", 
+plots_FC <- PAC_jitter(pac, style="violin", 
                        summary_target=list("Log2FC_stage"), 
                        anno_target=list("Biotypes_mis0"))
-plots_FCgrand <- PAC_jitter(pac, type="violin", 
+plots_FCgrand <- PAC_jitter(pac, style="violin", 
                             summary_target=list("percGrand_stage"), 
                             anno_target=list("Biotypes_mis0"))
 
@@ -92,7 +92,7 @@ cowplot::plot_grid(plotlist=plots_FCgrand, nrow = 3, ncol = 1)
 
 ## Violin with changed biotype order
 new_order  <- as.character(unique(anno(pac)$Biotypes_mis0))[c(2,4,3,6,7,5,1)]
-plots_FC <- PAC_jitter(pac, type="violin", 
+plots_FC <- PAC_jitter(pac, style="violin", 
                        summary_target=list("Log2FC_stage"), 
                        anno_target=list("Biotypes_mis0", new_order))
 cowplot::plot_grid(plotlist=plots_FC, nrow = 3, ncol = 1)
