@@ -7,6 +7,10 @@
 #'search terms (see details). Information will be compiled into a data frame with
 #'the same order of sequences as in the original PAC master file.
 #'
+#'Please rename the column names of your previously added columns if running 
+#'\code{\link{map_reanno}} more than two times using the same \code{type} input 
+#'("genome" or "biotype").
+#'
 #'@family PAC reannotation
 #'
 #'@seealso \url{http://bowtie-bio.sourceforge.net/index.shtml} for information
@@ -113,7 +117,7 @@
 #' # Warning: if you use your own data, you may want to use override=FALSE, to avoid
 #' # deleting previous mapping by mistake.
 #' 
-#' map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#' map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=0,  import="biotype", 
 #'                threads=2, keep_temp=FALSE, override=TRUE)
 #'  
@@ -150,7 +154,7 @@
 #' # (to illustrate the principle we run the mycoplasma genome twice)
 #' # ref_paths <- list(genome1=mycoplasma_file, genome2=mycoplasma_file)
 #' # ### Run map_reanno 
-#' # map_reanno(PAC=pac, ref_paths=ref_paths, output_path=output, 
+#' # map_reanno(PAC=pac, input=ref_paths, output=output, 
 #' #            type="internal", mismatches=0, import="genome", 
 #' #            threads=2, keep_temp=TRUE, override=TRUE)
 #' # reanno_genome <- make_reanno(output, PAC=pac, mis_fasta_check = TRUE)

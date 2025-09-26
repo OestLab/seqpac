@@ -13,7 +13,7 @@
 #' @param PAC PAC-list object containing an Anno data.frame with sequences as
 #'   row names and a Counts table with raw counts or counts per million (cpm).
 #'   
-#' @param size Integer vector giving the size interval, as c(min,max), that
+#' @param nucleotide_range Integer vector giving the size interval, as c(min,max), that
 #'   should be saved (default=c(min,max)).
 #'   
 #' @param threshold Integer giving the threshold in counts or normalized counts
@@ -61,7 +61,7 @@
 #'###--------------------------------------------------------------------- 
 #'## Extracts all sequences between 10-80 nt in length with at 
 #'## least 5 counts in 20% of all samples.
-#'pac_lowfilt <- PAC_filter(pac, size=c(10,80), threshold=5,
+#'pac_lowfilt <- PAC_filter(pac, nucleotide_range=c(10,80), threshold=5,
 #'                          coverage=20, norm = "counts",
 #'                          pheno_target=NULL, anno_target=NULL)
 #'
@@ -89,7 +89,7 @@
 #' 
 #' @export
 
-PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0, 
+PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0, 
                        norm="counts", subset_only=FALSE, stat=FALSE, 
                        pheno_target=NULL, anno_target=NULL, allbut=FALSE){
   
@@ -110,10 +110,14 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
   x_graph <- n_features <- NULL
   
   if(allbut==TRUE){
+    if(!is.null(pheno_target)){
     pheno_t<-(unique(PAC$Pheno[,pheno_target[[1]]]))
     pheno_target[[2]] <- pheno_t[pheno_t != pheno_target[[2]]]
+    }
+    if(!is.null(anno_target)){
     anno_t <-(unique(PAC$Anno[,anno_target[[1]]]))
     anno_target[[2]]<-anno_t[anno_t != anno_target[[2]]]
+    }
   }
   
   ### Subset samples by Pheno 
@@ -202,11 +206,11 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
   }  
   
   ### Subset data by Size
-  if(!is.null(size)){
-    if(!length(size)==2)
+  if(!is.null(nucleotide_range)){
+    if(!length(nucleotide_range)==2)
       stop("\nYou must specify both min and max size.",
            "\nOnly one number was obtained.")
-    sub_size <- PAC$Anno$Size >= size[1] & PAC$Anno$Size <= size[2]
+    sub_size <- PAC$Anno$Size >= nucleotide_range[1] & PAC$Anno$Size <= nucleotide_range[2]
     if(any(names(PAC)=="norm")){
       PAC$norm <- lapply(as.list(PAC$norm), function(x){
         x[sub_size, , drop=FALSE]
@@ -222,9 +226,9 @@ PAC_filter <- function(PAC, size=NULL, threshold=0, coverage=0,
     tab_anno <- as.data.frame(table(sub_size))
     passed <- tab_anno[tab_anno[,1]==TRUE, 2]
     if(passed==0){
-      stop("Size filter resulted in 0 sequences.") 
+      stop("Nucleotide range filter resulted in 0 sequences.") 
     }else{
-      cat(paste0("\n-- Size filter will retain: ", 
+      cat(paste0("\n-- Nucleotide range filter will retain: ", 
                  passed, " of ", length(sub_size), " seqs."))
     }
   }

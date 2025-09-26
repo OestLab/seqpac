@@ -93,7 +93,7 @@
 #' # Warning: if you use your own data, you may want to use override=FALSE, to avoid
 #' # deleting previous mapping by mistake.
 #' 
-#' map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#' map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=0,  import="biotype", 
 #'                threads=2, keep_temp=FALSE, override=TRUE)
 #'  
@@ -142,7 +142,7 @@
 #'                            }
 #'                            
 #'  ref_paths <- list(genome1=mycoplasma_file, genome2=mycoplasma_file)
-#'  map_reanno(PAC=pac, ref_paths=ref_paths, output_path=output, 
+#'  map_reanno(PAC=pac, input=ref_paths, output=output, 
 #'             type="internal", mismatches=0, import="genome", 
 #'             threads=2, keep_temp=TRUE, override=TRUE)
 #'  reanno_genome <- make_reanno(output, PAC=pac, mis_fasta_check = TRUE)

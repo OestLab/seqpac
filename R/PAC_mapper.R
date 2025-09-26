@@ -12,7 +12,7 @@
 #'
 #' @param PAC PAC-list object.
 #'
-#' @param ref Character indicating the path to the fasta (.fa) reference file or
+#' @param input Character indicating the path to the fasta (.fa) reference file or
 #'   a DNAStringSet with already loaded reference sequences. If a Bowtie index
 #'   is missing for the reference, PAC_mapper will attempt to temporarily
 #'   generate such index automatically. Thus, large references are
@@ -91,16 +91,16 @@
 #'
 #' ## Map using PAC-mapper
 #' map_rRNA <- PAC_mapper(pac_rRNA, mismatches=0, 
-#'                         threads=1, ref=ref_rRNA, override=TRUE)
+#'                         threads=1, input=ref_rRNA, override=TRUE)
 #'
 #' @export
 
-PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove", 
+PAC_mapper <- function(PAC, input, mismatches=0, multi="remove", 
                        threads=1, N_up="", N_down="", report_string=FALSE, 
                        override=FALSE){
-
-
-## Setup
+  
+  
+  ## Setup
   j <- NULL
   ## Check S4
   if(isS4(PAC)){
@@ -110,22 +110,22 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
     tp <- "S3"
   }
   ## Setup reference  
-  if(methods::is(ref, "DNAStringSet")){
+  if(methods::is(input, "DNAStringSet")){
     cat("\nImporting reference from DNAStringSet ...")
-    full <- ref
+    full <- input
   }else{
-    if(file.exists(ref)){
+    if(file.exists(input)){
       cat("\nReading reference from fasta file ...")
-      full <- Biostrings::readDNAStringSet(ref)
+      full <- Biostrings::readDNAStringSet(input)
     }else{
-      if(is.character(ref)){
+      if(is.character(input)){
         cat("\nTry to import reference from character vector ...")
-        full <- Biostrings::DNAStringSet(ref)
+        full <- Biostrings::DNAStringSet(input)
       }else{
         stop("\nUnrecognizable reference format.",
              "\nPlease check your reference input.")
-     }
-   }
+      }
+    }
   }
   nams_full <- names(full) # Names are lost in the next step
   if(nchar(paste0(N_up, N_down)) >0){
@@ -133,46 +133,46 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
     names(full) <- nams_full
   }
   
-## Setup temp folder and convert to windows format
+  ## Setup temp folder and convert to windows format
   outpath <-  file.path(tempdir(), "seqpac")
-  ref_path <-  file.path(tempdir(), "ref","reference.fa")
+  ref_path <-  file.path(tempdir(), "input","reference.fa")
   
   dir.create(outpath, showWarnings=FALSE, recursive = TRUE)
   dir.create(dirname(ref_path), showWarnings=FALSE, recursive = TRUE)
   
   Biostrings::writeXStringSet(full, filepath=ref_path, format="fasta")
   
-## Make bowtie index if not available
+  ## Make bowtie index if not available
   # If file input check bowtie index; save results in check_file
   check_file <- FALSE
-  if(is.character(ref)){
-    if(file.exists(ref)){
-       if(!length(list.files(dirname(ref), pattern=".ebwt"))>=2){
-         check_file <- TRUE
-       }
+  if(is.character(input)){
+    if(file.exists(input)){
+      if(!length(list.files(dirname(input), pattern=".ebwt"))>=2){
+        check_file <- TRUE
+      }
     }
   }
   if(check_file == FALSE){
-    ref_path <- ref 
+    ref_path <- input 
     cat("\nBowtie indexes found. Will try to use them...")
   }else{
     if(nchar(paste0(N_up, N_down)) >0|
-     methods::is(full, "DNAString")|
-     check_file == TRUE){
+       methods::is(full, "DNAString")|
+       check_file == TRUE){
       cat("\nNo bowtie indexes.")
       cat("\nWill try to reindex references ...")
       Rbowtie::bowtie_build(ref_path, outdir=dirname(ref_path), 
-                          prefix = "reference", force = TRUE)  
+                            prefix = "reference", force = TRUE)  
     }
   }
-## Make reanno object  
-  map_reanno(PAC, ref_paths=list(reference=ref_path), output_path=outpath, 
+  ## Make reanno object  
+  map_reanno(PAC, input=list(reference=ref_path), output=outpath, 
              type="internal", threads=threads, mismatches=mismatches,  
              import="genome", keep_temp=FALSE, override=override)
   map <- make_reanno(outpath, PAC=PAC, mis_fasta_check = TRUE, output="list")
   stopifnot(length(map$Full_anno$mis0) == 1)
-
-## Reorganize reanno object to a PAC_mapper object
+  
+  ## Reorganize reanno object to a PAC_mapper object
   align_lst <- lapply(map$Full_anno, function(x){
     x <- x[[1]][!is.na(x[[1]]$ref_hits),]
     splt_x <- strsplit(x[[4]], "(?<=;\\+\\||;-\\|)", perl=TRUE)
@@ -188,7 +188,7 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
                        ref_strand = "*",
                        align_start = start_align,
                        align_strand = strnd_align)
-      })
+    })
     df_align <- do.call("rbind", lst_align)
   })
   for(i in seq.int(length(align_lst))){
@@ -224,11 +224,11 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
         splt <- lapply(splt, function(y){
           rownames(y) <- NULL
           return(y)
-          })
+        })
         x <- do.call("rbind", splt)
       }
     }else{
-       rownames(x) <- x$seqs
+      rownames(x) <- x$seqs
     }
     ifelse(x$align_strand=="sense", "+", "-")
     df <- data.frame(Mismatch=gsub("mis", "", x$mismatch),
@@ -240,7 +240,7 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
     return(df)
   })
   
-# Fix bowtie names and match with original reference
+  # Fix bowtie names and match with original reference
   splt_nam <- strsplit(names(full), " ")
   splt_nam <- unlist(lapply(splt_nam, function(x){x[1]}))
   nam_match <- match(splt_nam, names(align))
@@ -248,7 +248,7 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
   stopifnot(identical(names(align_lst)[!is.na(names(align_lst))],  
                       splt_nam[!is.na(names(align_lst))]))
   
-# Add full length reference
+  # Add full length reference
   names(align_lst)[is.na(names(align_lst))] <- splt_nam[is.na(names(align_lst))]
   fin_lst <- list(NULL)
   for(i in seq.int(length(align_lst))){
@@ -260,8 +260,8 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
     fin_lst[[i]] <- list(Ref_seq=full[i], Alignments=align_lst[[i]])
     names(fin_lst)[i] <- names(align_lst)[i] 
   }
-
-# Generate alignment string
+  
+  # Generate alignment string
   doParallel::registerDoParallel(threads) 
   `%dopar%` <- foreach::`%dopar%`
   
@@ -273,8 +273,8 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
       ref_lgn <- lapply(fin_lst, function(x){Biostrings::width(x$Ref_seq)})
       ref_lgn  <- max(do.call("c", ref_lgn))
       if(ref_lgn>500){
-         warning("\nOption report_string=TRUE is only compatible with",
-                 "\nreference < 500 nt. Alignment string will not be returned.")
+        warning("\nOption report_string=TRUE is only compatible with",
+                "\nreference < 500 nt. Alignment string will not be returned.")
       }else{
         fin_lst <- lapply(fin_lst, function(x){
           if(x$Alignments[1,1] =="no_hits"){
@@ -293,28 +293,28 @@ PAC_mapper <- function(PAC, ref, mismatches=0, multi="remove",
                                               .final=function(y){
                                                 names(y) <- names(algn_lst)
                                                 return(y)})  %dopar% {
-              ref <- ref
-              n_ref <- n_ref
-              sq <- rownames(algn_lst[[j]])
-              if(algn_lst[[j]]$Strand == "-"){
-                 sq <- intToUtf8(rev(utf8ToInt(sq)))
-              }
-              algn_str <- paste(strrep("-", 
-                                       times=(algn_lst[[j]]$Align_start)-1),sq,
-                                strrep("-", 
-                                       times= n_ref-(algn_lst[[j]]$Align_end)),
-                                sep="")
-            return(algn_str)
+                                                  ref <- ref
+                                                  n_ref <- n_ref
+                                                  sq <- rownames(algn_lst[[j]])
+                                                  if(algn_lst[[j]]$Strand == "-"){
+                                                    sq <- intToUtf8(rev(utf8ToInt(sq)))
+                                                  }
+                                                  algn_str <- paste(strrep("-", 
+                                                                           times=(algn_lst[[j]]$Align_start)-1),sq,
+                                                                    strrep("-", 
+                                                                           times= n_ref-(algn_lst[[j]]$Align_end)),
+                                                                    sep="")
+                                                  return(algn_str)
+                                                }
+            df <- cbind(algn, 
+                        data.frame(
+                          Align_string=as.character(
+                            paste(do.call("c", positions_lst))), 
+                          stringsAsFactors=FALSE))
+            return(list(Ref_seq=ref, Alignments=df))
           }
-          df <- cbind(algn, 
-                      data.frame(
-                        Align_string=as.character(
-                          paste(do.call("c", positions_lst))), 
-                        stringsAsFactors=FALSE))
-          return(list(Ref_seq=ref, Alignments=df))
-        }
-      })
-     }
+        })
+      }
     }
   }
   doParallel::stopImplicitCluster()

@@ -2,7 +2,7 @@
 % Please edit documentation in R/PAC_filtsep.R
 \name{PAC_filtsep}
 \alias{PAC_filtsep}
-\title{Generates filtered sequence name list seperated on group}
+\title{Generates filtered sequence name list separated on group}
 \usage{
 PAC_filtsep(
   PAC,
@@ -47,7 +47,7 @@ converted into a binary (hit=1, no hit=0) data.frame. See
 A data.frame (see output for details).
 }
 \description{
-\code{PAC_filtsep} Group seperated filtered name list
+\code{PAC_filtsep} Group separated filtered name list
 }
 \details{
 Given a PAC object the function will extract sequences within the

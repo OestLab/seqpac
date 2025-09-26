@@ -109,7 +109,7 @@
 #' test <- apply(test, 1, function(x){paste(x, collapse = "")})
 #' new_anno$temp <- ifelse(grepl("Warning",  test), "rm", "keep")
 #' anno(pac) <- new_anno
-#' pac_small <- PAC_filter(pac, subset_only=TRUE, size = c(20,22),
+#' pac_small <- PAC_filter(pac, subset_only=TRUE, nucleotide_range = c(20,22),
 #'                   anno_target=list("temp", "keep"))
 #'
 #' #  Run PAC_gtf
@@ -208,15 +208,15 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
         if(grepl("win|WIN|Win", Sys.info()["sysname"])){
             outpath <- gsub("\\", "/", outpath, fixed=TRUE)
         }
-        err <- try(map_reanno(PAC, ref_paths=list(genome=genome),
-                                 output_path=outpath, type="internal",
+        err <- try(map_reanno(PAC, input=list(genome=genome),
+                                 output=outpath, type="internal",
                                  mismatches=mismatches, override=TRUE,
                                  import ="genome", threads=threads),
                    silent = TRUE)
         if(!is.null(err)){
         outpath <- tempfile(pattern = "", fileext = ".out")
-        err2 <- try(map_reanno(PAC, ref_paths=list(genome=genome), 
-                              output_path=outpath, type="external", 
+        err2 <- try(map_reanno(PAC, input=list(genome=genome), 
+                              output=outpath, type="external", 
                               mismatches=mismatches, override=TRUE,
                               import ="genome", threads=threads), silent = TRUE)
         if(!is.null(err2)){

@@ -36,8 +36,6 @@
 #' @examples
 #' 
 #' ###########################################################
-#' ### test the map_rangetype function
-#' # More complicated examples can be found in the vignette.
 #' ##----------------------------------------
 #' 
 #' # First create an annotation blank PAC with group means
@@ -69,15 +67,17 @@
 
 PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
   
-  inpath=input
-  outpath=output
+  inpath<-input
+  outpath<-output
   
   if(!is.null(lanes)){
-    merge_lanes(in_path=inpath, out_path = outpath)
+    cat("Will now merge lanes...")
+    merge_lanes(input=inpath, output = outpath)
   }
   if(!is.null(lanes)){
     
     if(!is.null(trim)){
+      cat("Will now merge lanes...")
       if(trim=="default_neb"){
         counts<-make_counts(input=outpath,
                             trimming = "seqpac",
@@ -94,6 +94,7 @@ PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
   if(is.null(lanes)){
     
     if(!is.null(trim)){
+      cat("Will now merge lanes...")
       if(trim=="default_neb"){
         counts<-make_counts(input=inpath,
                             trimming="seqpac",

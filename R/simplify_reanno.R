@@ -97,7 +97,7 @@
 #' # Warning: if you use your own data, you may want to use override=FALSE, to avoid
 #' # deleting previous mapping by mistake.
 #' 
-#' map_reanno(pac, ref_paths=ref_paths, output_path=output,
+#' map_reanno(pac, input=ref_paths, output=output,
 #'                type="internal", mismatches=1,  import="biotype", 
 #'                threads=2, keep_temp=FALSE, override=TRUE)
 #'  
