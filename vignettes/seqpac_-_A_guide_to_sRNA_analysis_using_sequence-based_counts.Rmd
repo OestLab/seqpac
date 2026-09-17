@@ -1470,6 +1470,11 @@ load(system.file("extdata", "drosophila_sRNA_pac_filt_anno.Rdata",
 ## Differential expression in Seqpac 
 
 # Simple model testing stages against using Wald test with local fit (default)
+
+library(seqpac)
+library(BiocParallel)
+library(DESeq2)
+
 table(pheno(pac)$stage)
 output_deseq <- PAC_deseq(pac, model= ~stage, threads=1)
 ```
