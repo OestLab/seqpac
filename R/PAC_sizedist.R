@@ -135,8 +135,28 @@ PAC_sizedist <- function(PAC, norm="counts", nucleotide_range=NULL, anno_target,
       }
     }
   }else{
-    data <- PAC$summary[[summary_target[[1]]]]; labl <- summary_target
+    data <- PAC$summary[[summary_target[[1]]]]
+    labl <- summary_target[[1]]
+    
+    if(length(summary_target) > 1){
+      summary_groups <- summary_target[[2]]
+      
+      if(!all(summary_groups %in% colnames(data))){
+        missing_groups <- summary_groups[
+          !summary_groups %in% colnames(data)
+        ]
+        
+        stop(
+          "The following summary_target groups are not present in the summary table: ",
+          paste(missing_groups, collapse=", "),
+          "\nAvailable groups are: ",
+          paste(colnames(data), collapse=", ")
+        )
+      }
+      
+      data <- data[, summary_groups, drop=FALSE]
     }
+  }
   
 
   #### Summarize over size and biotype
@@ -188,8 +208,7 @@ PAC_sizedist <- function(PAC, norm="counts", nucleotide_range=NULL, anno_target,
   if(!is.null(summary_target)){
     samp <- colnames(data)
   }else{
-    if(is.null(pheno_target)){
-      samp <- rownames(ph)
+    if(is.null(pheno_target)){ 
     }else{
       samp <- paste0(ph[,pheno_target[[1]]],"-", rownames(ph)) 
     }
@@ -199,7 +218,7 @@ PAC_sizedist <- function(PAC, norm="counts", nucleotide_range=NULL, anno_target,
                                       ggplot2::aes(x=size, 
                                                    y=data, 
                                                    fill=biotype))+
-      ggplot2::geom_bar(width = 0.9, size =0.2, colour="black", stat="identity")+
+      ggplot2::geom_bar(width = 0.9, linewidth  = 0.2, colour="black", stat="identity")+
       ggplot2::geom_hline(yintercept=0, col="azure4")+
       
       ggplot2::xlab("Size (nt)")+

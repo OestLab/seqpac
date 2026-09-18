@@ -170,7 +170,7 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   dds <- DESeq2::estimateSizeFactors(dds)
   
   ### DEseq analysis and extract result table
-  BiocParallel::register(BiocParallel::MulticoreParam(workers=threads))
+  BiocParallel::register(BiocParallel::SnowParam(workers=threads))
   dds_fit <- DESeq2::DESeq(dds, test=test, fitType=fitType, parallel = TRUE)
   res_nam <- DESeq2::resultsNames(dds_fit)
   if(!is.null(pheno_target)){
@@ -232,8 +232,8 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
     ggplot2::theme_classic()
   
   vcano <- ggplot2::ggplot(df_plot, ggplot2::aes(x=log2FC, y=neglog_padj)) +
-    ggplot2::geom_hline(yintercept=1, col="black", size=0.1)+
-    ggplot2::geom_vline(xintercept=c(-1, 1), col="black", size=0.1)+
+    ggplot2::geom_hline(yintercept=1, col="black", linewidth=0.1)+
+    ggplot2::geom_vline(xintercept=c(-1, 1), col="black", linewidth=0.1)+
     ggplot2::geom_point(ggplot2::aes(colour = DE), size=1) +
     ggplot2::scale_colour_manual(values = c("not_pass"="grey", "pass"= "red")) +
     ggplot2::labs(title="Volcano plot DE features", 

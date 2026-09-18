@@ -134,8 +134,28 @@ PAC_nbias <- function(PAC, position=1, norm=NULL, nucleotide_range=NULL, anno_ta
       }
     }
   }else{
-    dat <- PAC$summary[[summary_target[[1]]]]; labl <- summary_target
+    dat <- PAC$summary[[summary_target[[1]]]]
+    labl <- summary_target[[1]]
+    
+    if(length(summary_target) > 1){
+      summary_groups <- summary_target[[2]]
+      
+      if(!all(summary_groups %in% colnames(dat))){
+        missing_groups <- summary_groups[
+          !summary_groups %in% colnames(dat)
+        ]
+        
+        stop(
+          "The following summary_target groups are not present in the summary table: ",
+          paste(missing_groups, collapse=", "),
+          "\nAvailable groups are: ",
+          paste(colnames(dat), collapse=", ")
+        )
+      }
+      
+      dat <- dat[, summary_groups, drop=FALSE]
     }
+  }
   
   # Extract nt anno
   anno <-PAC$Anno
@@ -181,8 +201,8 @@ PAC_nbias <- function(PAC, position=1, norm=NULL, nucleotide_range=NULL, anno_ta
   
   #### Plot ###                 
   histo_lst <- list(NA)
-  if(is.null(summary_target)){samp <- rownames(PAC$Pheno)}
-  else{samp <- names(PAC$summary[[summary_target[[1]]]])}
+  if(is.null(summary_target)){names(nuc_lst) <- rownames(PAC$Pheno)}
+  else{names(nuc_lst) <- colnames(dat)}
   for(i in seq.int(length(nuc_lst))){
     nuc_lst[[i]]$nucleotide <- factor(nuc_lst[[i]]$nucleotide, 
                                       levels=c("N","C","G","A","T"))
@@ -192,15 +212,14 @@ PAC_nbias <- function(PAC, position=1, norm=NULL, nucleotide_range=NULL, anno_ta
     histo_lst[[i]] <- ggplot2::ggplot(nuc_lst[[i]], 
                                       ggplot2::aes(x=length, y=counts, 
                                                    fill=nucleotide))+
-      ggplot2::geom_bar(width = 0.9, cex=0.2, colour="black", stat="identity")+
+      ggplot2::geom_bar(width = 0.9, linewidth =0.2, colour="black", stat="identity")+
       ggplot2::geom_hline(yintercept=0, col="azure4")+
       ggplot2::xlab("Size (nt)")+
       ggplot2::ylab(paste(labl))+
-      ggplot2::labs(subtitle = samp[i])+
+      ggplot2::labs(subtitle = names(nuc_lst)[i])+
       ggplot2::scale_fill_manual(values=colors)+
       ggplot2::theme_classic()+
       ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 0))
-    names(histo_lst)[i] <- names(nuc_lst)[i]
     if(!is.null(ymax)){
          histo_lst[[i]] <- histo_lst[[i]]+ 
            ggplot2::coord_cartesian(ylim=c(0, ymax))
