@@ -11,7 +11,7 @@ PAC_gtf(
   return = "simplify",
   stranded = FALSE,
   gtf = NULL,
-  targets = NULL,
+  target = NULL,
   threads = 1
 )
 }
@@ -57,7 +57,7 @@ analysis can be done in hindsight.}
 gtf files with differing formats. Can also directly be provided as a tibble
 dataframe in a named list.}
 
-\item{targets}{Named list of character vectors indicating target columns
+\item{target}{Named list of character vectors indicating target columns
 in the listed gtf files in \emph{gtf_other}. Important, the listed objects
 must have the same length and names as in \emph{gtf}. The vector
 indicates the column names as if imported by rtracklayer::readGFF.}
@@ -138,25 +138,25 @@ pac_merge <- PAC_gtf(pac_small, mismatches=0, return="merge",
 \seealso{
 \url{https://github.com/OestLab/seqpac} for updates.
 
-Other PAC analysis: 
-\code{\link{PAC_covplot}()},
-\code{\link{PAC_deseq}()},
-\code{\link{PAC_filter}()},
-\code{\link{PAC_filtsep}()},
-\code{\link{PAC_jitter}()},
-\code{\link{PAC_mapper}()},
-\code{\link{PAC_nbias}()},
-\code{\link{PAC_norm}()},
-\code{\link{PAC_pca}()},
-\code{\link{PAC_pie}()},
-\code{\link{PAC_saturation}()},
-\code{\link{PAC_sizedist}()},
-\code{\link{PAC_stackbar}()},
-\code{\link{PAC_summary}()},
-\code{\link{PAC_trna}()},
-\code{\link{as.PAC}()},
-\code{\link{filtsep_bin}()},
-\code{\link{map_rangetype}()},
-\code{\link{tRNA_class}()}
+Other PAC analysis:
+\code{\link[=PAC_covplot]{PAC_covplot()}},
+\code{\link[=PAC_deseq]{PAC_deseq()}},
+\code{\link[=PAC_filter]{PAC_filter()}},
+\code{\link[=PAC_filtsep]{PAC_filtsep()}},
+\code{\link[=PAC_jitter]{PAC_jitter()}},
+\code{\link[=PAC_mapper]{PAC_mapper()}},
+\code{\link[=PAC_nbias]{PAC_nbias()}},
+\code{\link[=PAC_norm]{PAC_norm()}},
+\code{\link[=PAC_pca]{PAC_pca()}},
+\code{\link[=PAC_pie]{PAC_pie()}},
+\code{\link[=PAC_saturation]{PAC_saturation()}},
+\code{\link[=PAC_sizedist]{PAC_sizedist()}},
+\code{\link[=PAC_stackbar]{PAC_stackbar()}},
+\code{\link[=PAC_summary]{PAC_summary()}},
+\code{\link[=PAC_trna]{PAC_trna()}},
+\code{\link[=as.PAC]{as.PAC()}},
+\code{\link[=filtsep_bin]{filtsep_bin()}},
+\code{\link[=map_rangetype]{map_rangetype()}},
+\code{\link[=tRNA_class]{tRNA_class()}}
 }
 \concept{PAC analysis}

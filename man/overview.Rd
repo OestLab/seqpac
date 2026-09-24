@@ -84,7 +84,7 @@ reanno_s4 <- as.reanno(reanno_s3)
 
 }
 \seealso{
-Other reanno methods: 
-\code{\link{full}()}
+Other reanno methods:
+\code{\link[=full]{full()}}
 }
 \concept{reanno methods}

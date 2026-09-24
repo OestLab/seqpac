@@ -408,9 +408,9 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
     plot <- ggplot2::ggplot(dat, ggplot2::aes(x=Group.1, y=means, fill=Group.1 ,
                             ymax = means + SE,
                             ymin = means - SE)) +
-      ggplot2:: geom_errorbar(width=0.5, size=1.0, colour="black", 
+      ggplot2:: geom_errorbar(width=0.5, linewidth=1.0, colour="black", 
                               position = "identity") +
-      ggplot2::geom_col(width = 0.8, cex=0.2, colour="black")+
+      ggplot2::geom_col(width = 0.8, linewidth=0.2, colour="black")+
       ggplot2::labs(title=paste0("Mean ", norm))+
       ggplot2::ylab(paste0("Log10 ", norm, " +/- SE")) +
       ggplot2::scale_fill_manual(values=rev(rgb_vec_ann1))+
@@ -419,9 +419,9 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
                      axis.title.y= ggplot2::element_blank(), 
                      panel.grid.major.y=ggplot2::element_line(linetype="dashed",
                                                                colour="grey",
-                                                               size=0.5),
+                                                              linewidth =0.5),
                      panel.grid.major.x = ggplot2::element_line(colour="grey",
-                                                                size=0.5),
+                                                                linewidth =0.5),
                      axis.text.x = ggplot2::element_text(angle = 0, hjust = 0),
                      axis.text.y = ggplot2::element_text(angle = 0, hjust = 0),
                      axis.line.x = ggplot2::element_blank())+
@@ -468,8 +468,8 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
                                                            ymin=value, 
                                                            ymax=value)) +
       ggplot2::geom_hline(yintercept = 0, linetype="dashed", 
-                          size=1, color="azure4")+
-      ggplot2::geom_errorbar(width=0.8, size=0.5, position = "identity") +
+                          linewidth=1, color="azure4")+
+      ggplot2::geom_errorbar(width=0.8, linewidth=0.5, position = "identity") +
       ggplot2::geom_point(shape=21, size=4, position = "identity") +
       ggplot2::labs(title=paste0(pheno_target[[2]], collapse=" vs ")) + 
       ggplot2::ylab(paste0("Log2FC between groups (", norm, ") +/- SE")) + 
@@ -481,9 +481,9 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
                      panel.grid.major.y=
                        ggplot2::element_line(linetype="dashed",
                                              colour="grey", 
-                                             size=0.5), 
+                                             linewidth=0.5), 
                      panel.grid.major.x = ggplot2::element_line(colour="grey",
-                                                                size=0.5), 
+                                                                linewidth =0.5), 
                      axis.text.x = ggplot2::element_text(angle = 0, hjust = 0),
                      axis.text.y = ggplot2::element_blank(),
                      axis.line.x = ggplot2::element_blank(), 
@@ -495,7 +495,7 @@ PAC_trna <- function(PAC, norm="cpm", filter=100, join=FALSE, top=15,
     x$ann1 <- factor(x$ann1, levels=rev(unique(x$ann1)))
     x$ann2 <- factor(x$ann2, levels=rev(anno_target_2[[2]]))
     plot <- ggplot2::ggplot(x, ggplot2::aes(x=ann1, y=perc, fill=ann2)) +
-      ggplot2::geom_col(width = 0.9, cex=0.2, colour="black", position="fill")+
+      ggplot2::geom_col(width = 0.9, linewidth=0.2, colour="black", position="fill")+
       ggplot2::labs(title="Mean percent content")+
       ggplot2::ylab("%") +
       ggplot2::scale_fill_manual(values=rev(rgb_vec_ann2))+

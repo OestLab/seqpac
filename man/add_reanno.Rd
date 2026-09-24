@@ -215,13 +215,15 @@ anno <- add_reanno(reanno_biotype, bio_search=bio_search,
  about Bowtie and \url{https://github.com/OestLab/seqpac} for updates on the
  current package.
 
-Other PAC reannotation: 
-\code{\link{PAC_annotate}()},
-\code{\link{as.reanno}()},
-\code{\link{import_reanno}()},
-\code{\link{make_conv}()},
-\code{\link{make_reanno}()},
-\code{\link{map_reanno}()},
-\code{\link{simplify_reanno}()}
+Other PAC reannotation:
+\code{\link[=PAC_annotate]{PAC_annotate()}},
+\code{\link[=PAC_map]{PAC_map()}},
+\code{\link[=PAC_map2]{PAC_map2()}},
+\code{\link[=as.reanno]{as.reanno()}},
+\code{\link[=import_reanno]{import_reanno()}},
+\code{\link[=make_conv]{make_conv()}},
+\code{\link[=make_reanno]{make_reanno()}},
+\code{\link[=map_reanno]{map_reanno()}},
+\code{\link[=simplify_reanno]{simplify_reanno()}}
 }
 \concept{PAC reannotation}

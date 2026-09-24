@@ -4,7 +4,13 @@
 \alias{PAC_annotate}
 \title{Wrapper for annotation of PAC object}
 \usage{
-PAC_annotate(genome = NULL, biotype = NULL, output = NULL, PAC)
+PAC_annotate(
+  genome = NULL,
+  biotype = NULL,
+  output = NULL,
+  override = FALSE,
+  PAC
+)
 }
 \arguments{
 \item{genome}{Character indicating path to reference genome in fasta (.fa) 
@@ -25,6 +31,11 @@ based mapping will be performed.}
 
 \item{output}{Output directory for summarized annotation 
 information (.Rdata files) created by map_reanno.}
+
+\item{override}{Logical whether or not the function should prompt you for a
+question if there are files in output. As default, override=FALSE will
+prevent deleting large files by accident, but requires an interactive R
+session. Setting override=TRUE may solve non-interactive problems.}
 
 \item{PAC}{PAC-object used for mapping.}
 }
@@ -76,13 +87,15 @@ pac <- PAC_annotate(PAC=pac,
 \url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
-Other PAC reannotation: 
-\code{\link{add_reanno}()},
-\code{\link{as.reanno}()},
-\code{\link{import_reanno}()},
-\code{\link{make_conv}()},
-\code{\link{make_reanno}()},
-\code{\link{map_reanno}()},
-\code{\link{simplify_reanno}()}
+Other PAC reannotation:
+\code{\link[=PAC_map]{PAC_map()}},
+\code{\link[=PAC_map2]{PAC_map2()}},
+\code{\link[=add_reanno]{add_reanno()}},
+\code{\link[=as.reanno]{as.reanno()}},
+\code{\link[=import_reanno]{import_reanno()}},
+\code{\link[=make_conv]{make_conv()}},
+\code{\link[=make_reanno]{make_reanno()}},
+\code{\link[=map_reanno]{map_reanno()}},
+\code{\link[=simplify_reanno]{simplify_reanno()}}
 }
 \concept{PAC reannotation}

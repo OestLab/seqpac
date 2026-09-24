@@ -84,11 +84,14 @@
 #' cowplot::plot_grid(plotlist=plots_FC, nrow = 3, ncol = 1)
 #' 
 #' 
+#' @importFrom ggplot2 after_stat
 #' @export
 #'
 PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL, 
                        style="jitter", limits=NULL, ypos_n=NULL, colors=NULL, 
                        box=TRUE){
+  
+  count <- NULL
   
    values <- biotype <-  NULL
   
@@ -174,20 +177,19 @@ PAC_jitter <- function(PAC, summary_target=NULL, anno_target=NULL,
     max_lim <- max(sqrt(mima^2))*1.3
     if(is.null(ypos_n)){ypos_n <- max(sqrt(mima^2))*1.35}
     if(is.null(limits)){limits <- c((mima[1]*1.2),  max_lim)}
-    if(is.null(limits)){limits <- c((mima[1]*1.2),  max_lim)}
-    
+
     if(style=="jitter"){
       p <- ggplot2::ggplot(
         data, ggplot2::aes(x=biotype, y=values, col=biotype, fill=biotype))+
         ggplot2::geom_hline(yintercept=0, col="#707177", linewidth=0.6) +
-        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), size=1)+
+        ggplot2::geom_jitter(position=ggplot2::position_jitter(0.2), size=2)+
         ggplot2::stat_summary(geom = "crossbar", fun="median", 
                               fun.max = "median", fun.min = "median",
                               width=0.7, linewidth=0.4, position = "identity", 
                               col="Black") +
         ggplot2::geom_text(stat="count", ggplot2::aes(
             label=paste0("n=", ggplot2::after_stat(count) , "\nup:", perc_up[,num+1], "%")), 
-            size=3.5, y=ypos_n, col="Black") +
+            size=3.5, y=ypos_n,vjust = 1.2, col="Black") +
         ggplot2::labs(title=paste0(colnames(df)[num]) , x="Biotype" , 
                       y =  paste0(summary_target[[1]]) ) +
         ggplot2::theme_classic()+

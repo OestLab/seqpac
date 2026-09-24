@@ -84,7 +84,7 @@ reanno_s3 <- as(reanno_object, "list")
 reanno_s4 <- as.reanno(reanno_s3)   
 }
 \seealso{
-Other reanno methods: 
-\code{\link{overview}()}
+Other reanno methods:
+\code{\link[=overview]{overview()}}
 }
 \concept{reanno methods}

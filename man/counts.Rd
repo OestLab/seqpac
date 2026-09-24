@@ -51,12 +51,12 @@ head(norm(pac)$cpm)
 
 }
 \seealso{
-Other PAC methods: 
-\code{\link{anno}()},
+Other PAC methods:
+\code{\link[=anno]{anno()}},
 \code{\link{names,PAC-method}},
-\code{\link{norm}()},
-\code{\link{pheno}()},
-\code{\link{show.PAC}()},
-\code{\link{summary}()}
+\code{\link[=norm]{norm()}},
+\code{\link[=pheno]{pheno()}},
+\code{\link[=show.PAC]{show.PAC()}},
+\code{\link[=summary]{summary()}}
 }
 \concept{PAC methods}

@@ -83,13 +83,14 @@ documentation on cutadapt.
 and documentation on fastq_quality_filter. \url{https://github.com/OestLab/seqpac}
 for updates on seqpac.
 
-Other PAC generation: 
-\code{\link{PAC_check}()},
-\code{\link{PAC_create}()},
-\code{\link{make_PAC}()},
-\code{\link{make_counts}()},
-\code{\link{make_pheno}()},
-\code{\link{make_trim}()},
-\code{\link{merge_lanes}()}
+Other PAC generation:
+\code{\link[=PAC_check]{PAC_check()}},
+\code{\link[=PAC_create]{PAC_create()}},
+\code{\link[=Seqpac]{Seqpac()}},
+\code{\link[=make_PAC]{make_PAC()}},
+\code{\link[=make_counts]{make_counts()}},
+\code{\link[=make_pheno]{make_pheno()}},
+\code{\link[=make_trim]{make_trim()}},
+\code{\link[=merge_lanes]{merge_lanes()}}
 }
 \concept{PAC generation}

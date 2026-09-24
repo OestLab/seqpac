@@ -2,10 +2,13 @@
 % Please edit documentation in R/seqpac_generics_methods.R
 \name{nrow,PAC-method}
 \alias{nrow,PAC-method}
+\alias{nrow.reanno}
 \alias{nrow,reanno-method}
 \title{number of sequences}
 \usage{
 \S4method{nrow}{PAC}(x)
+
+\method{nrow}{reanno}(x)
 
 \S4method{nrow}{reanno}(x)
 }

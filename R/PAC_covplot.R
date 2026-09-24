@@ -303,7 +303,7 @@ PAC_covplot <- function(PAC, map, summary_target=NULL, map_target=NULL,
       if(max(cov_df$Coverage) >= 100){
         plot_lst[[i]] <- ggplot2::ggplot(cov_df, ggplot2::aes(
           x=Position, y=Coverage, group=Group, fill=Group)) +
-          ggplot2::geom_line(size=0.3) +
+          ggplot2::geom_line(linewidth =0.3) +
           ggplot2::geom_ribbon(data=cov_df, 
                                ggplot2::aes(x=Position, ymax=Coverage), 
                                ymin=0, alpha=0.5) +
@@ -319,7 +319,7 @@ PAC_covplot <- function(PAC, map, summary_target=NULL, map_target=NULL,
       if(max(cov_df$Coverage) < 100){
         plot_lst[[i]] <- ggplot2::ggplot(cov_df, ggplot2::aes(
           x=Position, y=Coverage, group=Group, fill=Group)) +
-          ggplot2::geom_line(size=0.3) +
+          ggplot2::geom_line(linewidth =0.3) +
           ggplot2::geom_ribbon(
             data=cov_df, 
             ggplot2::aes(x=Position, ymax=Coverage), ymin=0, alpha=0.5) +
@@ -342,7 +342,7 @@ PAC_covplot <- function(PAC, map, summary_target=NULL, map_target=NULL,
         plot_lst[[i]] <- ggplot2::ggplot(cov_df, ggplot2::aes(
           x=Position, y=Coverage, group=Group, color=Group, fill=Group)) +
           ggplot2::geom_path(lineend="butt", linejoin="round", 
-                             linemitre=1, size=1.0)+
+                             linemitre=1, linewidth =1.0)+
           ggplot2::scale_color_manual(values=colors)+
           ggplot2::labs(title=names(sub_map)[i])+
           ggplot2::ylab(paste0("mean_", norm)) +
@@ -357,7 +357,7 @@ PAC_covplot <- function(PAC, map, summary_target=NULL, map_target=NULL,
         plot_lst[[i]] <-  ggplot2::ggplot(cov_df, ggplot2::aes(
           x=Position, y=Coverage, group=Group, color=Group, fill=Group)) +
           ggplot2::geom_path(lineend="butt", linejoin="round", 
-                             linemitre=1, size=1.0)+
+                             linemitre=1, linewidth =1.0)+
           ggplot2::scale_color_manual(values=colors)+
           ggplot2::coord_cartesian(ylim=c(0,100))+
           ggplot2::scale_y_continuous(breaks = seq(0, 100, 30))+

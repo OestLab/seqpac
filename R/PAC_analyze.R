@@ -62,8 +62,8 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
     sb2<-PAC_stackbar(PAC, anno_target = anno_target, summary_target = list(paste0("cpmMeans_",pheno_target[[1]])), norm = "cpm")
     sd <- PAC_sizedist(PAC, norm="cpm", anno_target = anno_target, nucleotide_range =c(15,75),
                         summary_target = list(paste0("cpmMeans_",pheno_target[[1]])))
-    #pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
-    #               summary="pheno")
+    pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
+                   summary_target = list(paste0("cpmMeans_",pheno_target[[1]])))
     pca <- PAC_pca(PAC, pheno_target = pheno_target)
   }
   else{
@@ -76,8 +76,8 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
                       summary_target= list(paste0("countsMeans_",pheno_target[[1]])))
     sd <- PAC_sizedist(PAC, norm="counts", anno_target = anno_target, nucleotide_range =c(15,75),
                        summary_target = list(paste0("countsMeans_",pheno_target[[1]])))
-   # pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
-    #               summary="pheno")
+    pie <- PAC_pie(PAC, pheno_target = pheno_target, anno_target=anno_target,
+                   summary_target = list(paste0("countsMeans_",pheno_target[[1]])))
     pca <- PAC_pca(PAC, pheno_target = pheno_target)
   }
   
@@ -85,7 +85,7 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
   dsq <- PAC_deseq(PAC, model=model)
   }
   else{
-  dsq <- PAC_deseq(PAC, model=pheno_target[[1]])
+  cat("DESeq2 will be skipped, as no model was provided. See ?PAC_deseq for more info!")
   }
   
   #Print all results in a pdf
@@ -95,7 +95,7 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
       dir.create(output)
     }
     res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
-                #list(pie),
+                list(pie),
                  pca$graphs, list(dsq$plots$volcano))
   
  
@@ -107,7 +107,7 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
 }
   else{
     res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
-                 # list(pie),
+                 list(pie),
                   pca$graphs, list(dsq$plots$volcano))
     
     

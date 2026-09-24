@@ -46,7 +46,7 @@
 #'   gtf files with differing formats. Can also directly be provided as a tibble
 #'   dataframe in a named list.
 #' 
-#' @param targets Named list of character vectors indicating target columns
+#' @param target Named list of character vectors indicating target columns
 #'   in the listed gtf files in \emph{gtf_other}. Important, the listed objects
 #'   must have the same length and names as in \emph{gtf}. The vector
 #'   indicates the column names as if imported by rtracklayer::readGFF.
@@ -124,7 +124,7 @@
 
 
 PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify", 
-                   stranded=FALSE, gtf=NULL, targets=NULL, 
+                   stranded=FALSE, gtf=NULL, target=NULL, 
                    threads=1){
   ## Check S4
   if(isS4(PAC)){
@@ -176,9 +176,9 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
            "\nnames using for example rtracklayer::readGFF('<path_to_gtf>').")
     }
     logi_target <- sum(
-       names(gtf_lst[[i]]) %in% targets[[i]])== length(targets[[i]])
-    miss_trg <- which(!targets[[i]] %in% names(gtf_lst[[i]]))
-    miss_trg <- paste(targets[[i]][miss_trg], collapse="; ") 
+       names(gtf_lst[[i]]) %in% target[[i]])== length(target[[i]])
+    miss_trg <- which(!target[[i]] %in% names(gtf_lst[[i]]))
+    miss_trg <- paste(target[[i]][miss_trg], collapse="; ") 
     if(!logi_target){
       stop("
            \nInput gtf '", nam, "' does not contain all target columns.",
@@ -248,9 +248,11 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
   try_err <-  try(prefix <- do.call("rbind", 
                                    strsplit(c_nams[logi_coord], "_"))[,1], 
       silent=TRUE)
-  if(!is(try_err, "try-error")){
+
+  if(is(try_err, "try-error")){
       warning("Failed to generate prefix")
-      }
+  }
+  
   
   if(any(duplicated(prefix))){
     stop(
@@ -392,7 +394,7 @@ PAC_gtf<- function(PAC, genome=NULL, mismatches=3, return="simplify",
   for(i in seq.int(length(gtf_gr))){
     gtf_nam <- names(gtf_gr)[i]
     cat(paste0("\n   |--> Extract and compile '", gtf_nam, "' ..."))  
-    trg_cols <- targets[[i]]
+    trg_cols <- target[[i]]
 
     # Run overlap and extract anno 
     coord_anno <-  foreach::foreach(t=seq.int(length(coord_gr)), 

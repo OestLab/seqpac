@@ -42,7 +42,7 @@
 #'   each fasta reference file. It is important to carefully name each reference path.
 #'   The names will appear as they are named in the final annotation table.
 #'   Thus, if \emph{input=list(tRNA="<path_tRNA_ref>",
-#'   miRNA="<path_piRNA_ref>")} mapping to these fasta references will appear as
+#'   miRNA="<path_miRNA_ref>")} mapping to these fasta references will appear as
 #'   "tRNA" and "miRNA", respectively. Note: All reference fasta files must have
 #'   bowtie indexes using \code{Rbowtie::bowtie_build}.
 #'

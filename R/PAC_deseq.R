@@ -124,7 +124,7 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   cols <- unique(unlist(strsplit(cols, ":")))
   compr<-pheno[,colnames(pheno) %in% cols]
   if(is(compr, "data.frame")){
-  if((any(apply(combn(ncol(compr), 2), 2, function(x) identical(compr[, x[1]], compr[, x[2]]))))==TRUE) {
+  if((any(apply(utils::combn(ncol(compr), 2), 2, function(x) identical(compr[, x[1]], compr[, x[2]]))))==TRUE) {
     stop(cat="The column names in model appears to be repeated. \nThis may cause unwanted comparisons. To ensure a correct comparison, please check the colnames in Pheno!")
   }}
   
@@ -172,17 +172,39 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   ### DEseq analysis and extract result table
   BiocParallel::register(BiocParallel::SnowParam(workers=threads))
   dds_fit <- DESeq2::DESeq(dds, test=test, fitType=fitType, parallel = TRUE)
+  
   res_nam <- DESeq2::resultsNames(dds_fit)
+  
   if(!is.null(pheno_target)){
-     target_nam <- res_nam[grepl(pheno_target[[1]], res_nam)]
-     target_nam <- target_nam[1]
+    
+    res_DESeq2 <- DESeq2::results(
+      dds_fit,
+      contrast = c(
+        pheno_target[[1]],
+        pheno_target[[2]][1],
+        pheno_target[[2]][2]
+      )
+    )
+    
+    comp <- paste0(
+      pheno_target[[1]], ": ",
+      pheno_target[[2]][1], " vs ",
+      pheno_target[[2]][2]
+    )
+    
   }else{
-     target_nam <- res_nam[2]
-  }  
-  res_DESeq2 <- DESeq2::results(dds_fit, name=target_nam)
-  comp <- strsplit(S4Vectors::mcols(res_DESeq2)[2][,1][2], ": ")[[1]][2]
-  cat("\n")
-  cat("\n")
+    
+    target_nam <- res_nam[2]
+    res_DESeq2 <- DESeq2::results(dds_fit, name=target_nam)
+    
+    comp <- strsplit(
+      S4Vectors::mcols(res_DESeq2)[2][,1][2],
+      ": "
+    )[[1]][2]
+    
+  }
+  
+  cat("\n\n")
   cat(paste0("** ", comp, " **"))
   cat("\n")
   

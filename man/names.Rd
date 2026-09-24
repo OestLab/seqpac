@@ -88,12 +88,12 @@ reanno_s3 <- as(reanno_object, "list")
 reanno_s4 <- as.reanno(reanno_s3) 
 }
 \seealso{
-Other PAC methods: 
-\code{\link{anno}()},
-\code{\link{counts}()},
-\code{\link{norm}()},
-\code{\link{pheno}()},
-\code{\link{show.PAC}()},
-\code{\link{summary}()}
+Other PAC methods:
+\code{\link[=anno]{anno()}},
+\code{\link[=counts]{counts()}},
+\code{\link[=norm]{norm()}},
+\code{\link[=pheno]{pheno()}},
+\code{\link[=show.PAC]{show.PAC()}},
+\code{\link[=summary]{summary()}}
 }
 \concept{PAC methods}

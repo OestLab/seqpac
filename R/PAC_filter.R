@@ -288,29 +288,51 @@ PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0,
       ### Plot graph
       try_err<- try( 
         p <- ggplot2::ggplot(
-          filt_plot, ggplot2::aes(x=x_graph, y=n_features, fill=x_graph))+
-          ggplot2::geom_line()+
-          ggplot2::geom_point(cex=2, fill="blue")+
-          ggplot2::geom_hline(yintercept=0)+
-          ggplot2::scale_x_discrete(limit=filt_plot$x_graph, 
-                                    labels= as.character(filt_plot$filter))+
-          ggplot2::ggtitle("User filter:")+
-          ggplot2::xlab(NULL)+
-          ggplot2::theme_classic()+
-          ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 90, 
-                                                             hjust = 0))+
-          ggplot2::geom_vline(xintercept=threshold, col="red")+
-          ggplot2::geom_label(
-                   x=50, y=max(filt_plot[,2])*0.95, 
-                   label=paste0("n input sequences: ", strt, 
-                         "\nn analyzed sequences: ", nrow(df), 
-                         "\nn sequences after filter: ",
-                         idx_tab[idx_tab[,1]==TRUE, 2]), show.legend = FALSE)+
-          ggplot2::theme(plot.margin=ggplot2::margin(t = 1, r = 1,
-                                                     b = 1, l = 1,
-                                                     unit="cm"),
-                         plot.title = ggplot2::element_text(color="red", 
-                                                            size=10)))
+          filt_plot,
+          ggplot2::aes(
+            x = factor(x_graph, levels = x_graph),
+            y = n_features,
+            group = 1
+          )
+        ) +
+          ggplot2::geom_line(color = "black") +
+          ggplot2::geom_point(size = 2, color = "black") +
+          ggplot2::geom_hline(yintercept = 0) +
+          
+          ggplot2::scale_x_discrete(
+            labels = as.character(filt_plot$filter),
+            expand = ggplot2::expansion(add = 0.6)
+          ) +
+          
+          ggplot2::ggtitle("User filter:") +
+          ggplot2::xlab(NULL) +
+          ggplot2::ylab("n_features") +
+          
+          ggplot2::theme_classic() +
+          ggplot2::theme(
+            axis.text.x = ggplot2::element_text(angle = 90, hjust = 1, vjust = 0.5),
+            plot.title = ggplot2::element_text(color = "red", size = 10),
+            plot.margin = ggplot2::margin(t = 1, r = 1, b = 2, l = 1, unit = "cm")
+          ) +
+          
+          ggplot2::geom_vline(
+            xintercept = match(threshold, filt_plot$x_graph),
+            color = "red"
+          ) +
+          
+          ggplot2::annotate(
+            "label",
+            x = length(filt_plot$x_graph) * 0.6,
+            y = max(filt_plot$n_features) * 0.95,
+            label = paste0(
+              "n input sequences: ", strt,
+              "\nn analyzed sequences: ", nrow(df),
+              "\nn sequences after filter: ",
+              idx_tab[idx_tab[,1] == TRUE, 2]
+            ),
+            fill = "lightblue",
+            linewidth = 0.3
+          ))
       
       if(is(try_err, "try-error")){
         warning("Was unable to create filtering graph. Probable reason:", 
@@ -322,7 +344,9 @@ PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0,
       ### Promt for user input
       cat("\n!!           !!\nUser input needed:\n") 
       answer <- readline(prompt="Continute with this filter? [Y/n]")
-      if(answer=="Y" | answer=="y"){}else{stop("Script was terminated by user.")
+      if(!(answer %in% c("Y","y"))){
+        cat(paste0("\n-- Script was terminated by user.\n"))
+        return(invisible(NULL))
       }
     }
     

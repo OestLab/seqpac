@@ -97,7 +97,7 @@ merge_lanes <- function(input, output, threads=1, nlanes=NULL){
   test <- list(NULL)
   md5 <- lapply(as.list(fls_full), function(x){
     fstq <- data.table::fread(x, header=FALSE, nrows=1000)
-   test <- digest::digest(fstq, algo="md5")
+   test <- .md5_hash(fstq)
     return(test)
   })
   if(any(duplicated(unlist(md5)))){

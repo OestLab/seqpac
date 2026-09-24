@@ -104,6 +104,10 @@
 PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL, norm="counts",
                     labels="all", no_anno=TRUE, summary_target=NULL, angle=-25){
   
+  Category <- NULL
+  pos_prop <- NULL
+  y_pos <- NULL
+  
   ## Check S4
   if(isS4(PAC)){
     tp <- "S4"
@@ -212,20 +216,20 @@ PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL, norm=
     }
     # Position of labels and plot
     x <- dplyr::arrange(x, dplyr::desc(Category))
-    x$prop <- x$Percent / sum(x$Percent) * 100
-    x$ypos <- cumsum(x$prop) - 0.5 * x$prop
+    x$pos_prop <- x$Percent / sum(x$Percent) * 100
+    x$y_pos <- cumsum(x$pos_prop) - 0.5 * x$pos_prop
     
-    p1  <-ggplot2::ggplot(x, ggplot2::aes(x="", y=prop, fill=Category)) +
+    p1  <-ggplot2::ggplot(x, ggplot2::aes(x="", y=pos_prop, fill=Category)) +
       ggplot2::geom_bar(stat="identity", width=1, color="white") +
       ggplot2::coord_polar("y", start=angle) +
       ggplot2::theme_void() + 
       ggplot2::theme(legend.position="none", plot.subtitle=ggplot2::element_text(hjust=0.5,size=14)) +
       ggplot2::labs(subtitle=unique(x$Sample)) +
       ggplot2::geom_segment(ggplot2::aes(x = 1.5, xend = 1.56,
-                                         y = ypos, yend = ypos),
+                                         y = y_pos, yend = y_pos),
                             color = "black", linewidth = 0.5) +
       
-      ggplot2::geom_text(ggplot2::aes(x= 1.7,y = ypos, label = rev(labs)), color = "black", size=4) +
+      ggplot2::geom_text(ggplot2::aes(x= 1.7,y = y_pos, label = rev(labs)), color = "black", size=4) +
       ggplot2::scale_fill_manual(values=rev(colors))
     print(p1)
     }))
@@ -238,4 +242,5 @@ PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL, norm=
                                ggplot2::geom_bar(color="black") + 
                                ggplot2::scale_fill_manual(values=rev(colors))))
   return(c(plt_lst, list(legend=leg)))
+  
 }

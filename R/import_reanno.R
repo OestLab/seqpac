@@ -133,7 +133,7 @@ import_reanno <- function(bowtie_path, threads=1, coord=FALSE,
       "without.")
   
   ## Entering import loop
-  data.table::setDTthreads(threads)
+  
   bowtie_out_lst <- list(NA)
   for (k in seq.int(length(files))){
     cat(paste0("\n  |--- Import and reorganize ", basename(files)[k]))

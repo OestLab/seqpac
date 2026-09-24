@@ -112,13 +112,15 @@ reanno1 <- import_reanno(output, report="Biotype",  threads=1)
   \url{https://www.bioconductor.org/packages/release/bioc/html/Rbowtie.html}.
   \url{https://github.com/OestLab/seqpac} for updates on the current package.
 
-Other PAC reannotation: 
-\code{\link{PAC_annotate}()},
-\code{\link{add_reanno}()},
-\code{\link{as.reanno}()},
-\code{\link{make_conv}()},
-\code{\link{make_reanno}()},
-\code{\link{map_reanno}()},
-\code{\link{simplify_reanno}()}
+Other PAC reannotation:
+\code{\link[=PAC_annotate]{PAC_annotate()}},
+\code{\link[=PAC_map]{PAC_map()}},
+\code{\link[=PAC_map2]{PAC_map2()}},
+\code{\link[=add_reanno]{add_reanno()}},
+\code{\link[=as.reanno]{as.reanno()}},
+\code{\link[=make_conv]{make_conv()}},
+\code{\link[=make_reanno]{make_reanno()}},
+\code{\link[=map_reanno]{map_reanno()}},
+\code{\link[=simplify_reanno]{simplify_reanno()}}
 }
 \concept{PAC reannotation}

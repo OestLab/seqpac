@@ -157,7 +157,7 @@ PAC_saturation <- function(PAC, resample=10, steps=10,
     }else{          
       p <- p + ggplot2::stat_smooth(method = "gam", 
                                     formula = y ~ s(x), 
-                                    size = 1, fullrange=TRUE)
+                                    linewidth = 1, fullrange=TRUE)
       return(p + ggplot2::annotate(
         geom = "text", x = 105, 
         y = max(dat_sub$value)*0.5, 

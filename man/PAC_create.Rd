@@ -4,7 +4,7 @@
 \alias{PAC_create}
 \title{Wrapper for creation of PAC object}
 \usage{
-PAC_create(lanes = NULL, trim = NULL, input, output = NULL)
+PAC_create(lanes = NULL, trim = NULL, input, output = NULL, pheno = NULL)
 }
 \arguments{
 \item{lanes}{allows to define whether lanes should be merged with \code{\link{merge_lanes}}
@@ -23,6 +23,10 @@ to expect files in path to be trimmed or not and whether to merge lanes.}
 
 \item{output}{Character indicating path to where output files will be stored, 
 if applicable (such as in merge_lanes). Default=NULL.}
+
+\item{pheno}{Can be either a data frame, or a string to directory for a comma
+separated .csv file that will be used to produce the PAC object. Default=NULL,
+where progress report from counts will be added to pheno.}
 }
 \value{
 PAC object with values in pheno and count
@@ -41,8 +45,6 @@ you to run each function on its own!
 \examples{
 
 ###########################################################
-### test the map_rangetype function
-# More complicated examples can be found in the vignette.
 ##----------------------------------------
 
 # First create an annotation blank PAC with group means
@@ -67,19 +69,19 @@ file.rename(from = old_fls, to = new_fls)
 # Then merge the fastq files
 pac <- PAC_create(lanes=TRUE, trim="default_neb", input, output)
 
-
 }
 \seealso{
 \url{https://github.com/OestLab/seqpac} for updates on the current
   package.
 
-Other PAC generation: 
-\code{\link{PAC_check}()},
-\code{\link{make_PAC}()},
-\code{\link{make_counts}()},
-\code{\link{make_cutadapt}()},
-\code{\link{make_pheno}()},
-\code{\link{make_trim}()},
-\code{\link{merge_lanes}()}
+Other PAC generation:
+\code{\link[=PAC_check]{PAC_check()}},
+\code{\link[=Seqpac]{Seqpac()}},
+\code{\link[=make_PAC]{make_PAC()}},
+\code{\link[=make_counts]{make_counts()}},
+\code{\link[=make_cutadapt]{make_cutadapt()}},
+\code{\link[=make_pheno]{make_pheno()}},
+\code{\link[=make_trim]{make_trim()}},
+\code{\link[=merge_lanes]{merge_lanes()}}
 }
 \concept{PAC generation}

@@ -122,7 +122,7 @@ make_conv <- function(reference_list=NULL,
   ref1 <- Biostrings::readDNAStringSet(reference_list[[1]])
   stopifnot(!any(duplicated(names(ref1)))) 
   ref1_md5_vec <- unlist(lapply(as.list(ref1), function(x){
-    digest::digest(paste(x) , algo="md5")
+    .md5_hash(paste(x))
   }))
   sav_width[[1]] <- Biostrings::width(ref1)
   names(sav_width)[1] <- "ref1"
@@ -132,7 +132,7 @@ make_conv <- function(reference_list=NULL,
   cat("\nReading reference B ...")
   ref2 <- Biostrings::readDNAStringSet(reference_list[[2]])
   ref2_md5_lst <- lapply(as.list(ref2), function(x){
-    digest::digest(paste(x) , algo="md5")
+    .md5_hash(paste(x))
   })
   sav_width[[2]] <- Biostrings::width(ref2)
   names(sav_width)[2] <- "ref2"
@@ -143,7 +143,7 @@ make_conv <- function(reference_list=NULL,
       cat("\nReading reference C ...")
       ref3 <- Biostrings::readDNAStringSet(reference_list[[3]])
       ref3_md5_lst <- lapply(as.list(ref3), function(x){
-      digest::digest(paste(x) , algo="md5")
+        .md5_hash(paste(x))
       })
       sav_width[[3]] <- Biostrings::width(ref3)
       names(sav_width)[3] <- "ref3"

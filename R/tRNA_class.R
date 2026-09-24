@@ -116,6 +116,11 @@ tRNA_class <- function(PAC, map, terminal = 5){
       unlist(lapply(map, function(x){
         x[[2]][1,1] == "no_hits"})))==FALSE)
   }
+
+  if(any(sapply(map, is.null))){
+    map <- map[-which(sapply(map, is.null))]  
+  }
+  
   type_vector <- lapply(map, function(x){
     # Setup
     align <- x$Alignments

@@ -347,7 +347,7 @@ setMethod("show", signature(object="PAC"), show.PAC)
 # Important!!!, standard method definitions must have x and not object
 # Object works well with non-standard.
 #
-names.PAC <- function(x){ names(as(x, "list")) }
+
 #' @rdname names
 #' @family PAC methods
 #' @param x A S4 object of class PAC.
@@ -370,7 +370,7 @@ names.PAC <- function(x){ names(as(x, "list")) }
 #' head(norm(pac)$cpm)
 #' 
 #' @export
-setMethod("names", "PAC", names.PAC)
+setMethod("names", "PAC", function(x){ names(as(x, "list")) })
 
 
 #------------------------------------------------------------------------------
@@ -431,7 +431,8 @@ setMethod("colnames", "PAC", colnames.PAC)
 
 
 #------------------------------------------------------------------------------
-length.PAC <- function(x){ length(as(x, "list")) }
+
+
 #' number of objects in PAC
 #' @rdname length
 #' @param x A S4 object of class PAC.
@@ -454,7 +455,7 @@ length.PAC <- function(x){ length(as(x, "list")) }
 #' head(norm(pac)$cpm)
 #' 
 #' @export
-setMethod("length", "PAC", length.PAC)
+setMethod("length", "PAC", function(x){ length(as(x, "list")) })
 
 
 #------------------------------------------------------------------------------
@@ -696,6 +697,8 @@ setReplaceMethod("full", methods::signature(object="reanno", value="list"),
 # Important!!!, standard method definitions must have "x" and not "object"
 # Object works well with non-standard.
 #
+
+#' @export
 names.reanno <- function(x){ names(as(x, "list"))}
 #' names of objects in reanno
 #' @rdname names
@@ -750,7 +753,6 @@ names.reanno <- function(x){ names(as(x, "list"))}
 #' nrow(reanno_object)
 #' reanno_s3 <- as(reanno_object, "list")
 #' reanno_s4 <- as.reanno(reanno_s3) 
-#' @export
 setMethod("names", "reanno", names.reanno)
 
 #------------------------------------------------------------------------------
@@ -762,6 +764,7 @@ rownames.reanno <- function(x){ dplyr::pull(x@Overview[1])}
 setMethod("rownames", "reanno", rownames.reanno)
 
 #------------------------------------------------------------------------------
+#' @export
 length.reanno <- function(x){ length(as(x, "list")) } 
 #' length of reanno object
 #' @rdname length
@@ -770,9 +773,12 @@ length.reanno <- function(x){ length(as(x, "list")) }
 setMethod("length", "reanno", length.reanno)
 
 #------------------------------------------------------------------------------
+#' @exportS3Method base::nrow
+#' @rdname nrow
 nrow.reanno <- function(x){ nrow(x@Overview) } 
 #' number of sequences
 #' @rdname nrow
 #' @return Number of sequences in the reanno-object.
 #' @export
 setMethod("nrow", "reanno", nrow.reanno)
+

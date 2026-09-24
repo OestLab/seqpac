@@ -54,12 +54,11 @@ Imports:
   BiocParallel (>= 1.12.0),
   cowplot (>= 0.9.4),
   data.table (>= 1.14.0),
-  digest (>= 0.6.27),
   doParallel (>= 1.0.16),
   dplyr (>= 1.0.6),
   factoextra (>= 1.0.7),
   FactoMineR (>= 1.41),
-  ggplot2 (>= 3.3.3),
+  ggplot2 (>= 4.0.2),
   IRanges (>= 2.12.0),
   parallel (>= 3.4.4),
   reshape2 (>= 1.4.4),
@@ -86,3 +85,4 @@ Suggests:
   vroom
 VignetteBuilder:
   knitr
+Config/roxygen2/version: 8.1.0
