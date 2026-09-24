@@ -11,7 +11,7 @@ PAC_gtf(
   return = "simplify",
   stranded = FALSE,
   gtf = NULL,
-  targets = NULL,
+  target = NULL,
   threads = 1
 )
 }
@@ -57,7 +57,7 @@ analysis can be done in hindsight.}
 gtf files with differing formats. Can also directly be provided as a tibble
 dataframe in a named list.}
 
-\item{targets}{Named list of character vectors indicating target columns
+\item{target}{Named list of character vectors indicating target columns
 in the listed gtf files in \emph{gtf_other}. Important, the listed objects
 must have the same length and names as in \emph{gtf}. The vector
 indicates the column names as if imported by rtracklayer::readGFF.}

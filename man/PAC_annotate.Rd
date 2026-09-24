@@ -4,7 +4,13 @@
 \alias{PAC_annotate}
 \title{Wrapper for annotation of PAC object}
 \usage{
-PAC_annotate(genome = NULL, biotype = NULL, output = NULL, PAC)
+PAC_annotate(
+  genome = NULL,
+  biotype = NULL,
+  output = NULL,
+  override = FALSE,
+  PAC
+)
 }
 \arguments{
 \item{genome}{Character indicating path to reference genome in fasta (.fa) 
@@ -25,6 +31,11 @@ based mapping will be performed.}
 
 \item{output}{Output directory for summarized annotation 
 information (.Rdata files) created by map_reanno.}
+
+\item{override}{Logical whether or not the function should prompt you for a
+question if there are files in output. As default, override=FALSE will
+prevent deleting large files by accident, but requires an interactive R
+session. Setting override=TRUE may solve non-interactive problems.}
 
 \item{PAC}{PAC-object used for mapping.}
 }

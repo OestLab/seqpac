@@ -194,6 +194,7 @@ head(counts$progress_report)
 Other PAC generation:
 \code{\link[=PAC_check]{PAC_check()}},
 \code{\link[=PAC_create]{PAC_create()}},
+\code{\link[=Seqpac]{Seqpac()}},
 \code{\link[=make_PAC]{make_PAC()}},
 \code{\link[=make_cutadapt]{make_cutadapt()}},
 \code{\link[=make_pheno]{make_pheno()}},

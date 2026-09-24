@@ -31,6 +31,10 @@
 #' @param output Character indicating path to where output files will be stored, 
 #'   if applicable (such as in merge_lanes). Default=NULL. 
 #'   
+#' @param pheno Can be either a data frame, or a string to directory for a comma
+#' separated .csv file that will be used to produce the PAC object. Default=NULL,
+#' where progress report from counts will be added to pheno. 
+#'   
 #' @return PAC object with values in pheno and count
 #'   
 #' @examples
@@ -60,14 +64,17 @@
 #' # Then merge the fastq files
 #' pac <- PAC_create(lanes=TRUE, trim="default_neb", input, output)
 #'
-#'
+#' @importFrom utils read.csv
 #' @export
 
 
 
-PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
+PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
   
   inpath<-input
+  if(is.null(output)){
+    output <- paste0(tempdir(),"/seqpac/test")
+  }
   outpath<-output
   
   if(!is.null(lanes)){
@@ -77,7 +84,7 @@ PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
   if(!is.null(lanes)){
     
     if(!is.null(trim)){
-      cat("Will now merge lanes...")
+      cat("Will now trim adaptors...")
       if(trim=="default_neb"){
         counts<-make_counts(input=outpath,
                             trimming = "seqpac",
@@ -112,10 +119,19 @@ PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL){
     }
     
   }
+  if(is.null(pheno)){
   pheno <- data.frame(row.names = colnames(counts$counts),
                       Sample_ID= colnames(counts$counts))
   pheno<-make_pheno(pheno=pheno, progress_report=counts$progress_report,
                     counts=counts$counts)
+  }
+  if(!is.null(pheno)){
+    if(is.character(pheno) && file.exists(pheno)){
+      #if pheno is a directory to a csv file, import it here
+      pheno <- read.csv(pheno, row.names=1)
+    }
+  }
+
   pac <- make_PAC(counts, pheno)
   
   closeAllConnections()

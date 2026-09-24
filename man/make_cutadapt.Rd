@@ -86,6 +86,7 @@ for updates on seqpac.
 Other PAC generation:
 \code{\link[=PAC_check]{PAC_check()}},
 \code{\link[=PAC_create]{PAC_create()}},
+\code{\link[=Seqpac]{Seqpac()}},
 \code{\link[=make_PAC]{make_PAC()}},
 \code{\link[=make_counts]{make_counts()}},
 \code{\link[=make_pheno]{make_pheno()}},

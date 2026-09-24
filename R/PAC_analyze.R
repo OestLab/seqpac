@@ -84,7 +84,7 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
   dsq <- PAC_deseq(PAC, model=model)
   }
   else{
-  dsq <- PAC_deseq(PAC, model=pheno_target[[1]])
+  cat("DESeq2 will be skipped, as no model was provided. See ?PAC_deseq for more info!")
   }
   
   #Print all results in a pdf

@@ -101,6 +101,7 @@ file.remove(fls_temp, showWarnings=FALSE)
 Other PAC generation:
 \code{\link[=PAC_check]{PAC_check()}},
 \code{\link[=PAC_create]{PAC_create()}},
+\code{\link[=Seqpac]{Seqpac()}},
 \code{\link[=make_counts]{make_counts()}},
 \code{\link[=make_cutadapt]{make_cutadapt()}},
 \code{\link[=make_pheno]{make_pheno()}},

@@ -35,6 +35,11 @@
 #' 
 #' @param output Output directory for summarized annotation 
 #' information (.Rdata files) created by map_reanno.
+#' 
+#' @param override Logical whether or not the function should prompt you for a
+#'   question if there are files in output. As default, override=FALSE will
+#'   prevent deleting large files by accident, but requires an interactive R
+#'   session. Setting override=TRUE may solve non-interactive problems. 
 #'    
 #' @return PAC object with annotation information retrieved from mapping
 #'   
@@ -73,12 +78,16 @@
 PAC_annotate <- function(genome=NULL,
                          biotype=NULL,
                          output=NULL,
+                         override=FALSE,
                          PAC){
   
-  cat("Using the working directory as output folder: ",getwd())
-  
+  if(is.null(output)){
+    cat("Using temp directory as output folder: ",getwd())
+    output = paste0(tempdir(),"/seqpac/test")
+  }
+
   # if(is.null(reference)){
-  #   cat("No reference fasta were given to the function. Will now download ")
+  #   cat("No reference fasta were given to the function. Will now download ... ")
   # }
   # 
   
@@ -95,7 +104,7 @@ PAC_annotate <- function(genome=NULL,
     #perform mapping with "genome" functionality
     
     map_reanno(PAC, import="genome", input=list(genome=genome), 
-               output=output, mismatches=0, override = FALSE)
+               output=output, mismatches=0, override = override)
     reanno<-make_reanno(output, PAC=PAC, mis_fasta_check=TRUE)
     PAC <- add_reanno(reanno, type="genome", mismatches=0, merge_pac=PAC)
     
@@ -104,7 +113,7 @@ PAC_annotate <- function(genome=NULL,
   if(!is.null(biotype)){
     #perform mapping with "biotype" functionality
     map_reanno(PAC, import="biotype", input=list(biotype=biotype), 
-               output=output, mismatches=0, override=FALSE)
+               output=output, mismatches=0, override=override)
     reanno<-make_reanno(output, PAC=PAC, mis_fasta_check=TRUE)
     bio_search <- list(biotype=c("rRNA", "tRNA", "miRNA",
                                  "snoRNA", "snRNA", "piRNA"))
