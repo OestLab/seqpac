@@ -42,7 +42,7 @@ available threads on the machine.}
 
 \item{save_temp}{Logical whether temporary files (including trimmed fastq
 files) should be saved or not. Note, the function will print the path to
-the temprorary folder in the console.}
+the temporary folder in the console.}
 
 \item{plot}{Logical whether evidence plots should be printed and saved in the
 returned list (default=TRUE).}

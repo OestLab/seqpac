@@ -170,8 +170,7 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
   dds <- DESeq2::estimateSizeFactors(dds)
   
   ### DEseq analysis and extract result table
-  BiocParallel::register(BiocParallel::MulticoreParam(workers=threads))
-  
+  BiocParallel::register(BiocParallel::SnowParam(workers=threads))
   dds_fit <- DESeq2::DESeq(dds, test=test, fitType=fitType, parallel = TRUE)
   
   res_nam <- DESeq2::resultsNames(dds_fit)
@@ -247,37 +246,30 @@ PAC_deseq <- function(PAC, model, deseq_norm=FALSE, test="Wald",
       log2FC=res_DESeq2_df$log2FoldChange, 
       DE=logi_thresh)
   
-    p <- ggplot2::ggplot(df_plot, ggplot2::aes(x=pval)) + 
-      ggplot2::geom_histogram(breaks=seq(0.0, 1.0, by=0.025), 
-                              col="black", fill="green", alpha=1) +
-      ggplot2::labs(title="p-value distributions", 
-                    subtitle=comp, x="p-value", y = "Number of features") +
-      ggplot2::theme_classic()
-    
-    vcano <- ggplot2::ggplot(df_plot, ggplot2::aes(x=log2FC, y=neglog_padj)) +
-      ggplot2::geom_hline(yintercept=1, col="black", linewidth=0.1)+
-      ggplot2::geom_vline(xintercept=c(-1, 1), col="black", linewidth=0.1)+
-      ggplot2::geom_point(ggplot2::aes(colour = DE), size=1) +
-      ggplot2::scale_colour_manual(values = c("not_pass"="grey", "pass"= "red")) +
-      ggplot2::labs(title="Volcano plot DE features", 
-                    subtitle="red points:\nlog2FC >=1  &  p-adj <=0.1",
-                    x="Log2 fold changes", y = "-log10 p-value") +
-      ggplot2::theme_classic() +
-      ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 0),
-                     legend.position = "none")
-    
-
-    res_lst <- list(
-      result = res_counts,
-      plots = list(histogram = p, volcano = vcano),
-      output_deseq = res_DESeq2
-    )
-    
-    grid_plot <- cowplot::plot_grid(p, vcano, ncol = 2, align = "h")
-    print(grid_plot)
-    
-    # Return full list 
-    invisible(res_lst)
+  p <- ggplot2::ggplot(data=df_plot, ggplot2::aes(x=pval)) + 
+    ggplot2::geom_histogram(breaks=seq(0.0, 1.0, by=0.025), 
+                            col="black", fill="green", alpha=1) +
+    ggplot2::labs(title="p-value distributions", 
+                  subtitle=comp, x="p-value", y = "Number of features") +
+    ggplot2::theme_classic()
+  
+  vcano <- ggplot2::ggplot(df_plot, ggplot2::aes(x=log2FC, y=neglog_padj)) +
+    ggplot2::geom_hline(yintercept=1, col="black", linewidth=0.1)+
+    ggplot2::geom_vline(xintercept=c(-1, 1), col="black", linewidth=0.1)+
+    ggplot2::geom_point(ggplot2::aes(colour = DE), size=1) +
+    ggplot2::scale_colour_manual(values = c("not_pass"="grey", "pass"= "red")) +
+    ggplot2::labs(title="Volcano plot DE features", 
+                  subtitle="red points:\nlog2FC >=1  &  p-adj <=0.1",
+                  x="Log2 fold changes", y = "-log10 p-value") +
+    ggplot2::theme_classic() +
+    ggplot2::theme(axis.text.x = ggplot2::element_text(angle = 0),
+                   legend.position = "none")
+            
+  res_lst <- list(result=res_counts, 
+                  plots=list(histogram=p, volcano=vcano), 
+                  output_deseq= res_DESeq2)
+  print(cowplot::plot_grid(plotlist=res_lst$plots))
+  return(res_lst)
 }
 
 

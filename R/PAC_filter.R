@@ -97,10 +97,14 @@ PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0,
   ## Check S4
   if(isS4(PAC)){
     tp <- "S4"
+    PAC_norm <- PAC@norm
+    norm_null <- vapply(PAC_norm, is.null, logical(1))
     PAC <- as(PAC, "list")
+    PAC$norm <- PAC_norm[!norm_null]
   }else{
     tp <- "S3"
   }
+  
   
   options(scipen=999)
   
@@ -371,9 +375,12 @@ PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0,
   
   if(PAC_check(PAC)==TRUE){
     if(tp=="S4"){
-       return(as.PAC(PAC))
+      if(any(norm_null)){
+        PAC$norm <- c(PAC_norm[norm_null],PAC$norm)
+      }
+      return(as.PAC(PAC))
     }else{
-       return(PAC)
+      return(PAC)
     }
   }
 }      

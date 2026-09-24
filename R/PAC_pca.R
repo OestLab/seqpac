@@ -178,8 +178,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
         coord<- as.data.frame(pca_res$ind$coord)
         con<- as.data.frame(pca_res$eig[,"percentage of variance"])
         grphs$PC1_PC2 <- ggplot2::ggplot() +
-          geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-          geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+          geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+          geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
           geom_point(data=coord, aes(x=Dim.1, y=Dim.2, colour=col)) + 
           theme(legend.position="none") +
           scale_colour_gradient(low="#00FFE6", high="#FF0000") +
@@ -188,8 +188,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
           ylab(paste0("PC2 (", round(con["comp 2",], digits=2), "%)"))
 
         grphs$PC1_PC3 <- ggplot2::ggplot() +
-          geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-          geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+          geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+          geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
           geom_point(data=coord, aes(x=Dim.1, y=Dim.3, colour=col)) + 
           theme(legend.position="none") +
           scale_colour_gradient(low="#00FFE6", high="#FF0000") +
@@ -198,8 +198,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
           ylab(paste0("PC3 (", round(con["comp 3",], digits=2), "%)"))
 
         grphs$PC2_PC3 <- ggplot2::ggplot() +
-          geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-          geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+          geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+          geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
           geom_point(data=coord, aes(x=Dim.2, y=Dim.3, colour=col)) + 
           theme(legend.position="none") +
           scale_colour_gradient(low="#00FFE6", high="#FF0000") +
@@ -232,8 +232,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
       coord<- as.data.frame(pca_res$var$coord)
       con<- as.data.frame(pca_res$eig[,"percentage of variance"])
       grphs$PC1_PC2 <- ggplot2::ggplot() +
-        geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-        geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+        geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+        geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
         geom_point(data=coord, aes(x=Dim.1, y=Dim.2, colour=col)) + 
         theme(legend.position="none") +
         scale_colour_gradient(low="#00FFE6", high="#FF0000") +
@@ -242,8 +242,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
         ylab(paste0("PC2 (", round(con["comp 2",], digits=2), "%)")) 
 
       grphs$PC1_PC3 <- ggplot2::ggplot() +
-        geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-        geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+        geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+        geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
         geom_point(data=coord, aes(x=Dim.1, y=Dim.3, colour=col)) + 
         theme(legend.position="none") +
         scale_colour_gradient(low="#00FFE6", high="#FF0000") +
@@ -252,8 +252,8 @@ PAC_pca <- function(PAC, norm="counts", style="pheno", graphs=TRUE,
         ylab(paste0("PC3 (", round(con["comp 3",], digits=2), "%)")) 
 
       grphs$PC2_PC3 <- ggplot2::ggplot() +
-        geom_hline(yintercept=0, linetype="dashed", color="black", size=0.5)+
-        geom_vline(xintercept=0, linetype="dashed", color="black", size=0.5)+
+        geom_hline(yintercept=0, linetype="dashed", color="black", linewidth=0.5)+
+        geom_vline(xintercept=0, linetype="dashed", color="black", linewidth=0.5)+
         geom_point(data=coord, aes(x=Dim.2, y=Dim.3, colour=col)) + 
         theme(legend.position="none") +
         scale_colour_gradient(low="#00FFE6", high="#FF0000") +

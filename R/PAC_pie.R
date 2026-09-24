@@ -223,7 +223,8 @@ PAC_pie <- function(PAC, anno_target=NULL, pheno_target=NULL, colors=NULL, norm=
       ggplot2::geom_bar(stat="identity", width=1, color="white") +
       ggplot2::coord_polar("y", start=angle) +
       ggplot2::theme_void() + 
-      ggplot2::theme(legend.position="none") +
+      ggplot2::theme(legend.position="none", plot.subtitle=ggplot2::element_text(hjust=0.5,size=14)) +
+      ggplot2::labs(subtitle=unique(x$Sample)) +
       ggplot2::geom_segment(ggplot2::aes(x = 1.5, xend = 1.56,
                                          y = y_pos, yend = y_pos),
                             color = "black", linewidth = 0.5) +
