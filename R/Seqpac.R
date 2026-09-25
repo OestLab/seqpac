@@ -34,13 +34,13 @@
 #'  separated .csv file that will be used to produce the PAC object. Default=NULL,
 #'  where progress report from counts will be added to pheno. 
 #'   
-#' @param genome Character indicating path to reference genome in fasta (.fa) 
+#' @param input_genome Character indicating path to reference genome in fasta (.fa) 
 #'  format to use for annotation by \code{\link{map_reanno}} with import="genome". 
 #'  Reference genome should have a bowtie index, please see 
 #'  ??Rbowtie::bowtie_build for instructions. Default=NULL, where no genome-based
 #'  mapping will be performed.
 #'
-#' @param biotype Character indicating path to reference fasta (.fa) file for 
+#' @param input_biotype Character indicating path to reference fasta (.fa) file for 
 #'  bioinformatic annotation by \code{\link{map_reanno}} with import="biotype". 
 #'  This wrapper is justerad to the ncRNA fasta from Ensembl, with biotypes such 
 #'  as rRNA, tRNA and miRNA available. Reference fasta should have a bowtie index, 
@@ -66,8 +66,15 @@
 #' @param anno_target Character vector with the name of the target column in
 #'  Anno or the name of the annotation column in case of input being a
 #'  dataframe.
+#'  
+#' @param filter_hit If filter_hit is TRUE, sequences without a hit to the reference
+#'  genome(s) defined in input_genome up until the mismatches defined will be removed.
+#'  Default is TRUE.
 #' 
 #' @param model Character of model used to run \code{PAC_deseq}.
+#' 
+#' @param ... Arguments to be passed on to \code{\link{PAC_create}}, \code{\link{PAC_map}},
+#'  and \code{\link{PAC_annotate}}.
 #'   
 #' @return PAC object
 #'   
@@ -76,7 +83,7 @@
 #' ###########################################################
 #' ##----------------------------------------
 #' 
-#' load in the test reference files and ensure correct Bowtie files are available
+#' #load in the test reference files and ensure correct Bowtie files are available
 #' 
 #' input = system.file("extdata", package = "seqpac", mustWork = TRUE)
 #' 
@@ -122,6 +129,7 @@
 Seqpac <- function(lanes=NULL, trim=NULL, input, output=NULL, input_genome=NULL, 
                    input_biotype=NULL, pheno_target=NULL, norm=NULL, 
                    anno_target=NULL, model=NULL, override=TRUE,
+                   filter_hit=FALSE, 
                    pheno=NULL, ...)
   {
   cat("Creating PAC object ... \n")
@@ -129,7 +137,8 @@ Seqpac <- function(lanes=NULL, trim=NULL, input, output=NULL, input_genome=NULL,
   cat("PAC created. \n")
   print(pac)
   cat("Annotating PAC object ... \n")
-  pac <- PAC_map(input_genome=input_genome,  input_biotype=input_biotype, output=output, PAC=pac, override=override, ...)
+  pac <- PAC_map(input_genome=input_genome, input_biotype=input_biotype, output=output, 
+                 PAC=pac, override=override, filter_hit=filter_hit, ...)
   cat("Analyzing PAC object ... \n")
   if(!is.null(norm)){
     cat("Normalizing PAC object with:", print(norm))

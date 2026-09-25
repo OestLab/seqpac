@@ -34,6 +34,9 @@
 #' @param pheno Can be either a data frame, or a string to directory for a comma
 #' separated .csv file that will be used to produce the PAC object. Default=NULL,
 #' where progress report from counts will be added to pheno. 
+#' 
+#' @param ... Arguments to be passed on to \code{\link{map_reanno}}, \code{\link{make_reanno}},
+#'  \code{\link{add_reanno}}, and \code{\link{simplify_reanno}}.
 #'   
 #' @return PAC object with values in pheno and count
 #'   

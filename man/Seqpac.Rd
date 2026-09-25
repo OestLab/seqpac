@@ -16,6 +16,7 @@ Seqpac(
   anno_target = NULL,
   model = NULL,
   override = TRUE,
+  filter_hit = FALSE,
   pheno = NULL,
   ...
 )
@@ -38,6 +39,22 @@ to expect files in path to be trimmed or not and whether to merge lanes.}
 \item{output}{Character indicating path to where output files will be stored, 
 if applicable (such as in merge_lanes). Default=NULL.}
 
+\item{input_genome}{Character indicating path to reference genome in fasta (.fa) 
+format to use for annotation by \code{\link{map_reanno}} with import="genome". 
+Reference genome should have a bowtie index, please see 
+??Rbowtie::bowtie_build for instructions. Default=NULL, where no genome-based
+mapping will be performed.}
+
+\item{input_biotype}{Character indicating path to reference fasta (.fa) file for 
+bioinformatic annotation by \code{\link{map_reanno}} with import="biotype". 
+This wrapper is justerad to the ncRNA fasta from Ensembl, with biotypes such 
+as rRNA, tRNA and miRNA available. Reference fasta should have a bowtie index, 
+please see ??Rbowtie::bowtie_build for instructions. Within this wrapper, a 
+hierarcy is made with \code{\link{simplify_reanno}}, with the following 
+hiearchy: rRNA, miRNA, tRNA, snoRNA, snRNA. If other references wish to be 
+used, please run each function separately. Default=NULL, where no biotype-
+based mapping will be performed.}
+
 \item{pheno_target}{List with: 1st object being a character vector
 of target column in Pheno and 2nd object being a character vector of the target
 group(s) in the target Pheno column (1st object).}
@@ -57,25 +74,16 @@ question if there are files in output. As default, override=FALSE will
 prevent deleting large files by accident, but requires an interactive R
 session. Setting override=TRUE may solve non-interactive problems.}
 
+\item{filter_hit}{If filter_hit is TRUE, sequences without a hit to the reference
+genome(s) defined in input_genome up until the mismatches defined will be removed.
+Default is TRUE.}
+
 \item{pheno}{Can be either a data frame, or a string to directory for a comma
 separated .csv file that will be used to produce the PAC object. Default=NULL,
 where progress report from counts will be added to pheno.}
 
-\item{genome}{Character indicating path to reference genome in fasta (.fa) 
-format to use for annotation by \code{\link{map_reanno}} with import="genome". 
-Reference genome should have a bowtie index, please see 
-??Rbowtie::bowtie_build for instructions. Default=NULL, where no genome-based
-mapping will be performed.}
-
-\item{biotype}{Character indicating path to reference fasta (.fa) file for 
-bioinformatic annotation by \code{\link{map_reanno}} with import="biotype". 
-This wrapper is justerad to the ncRNA fasta from Ensembl, with biotypes such 
-as rRNA, tRNA and miRNA available. Reference fasta should have a bowtie index, 
-please see ??Rbowtie::bowtie_build for instructions. Within this wrapper, a 
-hierarcy is made with \code{\link{simplify_reanno}}, with the following 
-hiearchy: rRNA, miRNA, tRNA, snoRNA, snRNA. If other references wish to be 
-used, please run each function separately. Default=NULL, where no biotype-
-based mapping will be performed.}
+\item{...}{Arguments to be passed on to \code{\link{PAC_create}}, \code{\link{PAC_map}},
+and \code{\link{PAC_annotate}}.}
 }
 \value{
 PAC object
@@ -96,7 +104,7 @@ you to run each function on its own!
 ###########################################################
 ##----------------------------------------
 
-load in the test reference files and ensure correct Bowtie files are available
+#load in the test reference files and ensure correct Bowtie files are available
 
 input = system.file("extdata", package = "seqpac", mustWork = TRUE)
 

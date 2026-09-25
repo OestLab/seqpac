@@ -77,43 +77,43 @@ performed. This workflow may be performed by three functions as follows:
 # #Loading example files
 # load in the test reference files and ensure correct Bowtie files are available
 
-input = system.file("extdata", package = "seqpac", mustWork = TRUE)
-
- ## tRNA:
- trna_file <- system.file("extdata/trna", "tRNA.fa",
-                          package = "seqpac", mustWork = TRUE)
- trna_dir <- dirname(trna_file)
-
- if(!sum(stringr::str_count(list.files(trna_dir), ".ebwt")) ==6){
-   Rbowtie::bowtie_build(trna_file,
-                         outdir=trna_dir,
-                         prefix="tRNA", force=TRUE)
- }
- ## rRNA:
- rrna_file <- system.file("extdata/rrna", "rRNA.fa",
-                          package = "seqpac", mustWork = TRUE)
- rrna_dir <- dirname(rrna_file)
-
- if(!sum(stringr::str_count(list.files(rrna_dir), ".ebwt")) ==6){
-   Rbowtie::bowtie_build(rrna_file,
-                         outdir=rrna_dir,
-                         prefix="rRNA", force=TRUE)
- }
-
- input_biotype <- list(trna= trna_file, rrna= rrna_file)
-
- ## "Genome" (here we reuse the rRNA reference just as an example):
- input_genome <- list(genome=rrna_file)
-
-
- #Manually making a pheno for this example
- pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2",
-                                  "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
-                     stage=rep(c("Stage1", "Stage3"), each=3))
-
- Seqpac(input=input, input_genome=input_genome, input_biotype=input_biotype,
-        pheno_target = list("stage"), anno_target=list("Biotypes"),
-        pheno=pheno, norm="cpm", filter_hit=FALSE, override=TRUE)
+# input = system.file("extdata", package = "seqpac", mustWork = TRUE)
+# 
+#  ## tRNA:
+#  trna_file <- system.file("extdata/trna", "tRNA.fa",
+#                           package = "seqpac", mustWork = TRUE)
+#  trna_dir <- dirname(trna_file)
+# 
+#  if(!sum(stringr::str_count(list.files(trna_dir), ".ebwt")) ==6){
+#    Rbowtie::bowtie_build(trna_file,
+#                          outdir=trna_dir,
+#                          prefix="tRNA", force=TRUE)
+#  }
+#  ## rRNA:
+#  rrna_file <- system.file("extdata/rrna", "rRNA.fa",
+#                           package = "seqpac", mustWork = TRUE)
+#  rrna_dir <- dirname(rrna_file)
+# 
+#  if(!sum(stringr::str_count(list.files(rrna_dir), ".ebwt")) ==6){
+#    Rbowtie::bowtie_build(rrna_file,
+#                          outdir=rrna_dir,
+#                          prefix="rRNA", force=TRUE)
+#  }
+# 
+#  input_biotype <- list(trna= trna_file, rrna= rrna_file)
+# 
+#  ## "Genome" (here we reuse the rRNA reference just as an example):
+#  input_genome <- list(genome=rrna_file)
+# 
+# 
+#  #Manually making a pheno for this example
+#  pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2",
+#                                   "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
+#                      stage=rep(c("Stage1", "Stage3"), each=3))
+# 
+#  Seqpac(input=input, input_genome=input_genome, input_biotype=input_biotype,
+#         pheno_target = list("stage"), anno_target=list("Biotypes"),
+#         pheno=pheno, norm="cpm", filter_hit=FALSE, override=TRUE)
 
 ```
 
@@ -1109,9 +1109,17 @@ ref_paths <- list(myco="<some/path/to/your/genome.fa>")
 # For testing, you can use a small mycoplasma genome provided with Seqpac
 # But remember to provide single genomes as a named list anyway.
 # The name will be used to keep track of your genome.
+#Here, we will also create the bowtie files needed
 myco_path <- system.file("extdata/mycoplasma_genome", "mycoplasma.fa", 
                          package = "seqpac", mustWork = TRUE)
 ref_paths <- list(myco=myco_path)
+mycoplasma_dir<- gsub("mycoplasma.fa", "", myco_path)
+
+ if(!sum(stringr::str_count(list.files(mycoplasma_dir), ".ebwt")) ==6){
+      Rbowtie::bowtie_build(myco_path, 
+                            outdir=mycoplasma_dir, 
+                            prefix="mycoplasma", force=TRUE)
+                            }
 
 #Run map_reanno
 map_reanno(PAC=pac, input=ref_paths, output=outpath_genome,

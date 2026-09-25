@@ -27,6 +27,9 @@ if applicable (such as in merge_lanes). Default=NULL.}
 \item{pheno}{Can be either a data frame, or a string to directory for a comma
 separated .csv file that will be used to produce the PAC object. Default=NULL,
 where progress report from counts will be added to pheno.}
+
+\item{...}{Arguments to be passed on to \code{\link{map_reanno}}, \code{\link{make_reanno}},
+\code{\link{add_reanno}}, and \code{\link{simplify_reanno}}.}
 }
 \value{
 PAC object with values in pheno and count

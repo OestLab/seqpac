@@ -130,7 +130,7 @@
 #' # One search hit (regular expressions) gives one new short name 
 #' 
 #' bio_search <- list(
-#'               rrna=c("5S", "5.8S", "12S", "16S", "18S", "28S", "pre_S45"),
+#'               rrna=c("5S", "5.8S", "12S", "16S", "18S", "28S", "pre_S45", "rRNA"),
 #'               trna =c("_tRNA", "mt:tRNA"))
 #'  
 #'  
@@ -180,7 +180,7 @@
 #' ## Add a search terms that catches the other rrna 
 #' bio_search <- list(
 #'               rrna=c("5S", "5.8S", "12S", "16S", 
-#'                      "18S", "28S", "pre_S45", "Other"),
+#'                      "18S", "28S", "pre_S45","rRNA", "Other"),
 #'               trna =c("_tRNA", "mt:tRNA"))
 #'                 
 #' anno <- add_reanno(reanno_biotype, bio_search=bio_search, 
