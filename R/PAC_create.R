@@ -69,7 +69,7 @@
 
 
 
-PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
+PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL, ...){
   
   inpath<-input
   if(is.null(output)){
@@ -88,12 +88,12 @@ PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
       if(trim=="default_neb"){
         counts<-make_counts(input=outpath,
                             trimming = "seqpac",
-                            parse="default_neb")
+                            parse="default_neb", ...)
       }
       if(trim=="default_illumina"){
         counts<-make_counts(input=outpath,
                             trimming="seqpac",
-                            parse="default_illumina")
+                            parse="default_illumina", ...)
       }
     }
     
@@ -105,17 +105,17 @@ PAC_create <- function(lanes=NULL, trim=NULL, input, output=NULL, pheno=NULL){
       if(trim=="default_neb"){
         counts<-make_counts(input=inpath,
                             trimming="seqpac",
-                            parse="default_neb")
+                            parse="default_neb", ...)
       }
       if(trim=="default_illumina"){
         counts<-make_counts(input=inpath,
                             trimming="seqpac",
-                            parse="default_illumina")
+                            parse="default_illumina", ...)
       }
     }
     
     if(is.null(trim)){
-      counts<-make_counts(input=inpath)
+      counts<-make_counts(input=inpath, ...)
     }
     
   }

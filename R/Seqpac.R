@@ -78,6 +78,8 @@
 #' 
 #' load in the test reference files and ensure correct Bowtie files are available
 #' 
+#' input = system.file("extdata", package = "seqpac", mustWork = TRUE)
+#' 
 #' ## tRNA:
 #' trna_file <- system.file("extdata/trna", "tRNA.fa",
 #'                          package = "seqpac", mustWork = TRUE)
@@ -123,7 +125,7 @@ Seqpac <- function(lanes=NULL, trim=NULL, input, output=NULL, input_genome=NULL,
                    pheno=NULL, ...)
   {
   cat("Creating PAC object ... \n")
-  pac <- PAC_create(lanes=lanes, trim=trim, input=input, output=output, pheno=pheno)
+  pac <- PAC_create(lanes=lanes, trim=trim, input=input, output=output, pheno=pheno, ...)
   cat("PAC created. \n")
   print(pac)
   cat("Annotating PAC object ... \n")

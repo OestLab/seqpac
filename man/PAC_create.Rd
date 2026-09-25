@@ -4,7 +4,7 @@
 \alias{PAC_create}
 \title{Wrapper for creation of PAC object}
 \usage{
-PAC_create(lanes = NULL, trim = NULL, input, output = NULL, pheno = NULL)
+PAC_create(lanes = NULL, trim = NULL, input, output = NULL, pheno = NULL, ...)
 }
 \arguments{
 \item{lanes}{allows to define whether lanes should be merged with \code{\link{merge_lanes}}

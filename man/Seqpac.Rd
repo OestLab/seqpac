@@ -98,6 +98,8 @@ you to run each function on its own!
 
 load in the test reference files and ensure correct Bowtie files are available
 
+input = system.file("extdata", package = "seqpac", mustWork = TRUE)
+
 ## tRNA:
 trna_file <- system.file("extdata/trna", "tRNA.fa",
                          package = "seqpac", mustWork = TRUE)
