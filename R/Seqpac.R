@@ -68,8 +68,6 @@
 #'  dataframe.
 #' 
 #' @param model Character of model used to run \code{PAC_deseq}.
-#' 
-#' @param pdf TRUE or FALSE whether to print a PDF of results. Default = FALSE.
 #'   
 #' @return PAC object
 #'   
@@ -78,52 +76,65 @@
 #' ###########################################################
 #' ##----------------------------------------
 #' 
-#' #load in the fasta files from the example data
-#' input = system.file("extdata", package = "seqpac", mustWork = TRUE)
+#' load in the test reference files and ensure correct Bowtie files are available
 #' 
-#' #In this example, we use the rRNA reference as "genome"
-#' genome <- system.file("extdata/rrna", "rRNA.fa",
-#'                       package = "seqpac", mustWork = TRUE)
-#' genome_dir <- dirname(genome)
-#' if(!sum(stringr::str_count(list.files(genome_dir), ".ebwt")) ==6){
-#'   Rbowtie::bowtie_build(genome,
-#'                         outdir=genome_dir,
+#' ## tRNA:
+#' trna_file <- system.file("extdata/trna", "tRNA.fa",
+#'                          package = "seqpac", mustWork = TRUE)
+#' trna_dir <- dirname(trna_file)
+#' 
+#' if(!sum(stringr::str_count(list.files(trna_dir), ".ebwt")) ==6){
+#'   Rbowtie::bowtie_build(trna_file,
+#'                         outdir=trna_dir,
+#'                         prefix="tRNA", force=TRUE)
+#' }
+#' ## rRNA:
+#' rrna_file <- system.file("extdata/rrna", "rRNA.fa",
+#'                          package = "seqpac", mustWork = TRUE)
+#' rrna_dir <- dirname(rrna_file)
+#' 
+#' if(!sum(stringr::str_count(list.files(rrna_dir), ".ebwt")) ==6){
+#'   Rbowtie::bowtie_build(rrna_file,
+#'                         outdir=rrna_dir,
 #'                         prefix="rRNA", force=TRUE)
 #' }
 #' 
-#' #Manually making a pheno
-#' pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2", 
-#' "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
-#' stage=rep(c("Stage1", "Stage3"), each=3))
+#' input_biotype <- list(trna= trna_file, rrna= rrna_file)
 #' 
-#' Seqpac(input=input, genome=genome, pheno_target = list("stage"), 
-#'        anno_target=list("Any_genome"), pheno=pheno, norm="cpm",
-#'        override=TRUE)
-#'
-#'
+#' ## "Genome" (here we reuse the rRNA reference just as an example):
+#' input_genome <- list(genome=rrna_file)
+#' 
+#' 
+#' #Manually making a pheno for this example
+#' pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2",
+#'                                  "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
+#'                     stage=rep(c("Stage1", "Stage3"), each=3))
+#' 
+#' Seqpac(input=input, input_genome=input_genome, input_biotype=input_biotype, 
+#'        pheno_target = list("stage"), anno_target=list("Biotypes"), 
+#'        pheno=pheno, norm="cpm", filter_hit=FALSE, override=TRUE)
 #'
 #' @export
-#' 
-#' 
 
-Seqpac <- function(lanes=NULL, trim=NULL, input, output=NULL, genome=NULL, 
-                   biotype=NULL, pheno_target=NULL, norm=NULL, 
-                   anno_target=NULL, model=NULL, pdf=FALSE, override=FALSE,
-                   pheno=NULL)
+
+Seqpac <- function(lanes=NULL, trim=NULL, input, output=NULL, input_genome=NULL, 
+                   input_biotype=NULL, pheno_target=NULL, norm=NULL, 
+                   anno_target=NULL, model=NULL, override=TRUE,
+                   pheno=NULL, ...)
   {
   cat("Creating PAC object ... \n")
   pac <- PAC_create(lanes=lanes, trim=trim, input=input, output=output, pheno=pheno)
   cat("PAC created. \n")
   print(pac)
   cat("Annotating PAC object ... \n")
-  pac <- PAC_annotate(genome=genome,  biotype=biotype,  output=output, PAC=pac, override=override)
+  pac <- PAC_map(input_genome=input_genome,  input_biotype=input_biotype, output=output, PAC=pac, override=override, ...)
   cat("Analyzing PAC object ... \n")
   if(!is.null(norm)){
     cat("Normalizing PAC object with:", print(norm))
     pac <- PAC_norm(pac, norm=norm)
   }
-  output <- PAC_analyze(PAC=pac, pheno_target=pheno_target, norm=norm,
-                     anno_target=anno_target, model=model, pdf=pdf)
+  result_list <- PAC_analyze(PAC=pac, pheno_target=pheno_target, norm=norm,
+                     anno_target=anno_target, model=model, output=output)
   closeAllConnections()
   return(pac)
 }

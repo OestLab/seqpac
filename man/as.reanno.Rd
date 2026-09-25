@@ -97,7 +97,6 @@ isS4(reanno_s4)
 Other PAC reannotation:
 \code{\link[=PAC_annotate]{PAC_annotate()}},
 \code{\link[=PAC_map]{PAC_map()}},
-\code{\link[=PAC_map2]{PAC_map2()}},
 \code{\link[=add_reanno]{add_reanno()}},
 \code{\link[=import_reanno]{import_reanno()}},
 \code{\link[=make_conv]{make_conv()}},

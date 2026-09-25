@@ -75,17 +75,43 @@ performed. This workflow may be performed by three functions as follows:
 
 ```{r, eval=TRUE, echo=TRUE, warning=FALSE, message=FALSE, results = "hide"}
 # #Loading example files
-#  sys_path = system.file("extdata", package = "seqpac", mustWork = TRUE)
-#  fastq <- list.files(path = sys_path, pattern = "fastq", all.files = FALSE, full.names = TRUE)
-#  ref_tRNA <- system.file("extdata/trna", "tRNA.fa", package = "seqpac", mustWork = TRUE)
-# if(!sum(stringr::str_count(list.files(dirname(ref_tRNA)), ".ebwt")) ==6){
-#   Rbowtie::bowtie_build(ref_tRNA, outdir=dirname(ref_tRNA), prefix="tRNA", force=TRUE)}
-# output_path <- paste0(tempdir(),"/seqpac/anno_example")
-# 
-# # Running the workflow
-# pac <- PAC_create(input=fastq, trim="default_neb")
-# pac <- PAC_annotate(biotype=ref_tRNA, PAC=pac, output=output_path)
-# results <- PAC_analyze(PAC=pac)
+# load in the test reference files and ensure correct Bowtie files are available
+
+ ## tRNA:
+ trna_file <- system.file("extdata/trna", "tRNA.fa",
+                          package = "seqpac", mustWork = TRUE)
+ trna_dir <- dirname(trna_file)
+
+ if(!sum(stringr::str_count(list.files(trna_dir), ".ebwt")) ==6){
+   Rbowtie::bowtie_build(trna_file,
+                         outdir=trna_dir,
+                         prefix="tRNA", force=TRUE)
+ }
+ ## rRNA:
+ rrna_file <- system.file("extdata/rrna", "rRNA.fa",
+                          package = "seqpac", mustWork = TRUE)
+ rrna_dir <- dirname(rrna_file)
+
+ if(!sum(stringr::str_count(list.files(rrna_dir), ".ebwt")) ==6){
+   Rbowtie::bowtie_build(rrna_file,
+                         outdir=rrna_dir,
+                         prefix="rRNA", force=TRUE)
+ }
+
+ input_biotype <- list(trna= trna_file, rrna= rrna_file)
+
+ ## "Genome" (here we reuse the rRNA reference just as an example):
+ input_genome <- list(genome=rrna_file)
+
+
+ #Manually making a pheno for this example
+ pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2",
+                                  "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
+                     stage=rep(c("Stage1", "Stage3"), each=3))
+
+ Seqpac(input=input, input_genome=input_genome, input_biotype=input_biotype,
+        pheno_target = list("stage"), anno_target=list("Biotypes"),
+        pheno=pheno, norm="cpm", filter_hit=FALSE, override=TRUE)
 
 ```
 

@@ -69,7 +69,8 @@
 #' 
 #' pac <- PAC_annotate(PAC=pac,
 #'                     genome = genome,
-#'                     output = output)
+#'                     output = output,
+#'                     override=TRUE)
 #'
 #' @export
 

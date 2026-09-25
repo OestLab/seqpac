@@ -49,7 +49,7 @@
 #' @export
 
 PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
-                        anno_target=NULL, model=NULL, output="temp"){
+                        anno_target=NULL, model=NULL, output=NULL){
   
   res_list <- list(NA)
   
@@ -89,27 +89,36 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
   }
   
   #Print all results in a pdf
-  if(output=="temp"){
-    output <- file.path(tempdir(), "seqpac")
+
+  if(is.null(output)){
+    output <- file.path(tempdir(),"seqpac/test")
     if(!dir.exists(output)){
-      dir.create(output)
+      dir.create(output, recursive=TRUE)
     }
-    res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
-                list(pie),
-                 pca$graphs, list(dsq$plots$volcano))
-  
- 
+    if(is.null(model)){
+      res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
+                    list(pie), pca$graphs)
+    }
+    if(!is.null(model)){
+      res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
+                    list(pie), pca$graphs, list(dsq$plots$volcano))
+    }
     grDevices::pdf(file=paste0(output, sep="/", "Results_Seqpac.pdf"), width = 7, height = 5)
     for (p in res_list) {
       print(p)
   }
     grDevices::dev.off()
-}
+  }
+
   else{
-    res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
-                 list(pie),
-                  pca$graphs, list(dsq$plots$volcano))
-    
+    if(is.null(model)){
+      res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
+                    list(pie), pca$graphs)
+    }
+    if(!is.null(model)){
+      res_list <- c(jitter, list(sb1), list(sb2), sd$Histograms,
+                 list(pie), pca$graphs, list(dsq$plots$volcano))
+    }
     
     grDevices::pdf(file=paste0(output, sep="/", "Results_Seqpac.pdf"), width = 7, height = 5)
     for (p in res_list) {
@@ -117,6 +126,6 @@ PAC_analyze <- function(PAC, pheno_target=NULL, norm=NULL,
     }
     grDevices::dev.off()
   }
-  
+  cat("PDF have been produced and put in: ", print(output))
   return(res_list)
 }

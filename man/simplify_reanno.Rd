@@ -174,7 +174,6 @@ table(anno(pac)$rRNA_biotypes_mis1)
 Other PAC reannotation:
 \code{\link[=PAC_annotate]{PAC_annotate()}},
 \code{\link[=PAC_map]{PAC_map()}},
-\code{\link[=PAC_map2]{PAC_map2()}},
 \code{\link[=add_reanno]{add_reanno()}},
 \code{\link[=as.reanno]{as.reanno()}},
 \code{\link[=import_reanno]{import_reanno()}},

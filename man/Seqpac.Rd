@@ -9,15 +9,15 @@ Seqpac(
   trim = NULL,
   input,
   output = NULL,
-  genome = NULL,
-  biotype = NULL,
+  input_genome = NULL,
+  input_biotype = NULL,
   pheno_target = NULL,
   norm = NULL,
   anno_target = NULL,
   model = NULL,
-  pdf = FALSE,
-  override = FALSE,
-  pheno = NULL
+  override = TRUE,
+  pheno = NULL,
+  ...
 )
 }
 \arguments{
@@ -38,6 +38,29 @@ to expect files in path to be trimmed or not and whether to merge lanes.}
 \item{output}{Character indicating path to where output files will be stored, 
 if applicable (such as in merge_lanes). Default=NULL.}
 
+\item{pheno_target}{List with: 1st object being a character vector
+of target column in Pheno and 2nd object being a character vector of the target
+group(s) in the target Pheno column (1st object).}
+
+\item{norm}{Character indicating what type of data to be used. If 'counts',
+the raw counts in Counts will be used (default). If "cpm", cpm values will 
+be used. As of now, only "counts" and "cpm" may be used for this wrapper.}
+
+\item{anno_target}{Character vector with the name of the target column in
+Anno or the name of the annotation column in case of input being a
+dataframe.}
+
+\item{model}{Character of model used to run \code{PAC_deseq}.}
+
+\item{override}{Logical whether or not the function should prompt you for a
+question if there are files in output. As default, override=FALSE will
+prevent deleting large files by accident, but requires an interactive R
+session. Setting override=TRUE may solve non-interactive problems.}
+
+\item{pheno}{Can be either a data frame, or a string to directory for a comma
+separated .csv file that will be used to produce the PAC object. Default=NULL,
+where progress report from counts will be added to pheno.}
+
 \item{genome}{Character indicating path to reference genome in fasta (.fa) 
 format to use for annotation by \code{\link{map_reanno}} with import="genome". 
 Reference genome should have a bowtie index, please see 
@@ -53,31 +76,6 @@ hierarcy is made with \code{\link{simplify_reanno}}, with the following
 hiearchy: rRNA, miRNA, tRNA, snoRNA, snRNA. If other references wish to be 
 used, please run each function separately. Default=NULL, where no biotype-
 based mapping will be performed.}
-
-\item{pheno_target}{List with: 1st object being a character vector
-of target column in Pheno and 2nd object being a character vector of the target
-group(s) in the target Pheno column (1st object).}
-
-\item{norm}{Character indicating what type of data to be used. If 'counts',
-the raw counts in Counts will be used (default). If "cpm", cpm values will 
-be used. As of now, only "counts" and "cpm" may be used for this wrapper.}
-
-\item{anno_target}{Character vector with the name of the target column in
-Anno or the name of the annotation column in case of input being a
-dataframe.}
-
-\item{model}{Character of model used to run \code{PAC_deseq}.}
-
-\item{pdf}{TRUE or FALSE whether to print a PDF of results. Default = FALSE.}
-
-\item{override}{Logical whether or not the function should prompt you for a
-question if there are files in output. As default, override=FALSE will
-prevent deleting large files by accident, but requires an interactive R
-session. Setting override=TRUE may solve non-interactive problems.}
-
-\item{pheno}{Can be either a data frame, or a string to directory for a comma
-separated .csv file that will be used to produce the PAC object. Default=NULL,
-where progress report from counts will be added to pheno.}
 }
 \value{
 PAC object
@@ -98,29 +96,43 @@ you to run each function on its own!
 ###########################################################
 ##----------------------------------------
 
-#load in the fasta files from the example data
-input = system.file("extdata", package = "seqpac", mustWork = TRUE)
+load in the test reference files and ensure correct Bowtie files are available
 
-#In this example, we use the rRNA reference as "genome"
-genome <- system.file("extdata/rrna", "rRNA.fa",
-                      package = "seqpac", mustWork = TRUE)
-genome_dir <- dirname(genome)
-if(!sum(stringr::str_count(list.files(genome_dir), ".ebwt")) ==6){
-  Rbowtie::bowtie_build(genome,
-                        outdir=genome_dir,
+## tRNA:
+trna_file <- system.file("extdata/trna", "tRNA.fa",
+                         package = "seqpac", mustWork = TRUE)
+trna_dir <- dirname(trna_file)
+
+if(!sum(stringr::str_count(list.files(trna_dir), ".ebwt")) ==6){
+  Rbowtie::bowtie_build(trna_file,
+                        outdir=trna_dir,
+                        prefix="tRNA", force=TRUE)
+}
+## rRNA:
+rrna_file <- system.file("extdata/rrna", "rRNA.fa",
+                         package = "seqpac", mustWork = TRUE)
+rrna_dir <- dirname(rrna_file)
+
+if(!sum(stringr::str_count(list.files(rrna_dir), ".ebwt")) ==6){
+  Rbowtie::bowtie_build(rrna_file,
+                        outdir=rrna_dir,
                         prefix="rRNA", force=TRUE)
 }
 
-#Manually making a pheno
-pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2", 
-"seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
-stage=rep(c("Stage1", "Stage3"), each=3))
+input_biotype <- list(trna= trna_file, rrna= rrna_file)
 
-Seqpac(input=input, genome=genome, pheno_target = list("stage"), 
-       anno_target=list("Any_genome"), pheno=pheno, norm="cpm",
-       override=TRUE)
+## "Genome" (here we reuse the rRNA reference just as an example):
+input_genome <- list(genome=rrna_file)
 
 
+#Manually making a pheno for this example
+pheno <- data.frame(row.names=(c("seqpac_fq1", "seqpac_fq2",
+                                 "seqpac_fq3", "seqpac_fq4", "seqpac_fq5", "seqpac_fq6")),
+                    stage=rep(c("Stage1", "Stage3"), each=3))
+
+Seqpac(input=input, input_genome=input_genome, input_biotype=input_biotype, 
+       pheno_target = list("stage"), anno_target=list("Biotypes"), 
+       pheno=pheno, norm="cpm", filter_hit=FALSE, override=TRUE)
 
 }
 \seealso{

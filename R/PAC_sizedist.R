@@ -209,6 +209,7 @@ PAC_sizedist <- function(PAC, norm="counts", nucleotide_range=NULL, anno_target,
     samp <- colnames(data)
   }else{
     if(is.null(pheno_target)){ 
+      samp <- rownames(ph) #why was this removed?
     }else{
       samp <- paste0(ph[,pheno_target[[1]]],"-", rownames(ph)) 
     }

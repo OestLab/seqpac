@@ -15,7 +15,6 @@ export(PAC_filtsep)
 export(PAC_gtf)
 export(PAC_jitter)
 export(PAC_map)
-export(PAC_map2)
 export(PAC_mapper)
 export(PAC_nbias)
 export(PAC_norm)
@@ -90,7 +89,6 @@ importFrom(ggplot2,
   xlab,
   ylab
 )
-importFrom(grDevices,dev.off)
 importFrom(methods,
   as,
   is,

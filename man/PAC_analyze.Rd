@@ -10,7 +10,7 @@ PAC_analyze(
   norm = NULL,
   anno_target = NULL,
   model = NULL,
-  output = "temp"
+  output = NULL
 )
 }
 \arguments{
