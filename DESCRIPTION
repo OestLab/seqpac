@@ -66,7 +66,11 @@ Imports:
   stats (>= 3.4.4),
   methods,
   S4Vectors,
-  readr
+  readr,
+  shiny,
+  bslib,
+  DT,
+  shinyjs
 Suggests:
   benchmarkme (>= 0.6.0),
   DESeq2 (>= 1.18.1),
