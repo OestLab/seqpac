@@ -35,3 +35,7 @@ unsrturl.bst
 .tm_properties
 Meta
 Rplots
+notes.md
+Dockerfile
+.dockerignore
+ISSUES_UPDATES.md
