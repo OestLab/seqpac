@@ -116,7 +116,7 @@ PAC_filter <- function(PAC, nucleotide_range=NULL, threshold=0, coverage=0,
   if(allbut==TRUE){
     if(!is.null(pheno_target)){
     pheno_t<-(unique(PAC$Pheno[,pheno_target[[1]]]))
-    pheno_target[[2]] <- pheno_t[pheno_t != pheno_target[[2]]]
+    pheno_target[[2]] <- pheno_t[!as.character(pheno_t) %in% as.character(pheno_target[[2]])]
     }
     if(!is.null(anno_target)){
     anno_t <-(unique(PAC$Anno[,anno_target[[1]]]))
